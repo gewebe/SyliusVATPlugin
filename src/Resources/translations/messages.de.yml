@@ -1,0 +1,7 @@
+gweb_sylius_vat:
+    ui:
+        vat: 'USt-IdNr.'
+        vat_number: 'USt-IdNr.'
+        vat_number_is_valid: 'USt-IdNr. ist gültig'
+        vat_number_is_invalid: 'USt-IdNr. ist ungültig'
+        vat_number_not_validated_yet: 'USt-IdNr. noch nicht geprüft'

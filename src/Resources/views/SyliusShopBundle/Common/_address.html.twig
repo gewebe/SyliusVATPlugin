@@ -1,0 +1,8 @@
+{% include '@!SyliusShop/Common/_address.html.twig' %}
+
+{% if address.vatNumber is not null %}
+    <div class="address-vat">
+        {{ 'gweb_sylius_vat.ui.vat'|trans }}:
+        <span class="vat-number">{{ address.vatNumber }}</span>
+    </div>
+{% endif %}

@@ -1,0 +1,19 @@
+App\Entity\Addressing\Address:
+    type: entity
+    table: sylius_address
+    fields:
+        vatNumber:
+            type: string
+            column: vat_number
+            nullable: true
+        vatValid:
+            type: boolean
+            column: vat_valid
+            nullable: true
+            options:
+                unsigned: true
+                default: 0
+        vatValidatedAt:
+            type: datetime
+            column: vat_validated_at
+            nullable: true

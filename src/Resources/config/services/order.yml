@@ -1,0 +1,9 @@
+services:
+
+    # Order processor
+    gweb_sylius_vat.order_processor:
+        class: Gweb\SyliusVATPlugin\OrderProcessing\VatNumberOrderProcessor
+        arguments:
+            - '%gweb_sylius_vat.order.recalculate%'
+        tags:
+            - { name: sylius.order_processor, priority: 0 }

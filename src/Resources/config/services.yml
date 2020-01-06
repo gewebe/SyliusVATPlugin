@@ -1,0 +1,5 @@
+imports:
+    - { resource: "services/form.yml" }
+    - { resource: "services/install.yml" }
+    - { resource: "services/order.yml" }
+    - { resource: "services/validator.yml" }

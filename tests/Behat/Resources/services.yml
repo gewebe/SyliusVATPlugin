@@ -1,0 +1,23 @@
+services:
+    _defaults: { public: true }
+
+    gweb_sylius_vat.behat.context.ui.shop.address_book_vat:
+        class: Tests\Gweb\SyliusVATPlugin\Behat\Context\Ui\Shop\AddressBookVatContext
+        arguments:
+            - "@gweb_sylius_vat.behat.page.shop.account.address_book.create"
+
+    gweb_sylius_vat.behat.context.ui.shop.checkout.address_vat_number:
+        class: Tests\Gweb\SyliusVATPlugin\Behat\Context\Ui\Shop\Checkout\AddressVatNumberContext
+        arguments:
+            - "@gweb_sylius_vat.behat.page.shop.checkout.address"
+
+
+    gweb_sylius_vat.behat.page.shop.account.address_book.create:
+        class: Tests\Gweb\SyliusVATPlugin\Behat\Page\Shop\Account\AddressBook\CreatePage
+        parent: sylius.behat.page.shop.account.address_book.create
+        public: false
+
+    gweb_sylius_vat.behat.page.shop.checkout.address:
+        class: Tests\Gweb\SyliusVATPlugin\Behat\Page\Shop\Checkout\AddressPage
+        parent: sylius.behat.page.shop.checkout.address
+        public: false

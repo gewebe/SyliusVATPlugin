@@ -1,0 +1,48 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\Gweb\SyliusVATPlugin\Behat\Context\Ui\Shop\Checkout;
+
+use Behat\Behat\Context\Context;
+use Tests\gweb\SyliusVATPlugin\Behat\Page\Shop\Checkout\AddressPage;
+use Webmozart\Assert\Assert;
+
+final class AddressVatNumberContext implements Context
+{
+    /**
+     * @var AddressPage
+     */
+    private $addressPage;
+
+    public function __construct(AddressPage $addressPage)
+    {
+        $this->addressPage = $addressPage;
+    }
+
+    /**
+     * @When /^I specify the shipping vat number as "([^"]+)"$/
+     */
+    public function iSpecifyTheVatNumberForShippingAddress($vatNumber)
+    {
+        $this->addressPage->specifyShippingAddressVatNumber($vatNumber);
+    }
+
+    /**
+     * @When /^I specify the billing vat number as "([^"]+)"$/
+     */
+    public function iSpecifyTheVatNumberForBillingAddress($type, $vatNumber)
+    {
+        $this->addressPage->specifyBillingAddressVatNumber($vatNumber);
+    }
+
+    /**
+     * @Then /^I should be notified that the vat number in (shipping|billing) is not valid$/
+     */
+    public function iShouldBeNotifiedThatTheVatNumberInShippingDetailsIsNotValid($type)
+    {
+        $expectedMessage = 'Please enter a valid VAT number.';
+        $element = sprintf('%s_vat_number', $type);
+        Assert::true($this->addressPage->checkValidationMessageFor($element, $expectedMessage));
+    }
+}

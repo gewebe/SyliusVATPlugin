@@ -1,0 +1,8 @@
+
+gweb_sylius_vat:
+    order:
+        recalculate: true
+    validate:
+        format: true
+        country: true
+        existence: true

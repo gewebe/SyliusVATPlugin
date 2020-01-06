@@ -1,0 +1,19 @@
+services:
+
+    gweb_sylius_vat.validator:
+        class: Gweb\SyliusVATPlugin\Validator\Constraints\VatNumberValidator
+        arguments:
+            - '@gweb_sylius_vat.eu_vat_validator'
+            - '%gweb_sylius_vat.validate.format%'
+            - '%gweb_sylius_vat.validate.country%'
+            - '%gweb_sylius_vat.validate.existence%'
+        tags:
+            - { name: validator.constraint_validator }
+
+    gweb_sylius_vat.eu_vat_validator:
+        class: Gweb\SyliusVATPlugin\Vat\Number\EuValidator
+        arguments:
+            - '@gweb_sylius_vat.ibericode_vat.validator'
+
+    gweb_sylius_vat.ibericode_vat.validator:
+        class: Ibericode\Vat\Validator

@@ -1,0 +1,27 @@
+services:
+
+    gweb_sylius_vat.command.eu_vat_rates:
+        class: Gweb\SyliusVATPlugin\Command\EuInstallCommand
+        arguments:
+            - '@gweb_sylius_vat.eu_vat_rates'
+            - '@sylius.factory.country'
+            - '@sylius.repository.country'
+            - '@sylius.factory.zone'
+            - '@sylius.repository.zone'
+            - '@sylius.factory.tax_rate'
+            - '@sylius.repository.tax_rate'
+            - '@sylius.factory.tax_category'
+            - '@sylius.repository.tax_category'
+        tags:
+            - { name: console.command }
+
+    gweb_sylius_vat.eu_vat_rates:
+        class: Gweb\SyliusVATPlugin\Vat\Rates\EuRates
+        arguments:
+            - '@gweb_sylius_vat.rates'
+
+    gweb_sylius_vat.rates:
+        class: Ibericode\Vat\Rates
+        arguments:
+            - '%kernel.cache_dir%/vat-rates.json'
+            - 86400

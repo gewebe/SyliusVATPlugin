@@ -1,0 +1,4 @@
+suites:
+    main:
+        namespace: Gweb\SyliusVATPlugin
+        psr4_prefix: Gweb\SyliusVATPlugin

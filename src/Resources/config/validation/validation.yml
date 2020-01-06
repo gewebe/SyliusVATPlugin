@@ -1,0 +1,9 @@
+
+Gweb\SyliusVATPlugin\Entity\VatNumberAddressInterface:
+    constraints:
+        - Gweb\SyliusVATPlugin\Validator\Constraints\VatNumber:
+              groups: sylius
+    getters:
+        vatNumber:
+            - Gweb\SyliusVATPlugin\Validator\Constraints\VatNumber:
+                  groups: sylius

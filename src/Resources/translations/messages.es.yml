@@ -1,0 +1,7 @@
+gweb_sylius_vat:
+    ui:
+        vat: 'IVA'
+        vat_number: 'Número de IVA'
+        vat_number_is_valid: 'Número de IVA es válido'
+        vat_number_is_invalid: 'Número de IVA no es válido'
+        vat_number_not_validated_yet: 'Número de IVA aún no validado'

@@ -1,0 +1,6 @@
+gweb_sylius_vat:
+    address:
+        vat_number:
+            invalid_format: 'Veuillez saisir un numéro de TVA valide.'
+            invalid_country: 'Ce numéro de TVA n''appartient pas au pays sélectionné.'
+            not_verified: 'Ce numéro de TVA ne peut pas être vérifié.'

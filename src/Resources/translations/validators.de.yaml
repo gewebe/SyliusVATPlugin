@@ -1,0 +1,6 @@
+gweb_sylius_vat:
+    address:
+        vat_number:
+            invalid_format: 'Bitte geben Sie eine gültige USt-IdNr. ein.'
+            invalid_country: 'Diese USt-IdNr. gehört nicht zum gewählten Land.'
+            not_verified: 'Diese USt-IdNr. kann nicht überprüft werden.'

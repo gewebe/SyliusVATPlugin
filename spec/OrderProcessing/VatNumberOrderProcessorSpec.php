@@ -1,0 +1,111 @@
+<?php
+
+declare(strict_types=1);
+
+namespace spec\Gweb\SyliusVATPlugin\OrderProcessing;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Gweb\SyliusVATPlugin\Entity\VatNumberAddressInterface;
+use Gweb\SyliusVATPlugin\OrderProcessing\VatNumberOrderProcessor;
+use PhpSpec\ObjectBehavior;
+use Sylius\Component\Core\Model\AdjustmentInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Model\OrderItemInterface;
+use Sylius\Component\Core\Model\ShopBillingData;
+
+use Sylius\Component\Order\Processor\OrderProcessorInterface;
+
+final class VatNumberOrderProcessorSpec extends ObjectBehavior
+{
+    function let()
+    {
+        $this->beConstructedWith(true);
+    }
+
+    function it_is_vat_number_processor()
+    {
+        $this->shouldHaveType(VatNumberOrderProcessor::class);
+    }
+
+    function it_implements_order_processor_interface(): void
+    {
+        $this->shouldImplement(OrderProcessorInterface::class);
+    }
+
+    function it_does_not_process_deactivated(OrderInterface $order): void
+    {
+        $this->beConstructedWith(false);
+
+        $this->process($order);
+    }
+
+    function it_does_not_process_without_address(
+        ChannelInterface $channel,
+        OrderInterface $order
+    ) {
+        $order->getChannel()->willReturn($channel);
+
+        $order->getBillingAddress()->willReturn(null);
+
+        $this->process($order);
+    }
+
+    function it_does_not_process_invalid_vat(
+        ChannelInterface $channel,
+        OrderInterface $order,
+        ShopBillingData $shopBillingData,
+        VatNumberAddressInterface $customerBillingAddress
+    ) {
+        $customerBillingAddress->hasValidVatNumber()->willReturn(false);
+
+        $channel->getShopBillingData()->willReturn($shopBillingData);
+        $order->getChannel()->willReturn($channel);
+
+        $order->getBillingAddress()->willReturn($customerBillingAddress);
+
+        $this->process($order);
+    }
+
+    function it_does_not_process_same_country(
+        ChannelInterface $channel,
+        OrderInterface $order,
+        ShopBillingData $shopBillingData,
+        VatNumberAddressInterface $customerBillingAddress
+    ) {
+        $shopBillingData->getCountryCode()->willReturn('FR')->shouldBeCalled();
+
+        $customerBillingAddress->hasValidVatNumber()->willReturn(true);
+        $customerBillingAddress->getCountryCode()->willReturn('FR')->shouldBeCalled();
+
+        $channel->getShopBillingData()->willReturn($shopBillingData);
+        $order->getChannel()->willReturn($channel);
+
+        $order->getBillingAddress()->willReturn($customerBillingAddress);
+
+        $this->process($order);
+    }
+
+    function it_process_valid_vat(
+        ChannelInterface $channel,
+        OrderInterface $order,
+        OrderItemInterface $orderItem,
+        ShopBillingData $shopBillingData,
+        VatNumberAddressInterface $customerBillingAddress
+    ) {
+        $shopBillingData->getCountryCode()->willReturn('DE');
+
+        $customerBillingAddress->hasValidVatNumber()->willReturn(true);
+        $customerBillingAddress->getCountryCode()->willReturn('FR');
+
+        $channel->getShopBillingData()->willReturn($shopBillingData);
+        $order->getChannel()->willReturn($channel);
+
+        $order->getBillingAddress()->willReturn($customerBillingAddress);
+
+        $order->getItems()->willReturn(new ArrayCollection([$orderItem->getWrappedObject()]));
+        $orderItem->removeAdjustmentsRecursively(AdjustmentInterface::TAX_ADJUSTMENT)->shouldBeCalled();
+
+        $this->process($order);
+    }
+}
