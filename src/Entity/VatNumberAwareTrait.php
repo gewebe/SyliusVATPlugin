@@ -62,9 +62,9 @@ trait VatNumberAwareTrait
     }
 
     /** {@inheritdoc} */
-    public function setVatValid(bool $validated, ?DateTime $vatValidationDate = null): void
+    public function setVatValid(bool $valid, ?DateTime $vatValidationDate = null): void
     {
-        $this->vatValid = $validated;
+        $this->vatValid = $valid;
         $this->vatValidatedAt = $vatValidationDate ?? new DateTime();
     }
 

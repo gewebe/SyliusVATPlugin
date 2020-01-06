@@ -20,7 +20,7 @@ interface VatNumberAddressInterface extends AddressInterface
 
     public function hasValidVatNumber(): bool;
 
-    public function setVatValid(bool $validated, ?DateTime $vatValidatedAt = null): void;
+    public function setVatValid(bool $valid, ?DateTime $vatValidatedAt = null): void;
 
     public function getVatValidatedAt(): ?DateTime;
 }
