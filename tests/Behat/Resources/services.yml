@@ -1,6 +1,19 @@
 services:
     _defaults: { public: true }
 
+    gweb_sylius_vat.behat.context.setup.order:
+        class: Tests\Gweb\SyliusVATPlugin\Behat\Context\Setup\OrderContext
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@sylius.behat.shared_storage"
+            - "@sm.factory"
+
+
+    gweb_sylius_vat.behat.context.ui.admin.order.show:
+        class: Tests\Gweb\SyliusVATPlugin\Behat\Context\Ui\Admin\ManagingOrdersVatContext
+        arguments:
+            - "@gweb_sylius_vat.behat.page.admin.order.show"
+
     gweb_sylius_vat.behat.context.ui.shop.address_book_vat:
         class: Tests\Gweb\SyliusVATPlugin\Behat\Context\Ui\Shop\AddressBookVatContext
         arguments:
@@ -11,6 +24,11 @@ services:
         arguments:
             - "@gweb_sylius_vat.behat.page.shop.checkout.address"
 
+
+    gweb_sylius_vat.behat.page.admin.order.show:
+        class: Tests\Gweb\SyliusVATPlugin\Behat\Page\Admin\Order\ShowPage
+        parent: sylius.behat.page.admin.order.show
+        public: false
 
     gweb_sylius_vat.behat.page.shop.account.address_book.create:
         class: Tests\Gweb\SyliusVATPlugin\Behat\Page\Shop\Account\AddressBook\CreatePage

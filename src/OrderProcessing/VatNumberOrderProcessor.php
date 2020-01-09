@@ -51,6 +51,9 @@ final class VatNumberOrderProcessor implements OrderProcessorInterface
 
         /** @var ShopBillingData $shopBillingData */
         $shopBillingData = $channel->getShopBillingData();
+        if (null === $shopBillingData) {
+            return false;
+        }
 
         /** @var VatNumberAddressInterface $billingAddress */
         $billingAddress = $order->getBillingAddress();
