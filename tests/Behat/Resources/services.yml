@@ -9,10 +9,11 @@ services:
             - "@sm.factory"
 
 
-    gweb_sylius_vat.behat.context.ui.admin.order.show:
+    gweb_sylius_vat.behat.context.ui.admin.managing_orders_vat:
         class: Tests\Gweb\SyliusVATPlugin\Behat\Context\Ui\Admin\ManagingOrdersVatContext
         arguments:
             - "@gweb_sylius_vat.behat.page.admin.order.show"
+            - "@gweb_sylius_vat.behat.page.admin.order.update"
 
     gweb_sylius_vat.behat.context.ui.shop.address_book_vat:
         class: Tests\Gweb\SyliusVATPlugin\Behat\Context\Ui\Shop\AddressBookVatContext
@@ -28,6 +29,11 @@ services:
     gweb_sylius_vat.behat.page.admin.order.show:
         class: Tests\Gweb\SyliusVATPlugin\Behat\Page\Admin\Order\ShowPage
         parent: sylius.behat.page.admin.order.show
+        public: false
+
+    gweb_sylius_vat.behat.page.admin.order.update:
+        class: Tests\Gweb\SyliusVATPlugin\Behat\Page\Admin\Order\UpdatePage
+        parent: sylius.behat.page.admin.order.update
         public: false
 
     gweb_sylius_vat.behat.page.shop.account.address_book.create:

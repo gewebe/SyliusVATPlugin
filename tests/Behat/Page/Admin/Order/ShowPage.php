@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Gweb\SyliusVATPlugin\Behat\Page\Admin\Order;
 
-use \Sylius\Behat\Page\Shop\Order\ShowPage as BaseShowPage;
+use Sylius\Behat\Page\Shop\Order\ShowPage as BaseShowPage;
 
 class ShowPage extends BaseShowPage implements ShowPageInterface
 {
