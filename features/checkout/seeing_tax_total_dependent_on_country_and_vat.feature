@@ -32,6 +32,7 @@ Feature: Seeing tax total dependent on country and vat
         And I proceed with "Free" shipping method and "Offline" payment
         Then I should be on the checkout summary step
         And my tax total should be "$1.90"
+        And my order total should be "$11.90"
 
     @ui
     Scenario: Seeing the total tax of 20% in another country
@@ -40,6 +41,7 @@ Feature: Seeing tax total dependent on country and vat
         And I proceed with "Free" shipping method and "Offline" payment
         Then I should be on the checkout summary step
         And my tax total should be "$2.00"
+        And my order total should be "$12.00"
 
     @ui
     Scenario: Seeing tax total tax of 0% with valid VAT number from another country than our business country
@@ -49,3 +51,4 @@ Feature: Seeing tax total dependent on country and vat
         And I proceed with "Free" shipping method and "Offline" payment
         Then I should be on the checkout summary step
         And my tax total should be "$0.00"
+        And my order total should be "$10.00"
