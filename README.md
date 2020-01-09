@@ -29,7 +29,7 @@ Register the plugin by adding it to your `config/bundles.php` file
 
 return [
     // ...
-    \Gweb\SyliusVATPlugin\GwebSyliusVATPlugin::class => ['all' => true],
+    Gweb\SyliusVATPlugin\GwebSyliusVATPlugin::class => ['all' => true],
 ];
 ```
 
