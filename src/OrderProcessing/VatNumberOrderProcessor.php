@@ -6,8 +6,8 @@ namespace Gweb\SyliusVATPlugin\OrderProcessing;
 
 use Gweb\SyliusVATPlugin\Entity\VatNumberAddressInterface;
 use Sylius\Component\Core\Model\AdjustmentInterface;
-use Sylius\Component\Core\Model\Channel;
-use Sylius\Component\Core\Model\ShopBillingData;
+use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\ShopBillingDataInterface;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 
@@ -46,12 +46,12 @@ final class VatNumberOrderProcessor implements OrderProcessorInterface
      */
     private function isValidForZeroTax(OrderInterface $order): bool
     {
-        /** @var Channel $channel */
+        /** @var ChannelInterface $channel */
         $channel = $order->getChannel();
 
-        /** @var ShopBillingData $shopBillingData */
+        /** @var ShopBillingDataInterface $shopBillingData */
         $shopBillingData = $channel->getShopBillingData();
-        if (null === $shopBillingData) {
+        if ($shopBillingData == null) {
             return false;
         }
 
