@@ -11,8 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class AddressTypeExtension extends AbstractTypeExtension
 {
-    /** {@inheritdoc} */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('vatNumber', TextType::class, [
                 'label' => 'gweb_sylius_vat.ui.vat_number',
@@ -21,7 +20,6 @@ class AddressTypeExtension extends AbstractTypeExtension
         );
     }
 
-    /** {@inheritdoc} */
     public static function getExtendedTypes(): array
     {
         return [

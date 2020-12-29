@@ -24,15 +24,13 @@ final class VatNumberOrderProcessor implements OrderProcessorInterface
         $this->isActive = $isActive;
     }
 
-    /**
-     * @param \Sylius\Component\Core\Model\OrderInterface $order
-     */
     public function process(OrderInterface $order): void
     {
         if (!$this->isActive) {
             return;
         }
 
+        /** @var \Sylius\Component\Core\Model\OrderInterface $order */
         if ($this->isValidForZeroTax($order)) {
             foreach ($order->getItems() as $item) {
                 $item->removeAdjustmentsRecursively(AdjustmentInterface::TAX_ADJUSTMENT);
@@ -55,7 +53,6 @@ final class VatNumberOrderProcessor implements OrderProcessorInterface
             return false;
         }
 
-        /** @var VatNumberAddressInterface $billingAddress */
         $billingAddress = $order->getBillingAddress();
 
         if ($billingAddress instanceof VatNumberAddressInterface

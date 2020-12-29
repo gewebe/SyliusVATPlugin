@@ -52,13 +52,13 @@ trait VatNumberAwareTrait
     /** {@inheritdoc} */
     public function hasVatNumber(): bool
     {
-        return !empty($this->getVatNumber());
+        return is_string($this->vatNumber) && strlen($this->vatNumber) > 0;
     }
 
     /** {@inheritdoc} */
     public function hasValidVatNumber(): bool
     {
-        return ($this->hasVatNumber() && !empty($this->vatValid));
+        return ($this->hasVatNumber() && $this->vatValid === true);
     }
 
     /** {@inheritdoc} */

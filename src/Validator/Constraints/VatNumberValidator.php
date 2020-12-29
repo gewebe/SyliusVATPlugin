@@ -38,7 +38,7 @@ class VatNumberValidator extends ConstraintValidator
         $this->validateExistence = $validateExistence;
     }
 
-    public function validate($address, Constraint $constraint)
+    public function validate($address, Constraint $constraint): void
     {
         // need value only as address entity with vat
         if (!$address instanceof VatNumberAddressInterface) {
@@ -77,7 +77,9 @@ class VatNumberValidator extends ConstraintValidator
      */
     private function validateFormat(VatNumberAddressInterface $address, VatNumber $constraint): bool
     {
-        if (!$this->validator->validateFormat($address->getVatNumber())) {
+        $vatNumber = $address->getVatNumber();
+
+        if (is_null($vatNumber) || !$this->validator->validateFormat($vatNumber)) {
             $this->context->buildViolation($constraint->messageFormat)
                 ->atPath($constraint->vatNumberPath)
                 ->addViolation();
@@ -94,7 +96,12 @@ class VatNumberValidator extends ConstraintValidator
      */
     private function validateCountry(VatNumberAddressInterface $address, VatNumber $constraint): bool
     {
-        if (!$this->validator->validateCountry($address->getVatNumber(), $address->getCountryCode())) {
+        $vatNumber = $address->getVatNumber();
+        $countryCode = $address->getCountryCode();
+
+        if (is_null($vatNumber)
+            || is_null($countryCode)
+            || !$this->validator->validateCountry($vatNumber, $countryCode)) {
             $this->context->buildViolation($constraint->messageCountry)
                 ->atPath($constraint->vatNumberPath)
                 ->addViolation();
@@ -112,7 +119,9 @@ class VatNumberValidator extends ConstraintValidator
     private function validateExistence(VatNumberAddressInterface $address, VatNumber $constraint): bool
     {
         try {
-            $valid = $this->validator->validate($address->getVatNumber());
+            $vatNumber = $address->getVatNumber();
+
+            $valid = is_null($vatNumber) ? false : $this->validator->validate($vatNumber);
 
             $address->setVatValid($valid);
         } catch (ClientException $e) {

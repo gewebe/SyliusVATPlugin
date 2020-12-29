@@ -74,7 +74,7 @@ final class EuInstallCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('vat:install:eu')
@@ -106,13 +106,48 @@ final class EuInstallCommand extends Command
             );
     }
 
+    private function getArgumentCountry(InputInterface $input): string
+    {
+        $country = $input->getArgument('country');
+        if (!is_string($country)) {
+            $country = '';
+        }
+
+        return strtolower($country);
+    }
+
+    private function getOptionCategories(InputInterface $input): array
+    {
+        $categories = $input->getOption('categories');
+        if (!is_string($categories)) {
+            $categories = '';
+        }
+
+        return explode(',', $categories);
+    }
+
+    private function getOptionIncluded(InputInterface $input): bool
+    {
+        return $input->getOption('included') === true;
+    }
+
+    private function getOptionThreshold(InputInterface $input): array
+    {
+        $threshold = $input->getOption('threshold');
+        if (!is_string($threshold)) {
+            $threshold = '';
+        }
+
+        return explode(',', strtolower($threshold));
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $baseCountry = strtolower($input->getArgument('country'));
+        $baseCountry = $this->getArgumentCountry($input);
 
-        $thresholdCountries = explode(',', strtolower($input->getOption('threshold')));
+        $thresholdCountries = $this->getOptionThreshold($input);
 
-        $taxCategories = explode(',', $input->getOption('categories'));
+        $taxCategories = $this->getOptionCategories($input);
         foreach ($taxCategories as $taxCategory) {
             $this->addTaxCategory($taxCategory);
         }
@@ -132,8 +167,8 @@ final class EuInstallCommand extends Command
 
             $euZones[] = $zone->getCode();
 
-            if (!empty($baseCountry)
-                && !in_array(strtolower($countryCode), $thresholdCountries)) {
+            if (strlen($baseCountry) > 0
+                && !in_array(strtolower($countryCode), $thresholdCountries, true)) {
                 continue;
             }
 
@@ -143,7 +178,7 @@ final class EuInstallCommand extends Command
                     $countryCode,
                     $taxCategory,
                     $zone,
-                    !empty($input->getOption('included'))
+                    $this->getOptionIncluded($input)
                 );
             }
         }
@@ -156,17 +191,19 @@ final class EuInstallCommand extends Command
             ZoneInterface::TYPE_ZONE
         );
 
-        if (!empty($baseCountry)) {
+        if (strlen($baseCountry) > 0) {
             foreach ($taxCategories as $taxCategory) {
                 $this->addTaxRate(
                     $baseCountry,
                     'eu',
                     $taxCategory,
                     $zone,
-                    !empty($input->getOption('included'))
+                    $this->getOptionIncluded($input)
                 );
             }
         }
+
+        return 0;
     }
 
     private function addCountry(string $code): CountryInterface
