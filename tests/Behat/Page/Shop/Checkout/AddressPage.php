@@ -29,7 +29,7 @@ class AddressPage extends \Sylius\Behat\Page\Shop\Checkout\AddressPage implement
     {
         return array_merge(parent::getDefinedElements(), [
             'shipping_vat_number' => '#sylius_checkout_address_shippingAddress_vatNumber',
-            'billing_vat_number' => '#sylius_checkout_address_shippingAddress_vatNumber',
+            'billing_vat_number' => '#sylius_checkout_address_billingAddress_vatNumber',
         ]);
     }
 }

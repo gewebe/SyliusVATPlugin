@@ -26,8 +26,8 @@ Feature: Seeing tax total dependent on country and vat
 
     @ui
     Scenario: Seeing the total tax of 19% with valid VAT number from our business country
-        When I specify the shipping address as "Hamburg", "Frost Alley", "20355", "Germany" for "Ankh Morpork"
-        And I specify the shipping vat number as "DE118716043"
+        When I specify the billing address as "Hamburg", "Frost Alley", "20355", "Germany" for "Ankh Morpork"
+        And I specify the billing vat number as "DE118716043"
         And I try to complete the addressing step
         And I proceed with "Free" shipping method and "Offline" payment
         Then I should be on the checkout summary step
@@ -36,7 +36,7 @@ Feature: Seeing tax total dependent on country and vat
 
     @ui
     Scenario: Seeing the total tax of 20% in another country
-        When I specify the shipping address as "London", "Frost Alley", "20355", "United Kingdom" for "Ankh Morpork"
+        When I specify the billing address as "London", "Frost Alley", "20355", "United Kingdom" for "Ankh Morpork"
         And I try to complete the addressing step
         And I proceed with "Free" shipping method and "Offline" payment
         Then I should be on the checkout summary step
@@ -45,8 +45,8 @@ Feature: Seeing tax total dependent on country and vat
 
     @ui
     Scenario: Seeing tax total tax of 0% with valid VAT number from another country than our business country
-        When I specify the shipping address as "London", "Frost Alley", "20355", "United Kingdom" for "Ankh Morpork"
-        And I specify the shipping vat number as "GB625951426"
+        When I specify the billing address as "London", "Frost Alley", "20355", "United Kingdom" for "Ankh Morpork"
+        And I specify the billing vat number as "GB625951426"
         And I try to complete the addressing step
         And I proceed with "Free" shipping method and "Offline" payment
         Then I should be on the checkout summary step

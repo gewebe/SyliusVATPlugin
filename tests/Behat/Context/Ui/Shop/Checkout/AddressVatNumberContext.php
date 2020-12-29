@@ -31,7 +31,7 @@ final class AddressVatNumberContext implements Context
     /**
      * @When /^I specify the billing vat number as "([^"]+)"$/
      */
-    public function iSpecifyTheVatNumberForBillingAddress($type, $vatNumber)
+    public function iSpecifyTheVatNumberForBillingAddress($vatNumber)
     {
         $this->addressPage->specifyBillingAddressVatNumber($vatNumber);
     }
