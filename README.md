@@ -114,17 +114,20 @@ bin/console doctrine:migrations:migrate
 ### Install EU countries and VAT rates
 
 ```bash
-# EU with French VAT rate
+# EU VAT on digital services (MOSS scheme)
+bin/console vat:install:eu
+
+# EU with French VAT (cross-border)
 bin/console vat:install:eu FR
 
-# EU with French VAT rate included in price
+# EU with French VAT and passed threshold in Spain and Portugal (cross-border)
+bin/console vat:install:eu FR -t ES,PT
+
+# EU with French VAT included in price
 bin/console vat:install:eu FR -i
 
-# EU with German standard and reduced VAT rate
+# EU with German standard and reduced VAT categories
 bin/console vat:install:eu DE -c standard,reduced
-
-# EU with Dutch VAT rate and passed threshold in Spain and Portugal
-bin/console vat:install:eu NL -t ES,PT
 ```
 
 ### Validate customers VAT number

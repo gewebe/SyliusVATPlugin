@@ -82,13 +82,13 @@ final class EuInstallCommand extends Command
             ->addArgument(
                 'country',
                 InputArgument::OPTIONAL,
-                'Base country'
+                'Domestic Country'
             )
             ->addOption(
                 'categories',
                 'c',
                 InputOption::VALUE_REQUIRED,
-                'Tax categories to install: standard,reduced',
+                'Tax categories, e.g.: standard,reduced',
                 'standard'
             )
             ->addOption(
