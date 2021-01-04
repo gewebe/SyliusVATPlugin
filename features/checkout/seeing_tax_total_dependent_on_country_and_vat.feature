@@ -7,15 +7,15 @@ Feature: Seeing tax total dependent on country and vat
     Background:
         Given the store operates on a channel named "Web"
         And the store operates in "Germany"
-        And the store operates in "United Kingdom"
+        And the store operates in "France"
         And channel "Web" billing data is "Ragnarok", "Frost Alley", "20355" "Hamburg", "Germany" with "1100110011" tax ID
         And the store has a zone "Germany" with code "DE"
         And it also has the "Germany" country member
         And the store has "MwsT" tax rate of 19% for "Clothes" within the "DE" zone
         And default tax zone is "DE"
-        And the store has a zone "United Kingdom" with code "UK"
-        And it also has the "United Kingdom" country member
-        And the store has "VAT" tax rate of 20% for "Clothes" within the "UK" zone
+        And the store has a zone "France" with code "FR"
+        And it also has the "France" country member
+        And the store has "VAT" tax rate of 20% for "Clothes" within the "FR" zone
         And the store has a product "PHP T-Shirt" priced at "$10.00"
         And it belongs to "Clothes" tax category
         And the store ships everywhere for free
@@ -36,7 +36,7 @@ Feature: Seeing tax total dependent on country and vat
 
     @ui
     Scenario: Seeing the total tax of 20% in another country
-        When I specify the billing address as "London", "Frost Alley", "20355", "United Kingdom" for "Ankh Morpork"
+        When I specify the billing address as "Marseille", "Chaude Ruelle", "13003", "France" for "Pierre Simon"
         And I try to complete the addressing step
         And I proceed with "Free" shipping method and "Offline" payment
         Then I should be on the checkout summary step
@@ -45,8 +45,8 @@ Feature: Seeing tax total dependent on country and vat
 
     @ui
     Scenario: Seeing tax total tax of 0% with valid VAT number from another country than our business country
-        When I specify the billing address as "London", "Frost Alley", "20355", "United Kingdom" for "Ankh Morpork"
-        And I specify the billing vat number as "GB625951426"
+        When I specify the billing address as "Marseille", "Chaude Ruelle", "13003", "France" for "Pierre Simon"
+        And I specify the billing vat number as "FR91552118465"
         And I try to complete the addressing step
         And I proceed with "Free" shipping method and "Offline" payment
         Then I should be on the checkout summary step
