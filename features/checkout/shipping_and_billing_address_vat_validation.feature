@@ -1,4 +1,4 @@
-@address_vat_number
+@checkout_vat_number
 Feature: Order addressing vat validation
     In order to avoid making mistakes when addressing an order
     As an Customer

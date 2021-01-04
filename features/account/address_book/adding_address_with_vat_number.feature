@@ -1,4 +1,4 @@
-@address_vat_number
+@address_book_vat_number
 Feature: Adding a new address with vat number to the book
     In order to have saved addresses with vat number on my account
     As a Customer

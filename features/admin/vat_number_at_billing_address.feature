@@ -1,4 +1,4 @@
-@address_vat_number
+@admin_vat_number
 Feature: See VAT number at billing address after an order has been placed
     In order to write an order's bill with VAT number
     As an Administrator

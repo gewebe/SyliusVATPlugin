@@ -1,4 +1,4 @@
-@address_vat_number
+@checkout_vat_number
 Feature: Seeing tax total dependent on country and vat
     In order to be certain about total tax for vat number
     As an Customer
