@@ -6,3 +6,6 @@ gweb_sylius_vat:
         format: true
         country: true
         existence: true
+    revalidate:
+        on_login: true
+        expiration_days: 30

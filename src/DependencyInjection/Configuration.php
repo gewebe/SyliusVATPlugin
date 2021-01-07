@@ -28,6 +28,12 @@ final class Configuration implements ConfigurationInterface
                         ->booleanNode('existence')->defaultValue(true)->end()
                     ->end()
                 ->end() // validation
+                ->arrayNode('revalidate')
+                    ->children()
+                        ->booleanNode('on_login')->defaultValue(true)->end()
+                        ->integerNode('expiration_days')->defaultValue(30)->end()
+                    ->end()
+                ->end() // revalidiate
         ;
 
         return $treeBuilder;
