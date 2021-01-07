@@ -1,0 +1,9 @@
+services:
+
+    Gweb\SyliusVATPlugin\EventListener\LoginListener:
+        arguments:
+            - '@validator'
+            - '%gweb_sylius_vat.revalidate.on_login%'
+            - '%gweb_sylius_vat.revalidate.expiration_days%'
+        tags:
+            - { name: 'kernel.event_listener', event: 'security.interactive_login' }

@@ -1,4 +1,5 @@
 imports:
+    - { resource: "services/event.yml" }
     - { resource: "services/form.yml" }
     - { resource: "services/install.yml" }
     - { resource: "services/order.yml" }

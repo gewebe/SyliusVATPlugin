@@ -26,5 +26,9 @@ final class GwebSyliusVATExtension extends Extension
         $definition->replaceArgument(1, $config['validate']['format']);
         $definition->replaceArgument(2, $config['validate']['country']);
         $definition->replaceArgument(3, $config['validate']['existence']);
+
+        $definition = $container->getDefinition('Gweb\SyliusVATPlugin\EventListener\LoginListener');
+        $definition->replaceArgument(1, $config['revalidate']['on_login']);
+        $definition->replaceArgument(2, $config['revalidate']['expiration_days']);
     }
 }
