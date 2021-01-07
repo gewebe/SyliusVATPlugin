@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Gweb\SyliusVATPlugin\Vat\Rates;
+namespace Gewebe\SyliusVATPlugin\Vat\Rates;
 
 /**
  * VAT rates and countries
- * @package Gweb\SyliusVATPlugin\Validator\VatNumber
+ * @package Gewebe\SyliusVATPlugin\Validator\VatNumber
  */
 interface RatesInterface
 {

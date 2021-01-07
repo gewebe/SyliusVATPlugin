@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Gweb\SyliusVATPlugin\Behat\Context\Ui\Admin;
+namespace Tests\Gewebe\SyliusVATPlugin\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
-use Tests\Gweb\SyliusVATPlugin\Behat\Page\Admin\Order\ShowPageInterface;
-use Tests\Gweb\SyliusVATPlugin\Behat\Page\Admin\Order\UpdatePageInterface;
+use Tests\Gewebe\SyliusVATPlugin\Behat\Page\Admin\Order\ShowPageInterface;
+use Tests\Gewebe\SyliusVATPlugin\Behat\Page\Admin\Order\UpdatePageInterface;
 use Webmozart\Assert\Assert;
 
 class ManagingOrdersVatContext implements Context

@@ -18,7 +18,7 @@
 
 ### Download the plugin via composer
 ```bash
-composer require gweb/sylius-vat-plugin
+composer require gewebe/sylius-vat-plugin
 ```
 
 ### Enable the plugin
@@ -29,17 +29,17 @@ Register the plugin by adding it to your `config/bundles.php` file
 
 return [
     // ...
-    Gweb\SyliusVATPlugin\GwebSyliusVATPlugin::class => ['all' => true],
+    Gewebe\SyliusVATPlugin\GewebeSyliusVATPlugin::class => ['all' => true],
 ];
 ```
 
 ### Configure the plugin
 
 ```yaml
-# config/packages/gweb_sylius_vat.yaml
+# config/packages/gewebe_sylius_vat_plugin.yaml
 
 imports:
-    - { resource: '@GwebSyliusVATPlugin/Resources/config/app/config.yml'}
+    - { resource: '@GewebeSyliusVATPlugin/Resources/config/app/config.yml'}
 ```
 
 ### Copy templates
@@ -48,9 +48,9 @@ Copy customized templates to your templates directory (e.g `templates/bundles/`)
 
 ```bash
 mkdir -p templates/bundles/SyliusAdminBundle/
-cp -R vendor/gweb/sylius-vat-plugin/src/Resources/views/SyliusAdminBundle/* templates/bundles/SyliusAdminBundle/
+cp -R vendor/gewebe/sylius-vat-plugin/src/Resources/views/SyliusAdminBundle/* templates/bundles/SyliusAdminBundle/
 mkdir -p templates/bundles/SyliusShopBundle/
-cp -R vendor/gweb/sylius-vat-plugin/src/Resources/views/SyliusShopBundle/* templates/bundles/SyliusShopBundle/
+cp -R vendor/gewebe/sylius-vat-plugin/src/Resources/views/SyliusShopBundle/* templates/bundles/SyliusShopBundle/
 ```
 
 ### Extend `Address` entity
@@ -63,8 +63,8 @@ cp -R vendor/gweb/sylius-vat-plugin/src/Resources/views/SyliusShopBundle/* templ
 namespace App\Entity\Addressing;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gweb\SyliusVATPlugin\Entity\VatNumberAddressInterface;
-use Gweb\SyliusVATPlugin\Entity\VatNumberAwareTrait;
+use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
+use Gewebe\SyliusVATPlugin\Entity\VatNumberAwareTrait;
 use Sylius\Component\Core\Model\Address as BaseAddress;
 
 /**
@@ -159,11 +159,11 @@ $ vendor/bin/phpspec run
 $ vendor/bin/phpstan analyse -c phpstan.neon -l max src/
 ```
 
-[ico-version]: https://img.shields.io/packagist/v/gweb/sylius-vat-plugin.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/gewebe/sylius-vat-plugin.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/gewebe/SyliusVATPlugin/master.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/gewebe/SyliusVATPlugin.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/gweb/sylius-vat-plugin
+[link-packagist]: https://packagist.org/packages/gewebe/sylius-vat-plugin
 [link-travis]: https://travis-ci.org/gewebe/SyliusVATPlugin
 [link-code-quality]: https://scrutinizer-ci.com/g/gewebe/SyliusVATPlugin

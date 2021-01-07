@@ -1,5 +1,5 @@
 imports:
-    - { resource: "@GwebSyliusVATPlugin/Resources/config/app/config.yml" }
+    - { resource: "@GewebeSyliusVATPlugin/Resources/config/app/config.yml" }
     - { resource: "../../Behat/Resources/services.yml" }
     - { resource: "../../../vendor/sylius/sylius/src/Sylius/Behat/Resources/config/services.xml" }
 
@@ -12,4 +12,4 @@ sylius_addressing:
     resources:
         address:
             classes:
-                model: Tests\Gweb\SyliusVATPlugin\Application\Entity\Address
+                model: Tests\Gewebe\SyliusVATPlugin\Application\Entity\Address

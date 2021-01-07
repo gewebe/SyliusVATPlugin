@@ -1,5 +1,5 @@
 
-gweb_sylius_vat:
+gewebe_sylius_vat:
     order:
         recalculate: true
     validate:

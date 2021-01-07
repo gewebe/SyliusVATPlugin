@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gweb\SyliusVATPlugin\Entity;
+namespace Gewebe\SyliusVATPlugin\Entity;
 
 use DateTime;
 use Sylius\Component\Core\Model\AddressInterface;

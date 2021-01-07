@@ -1,4 +1,4 @@
-gweb_sylius_vat:
+gewebe_sylius_vat_plugin:
     address:
         vat_number:
             invalid_format: 'Por favor ingrese un número de IVA válido.'

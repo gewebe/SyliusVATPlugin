@@ -1,4 +1,4 @@
-gweb_sylius_vat:
+gewebe_sylius_vat_plugin:
     ui:
         vat: 'USt-IdNr.'
         vat_number: 'USt-IdNr.'

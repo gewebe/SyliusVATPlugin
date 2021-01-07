@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Gweb\SyliusVATPlugin\Validator\Constraints;
+namespace Gewebe\SyliusVATPlugin\Validator\Constraints;
 
-use Gweb\SyliusVATPlugin\Entity\VatNumberAddressInterface;
-use Gweb\SyliusVATPlugin\Vat\Number\ClientException;
-use Gweb\SyliusVATPlugin\Vat\Number\ValidatorInterface;
+use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
+use Gewebe\SyliusVATPlugin\Vat\Number\ClientException;
+use Gewebe\SyliusVATPlugin\Vat\Number\ValidatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Gweb\SyliusVATPlugin\Command;
+namespace Gewebe\SyliusVATPlugin\Command;
 
-use Gweb\SyliusVATPlugin\Vat\Rates\RatesInterface;
+use Gewebe\SyliusVATPlugin\Vat\Rates\RatesInterface;
 use Sylius\Component\Addressing\Factory\ZoneFactory;
 use Sylius\Component\Addressing\Model\CountryInterface;
 use Sylius\Component\Addressing\Model\ZoneInterface;

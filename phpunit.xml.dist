@@ -5,7 +5,7 @@
          colors="true"
          bootstrap="tests/Application/config/bootstrap.php">
     <testsuites>
-        <testsuite name="GwebSyliusVATPlugin Test Suite">
+        <testsuite name="GewebeSyliusVATPlugin Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

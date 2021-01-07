@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace spec\Gweb\SyliusVATPlugin\Entity;
+namespace spec\Gewebe\SyliusVATPlugin\Entity;
 
-use Gweb\SyliusVATPlugin\Entity\Address;
-use Gweb\SyliusVATPlugin\Entity\VatNumberAddressInterface;
+use Gewebe\SyliusVATPlugin\Entity\Address;
+use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
 use PhpSpec\ObjectBehavior;
 
 final class AddressSpec extends ObjectBehavior

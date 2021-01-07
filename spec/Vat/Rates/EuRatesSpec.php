@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace spec\Gweb\SyliusVATPlugin\Vat\Rates;
+namespace spec\Gewebe\SyliusVATPlugin\Vat\Rates;
 
-use Gweb\SyliusVATPlugin\Vat\Rates\RatesInterface;
+use Gewebe\SyliusVATPlugin\Vat\Rates\RatesInterface;
 use Ibericode\Vat\Rates;
 use PhpSpec\ObjectBehavior;
 

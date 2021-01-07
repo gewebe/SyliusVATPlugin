@@ -21,5 +21,5 @@ doctrine:
                 is_bundle: false
                 type: annotation
                 dir: '%kernel.project_dir%/Entity'
-                prefix: 'Tests\Gweb\SyliusVATPlugin\Application\Entity'
+                prefix: 'Tests\Gewebe\SyliusVATPlugin\Application\Entity'
                 alias: App

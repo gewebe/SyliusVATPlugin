@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gweb\SyliusVATPlugin\Vat\Number;
+namespace Gewebe\SyliusVATPlugin\Vat\Number;
 
 use Ibericode\Vat\Validator;
 use Ibericode\Vat\Vies\ViesException;

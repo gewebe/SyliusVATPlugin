@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace spec\Gweb\SyliusVATPlugin\Validator\Constraints;
+namespace spec\Gewebe\SyliusVATPlugin\Validator\Constraints;
 
 use PhpSpec\ObjectBehavior;
 use Symfony\Component\Validator\Constraint;

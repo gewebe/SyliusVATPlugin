@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Gweb\SyliusVATPlugin\Vat\Number;
+namespace Gewebe\SyliusVATPlugin\Vat\Number;
 
 /**
  * VAT number validator
- * @package Gweb\SyliusVATPlugin\Validator
+ * @package Gewebe\SyliusVATPlugin\Validator
  */
 interface ValidatorInterface
 {

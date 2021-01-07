@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gweb\SyliusVATPlugin\Form\Extension;
+namespace Gewebe\SyliusVATPlugin\Form\Extension;
 
 use Sylius\Bundle\AddressingBundle\Form\Type\AddressType;
 use Symfony\Component\Form\AbstractTypeExtension;
@@ -14,7 +14,7 @@ class AddressTypeExtension extends AbstractTypeExtension
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('vatNumber', TextType::class, [
-                'label' => 'gweb_sylius_vat.ui.vat_number',
+                'label' => 'gewebe_sylius_vat_plugin.ui.vat_number',
                 'required' => false,
             ]
         );

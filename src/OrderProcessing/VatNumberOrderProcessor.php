@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Gweb\SyliusVATPlugin\OrderProcessing;
+namespace Gewebe\SyliusVATPlugin\OrderProcessing;
 
-use Gweb\SyliusVATPlugin\Entity\VatNumberAddressInterface;
+use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ShopBillingDataInterface;

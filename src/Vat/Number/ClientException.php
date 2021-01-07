@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gweb\SyliusVATPlugin\Vat\Number;
+namespace Gewebe\SyliusVATPlugin\Vat\Number;
 
 /**
  * VAT client exception (when the service is down)

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace spec\Gweb\SyliusVATPlugin\OrderProcessing;
+namespace spec\Gewebe\SyliusVATPlugin\OrderProcessing;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Gweb\SyliusVATPlugin\Entity\VatNumberAddressInterface;
-use Gweb\SyliusVATPlugin\OrderProcessing\VatNumberOrderProcessor;
+use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
+use Gewebe\SyliusVATPlugin\OrderProcessing\VatNumberOrderProcessor;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\ChannelInterface;

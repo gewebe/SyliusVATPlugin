@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Gweb\SyliusVATPlugin\Application;
+namespace Tests\Gewebe\SyliusVATPlugin\Application;
 
 use PSS\SymfonyMockerContainer\DependencyInjection\MockerContainer;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;

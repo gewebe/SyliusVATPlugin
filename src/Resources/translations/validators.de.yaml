@@ -1,4 +1,4 @@
-gweb_sylius_vat:
+gewebe_sylius_vat_plugin:
     address:
         vat_number:
             invalid_format: 'Bitte geben Sie eine gültige USt-IdNr. ein.'

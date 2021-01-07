@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Gweb\SyliusVATPlugin\Behat\Context\Ui;
+namespace Tests\Gewebe\SyliusVATPlugin\Behat\Context\Ui;
 
 use Behat\Behat\Context\Context;
 use Doctrine\Persistence\ObjectManager;
-use Gweb\SyliusVATPlugin\Entity\VatNumberAddressInterface;
+use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Webmozart\Assert\Assert;

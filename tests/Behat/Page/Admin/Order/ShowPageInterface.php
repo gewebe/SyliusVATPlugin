@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Gweb\SyliusVATPlugin\Behat\Page\Admin\Order;
+namespace Tests\Gewebe\SyliusVATPlugin\Behat\Page\Admin\Order;
 
 interface ShowPageInterface
 {

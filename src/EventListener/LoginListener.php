@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Gweb\SyliusVATPlugin\EventListener;
+namespace Gewebe\SyliusVATPlugin\EventListener;
 
-use Gweb\SyliusVATPlugin\Entity\VatNumberAddressInterface;
-use Gweb\SyliusVATPlugin\Validator\Constraints\VatNumber;
+use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
+use Gewebe\SyliusVATPlugin\Validator\Constraints\VatNumber;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;

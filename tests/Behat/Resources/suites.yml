@@ -17,8 +17,8 @@ default:
 
                 - sylius.behat.context.ui.shop.login
 
-                - gweb_sylius_vat.behat.context.setup.address
-                - gweb_sylius_vat.behat.context.ui.vat
+                - gewebe_sylius_vat_plugin.behat.context.setup.address
+                - gewebe_sylius_vat_plugin.behat.context.ui.vat
             filters:
                 tags: "@customer_login_vat_number && @ui"
         ui_address_book_vat_number:
@@ -33,7 +33,7 @@ default:
 
                 - sylius.behat.context.ui.shop.address_book
 
-                - gweb_sylius_vat.behat.context.ui.shop.address_book_vat
+                - gewebe_sylius_vat_plugin.behat.context.ui.shop.address_book_vat
             filters:
                 tags: "@address_book_vat_number && @ui"
         ui_admin_vat_number:
@@ -60,8 +60,8 @@ default:
 
                 - sylius.behat.context.ui.admin.managing_orders
 
-                - gweb_sylius_vat.behat.context.setup.order
-                - gweb_sylius_vat.behat.context.ui.admin.managing_orders_vat
+                - gewebe_sylius_vat_plugin.behat.context.setup.order
+                - gewebe_sylius_vat_plugin.behat.context.ui.admin.managing_orders_vat
             filters:
                 tags: "@admin_vat_number && @ui"
         ui_checkout_vat_number:
@@ -92,6 +92,6 @@ default:
                 - sylius.behat.context.ui.shop.checkout.shipping
                 - sylius.behat.context.ui.shop.checkout.complete
 
-                - gweb_sylius_vat.behat.context.ui.shop.checkout.address_vat_number
+                - gewebe_sylius_vat_plugin.behat.context.ui.shop.checkout.address_vat_number
             filters:
                 tags: "@checkout_vat_number && @ui"

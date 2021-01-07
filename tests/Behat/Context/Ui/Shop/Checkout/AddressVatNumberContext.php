@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Gweb\SyliusVATPlugin\Behat\Context\Ui\Shop\Checkout;
+namespace Tests\Gewebe\SyliusVATPlugin\Behat\Context\Ui\Shop\Checkout;
 
 use Behat\Behat\Context\Context;
-use Tests\gweb\SyliusVATPlugin\Behat\Page\Shop\Checkout\AddressPage;
+use Tests\Gewebe\SyliusVATPlugin\Behat\Page\Shop\Checkout\AddressPage;
 use Webmozart\Assert\Assert;
 
 final class AddressVatNumberContext implements Context

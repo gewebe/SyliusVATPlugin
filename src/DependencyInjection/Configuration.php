@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gweb\SyliusVATPlugin\DependencyInjection;
+namespace Gewebe\SyliusVATPlugin\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -12,7 +12,7 @@ final class Configuration implements ConfigurationInterface
     /** {@inheritdoc} */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('gweb_sylius_vat_number');
+        $treeBuilder = new TreeBuilder('gewebe_sylius_vat');
 
         $treeBuilder->getRootNode()
             ->children()

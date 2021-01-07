@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Gweb\SyliusVATPlugin\Behat\Page\Shop\Checkout;
+namespace Tests\Gewebe\SyliusVATPlugin\Behat\Page\Shop\Checkout;
 
 interface AddressPageInterface
 {

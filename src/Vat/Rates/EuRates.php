@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gweb\SyliusVATPlugin\Vat\Rates;
+namespace Gewebe\SyliusVATPlugin\Vat\Rates;
 
 use Ibericode\Vat\Countries;
 use Ibericode\Vat\Rates;

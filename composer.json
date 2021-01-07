@@ -1,8 +1,8 @@
 {
-    "name": "gweb/sylius-vat-plugin",
+    "name": "gewebe/sylius-vat-plugin",
     "type": "sylius-plugin",
     "keywords": ["sylius", "sylius-plugin"],
-    "description": "Sylius VAT number and calculation plugin",
+    "description": "Sylius VAT number and tax calculation plugin",
     "license": "MIT",
     "require": {
         "php": "^7.3",
@@ -41,8 +41,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Gweb\\SyliusVATPlugin\\": "src/",
-            "Tests\\Gweb\\SyliusVATPlugin\\": "tests/"
+            "Gewebe\\SyliusVATPlugin\\": "src/",
+            "Tests\\Gewebe\\SyliusVATPlugin\\": "tests/"
         }
     },
     "autoload-dev": {

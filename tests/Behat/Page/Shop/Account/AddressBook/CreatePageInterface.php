@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Gweb\SyliusVATPlugin\Behat\Page\Shop\Account\AddressBook;
+namespace Tests\Gewebe\SyliusVATPlugin\Behat\Page\Shop\Account\AddressBook;
 
 interface CreatePageInterface extends \Sylius\Behat\Page\Shop\Account\AddressBook\CreatePageInterface
 {

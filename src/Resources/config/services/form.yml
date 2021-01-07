@@ -1,6 +1,6 @@
 services:
 
-    gweb_sylius_vat.form.extension.address:
-        class: Gweb\SyliusVATPlugin\Form\Extension\AddressTypeExtension
+    gewebe_sylius_vat_plugin.form.extension.address:
+        class: Gewebe\SyliusVATPlugin\Form\Extension\AddressTypeExtension
         tags:
             - { name: form.type_extension, extended_type: Sylius\Bundle\AddressingBundle\Form\Type\AddressType }

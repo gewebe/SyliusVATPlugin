@@ -3,20 +3,20 @@
 {% if address.hasVatNumber %}
     <div class="address-vat" style="background: #f9f9f9;margin-top: 15px">
         <div class="address-vat-number">
-            {{ 'gweb_sylius_vat.ui.vat_number'|trans }}: <span>{{ address.vatNumber }}</span>
+            {{ 'gewebe_sylius_vat_plugin.ui.vat_number'|trans }}: <span>{{ address.vatNumber }}</span>
         </div>
 
         {% if address.vatValidatedAt is not empty %}
             <div class="address-vat-status">
                 {% if address.hasValidVatNumber %}
-                    {{ 'gweb_sylius_vat.ui.vat_number_is_valid'|trans }}
+                    {{ 'gewebe_sylius_vat_plugin.ui.vat_number_is_valid'|trans }}
                 {% else %}
-                    {{ 'gweb_sylius_vat.ui.vat_number_is_invalid'|trans }}
+                    {{ 'gewebe_sylius_vat_plugin.ui.vat_number_is_invalid'|trans }}
                 {% endif %}
             </div>
             <div class="address-vat-date">{{ address.vatValidatedAt|format_datetime }}</div>
         {% else %}
-            <div class="address-vat-status">{{ 'gweb_sylius_vat.ui.vat_number_not_validated_yet'|trans }}</div>
+            <div class="address-vat-status">{{ 'gewebe_sylius_vat_plugin.ui.vat_number_not_validated_yet'|trans }}</div>
         {% endif %}
     </div>
 {% endif %}

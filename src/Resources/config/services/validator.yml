@@ -1,19 +1,19 @@
 services:
 
-    gweb_sylius_vat.validator:
-        class: Gweb\SyliusVATPlugin\Validator\Constraints\VatNumberValidator
+    gewebe_sylius_vat_plugin.validator:
+        class: Gewebe\SyliusVATPlugin\Validator\Constraints\VatNumberValidator
         arguments:
-            - '@gweb_sylius_vat.eu_vat_validator'
-            - '%gweb_sylius_vat.validate.format%'
-            - '%gweb_sylius_vat.validate.country%'
-            - '%gweb_sylius_vat.validate.existence%'
+            - '@gewebe_sylius_vat_plugin.eu_vat_validator'
+            - '%gewebe_sylius_vat_plugin.validate.format%'
+            - '%gewebe_sylius_vat_plugin.validate.country%'
+            - '%gewebe_sylius_vat_plugin.validate.existence%'
         tags:
             - { name: validator.constraint_validator }
 
-    gweb_sylius_vat.eu_vat_validator:
-        class: Gweb\SyliusVATPlugin\Vat\Number\EuValidator
+    gewebe_sylius_vat_plugin.eu_vat_validator:
+        class: Gewebe\SyliusVATPlugin\Vat\Number\EuValidator
         arguments:
-            - '@gweb_sylius_vat.ibericode_vat.validator'
+            - '@gewebe_sylius_vat_plugin.ibericode_vat.validator'
 
-    gweb_sylius_vat.ibericode_vat.validator:
+    gewebe_sylius_vat_plugin.ibericode_vat.validator:
         class: Ibericode\Vat\Validator

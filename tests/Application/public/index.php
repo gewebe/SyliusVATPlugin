@@ -1,6 +1,6 @@
 <?php
 
-use Tests\Gweb\SyliusVATPlugin\Application\Kernel;
+use Tests\Gewebe\SyliusVATPlugin\Application\Kernel;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\HttpFoundation\Request;
 

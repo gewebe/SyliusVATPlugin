@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace spec\Gweb\SyliusVATPlugin\Vat\Number;
+namespace spec\Gewebe\SyliusVATPlugin\Vat\Number;
 
-use Gweb\SyliusVATPlugin\Vat\Number\ClientException;
-use Gweb\SyliusVATPlugin\Vat\Number\ValidatorInterface;
+use Gewebe\SyliusVATPlugin\Vat\Number\ClientException;
+use Gewebe\SyliusVATPlugin\Vat\Number\ValidatorInterface;
 use Ibericode\Vat\Validator;
 use Ibericode\Vat\Vies\ViesException;
 use PhpSpec\ObjectBehavior;

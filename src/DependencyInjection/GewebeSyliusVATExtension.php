@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Gweb\SyliusVATPlugin\DependencyInjection;
+namespace Gewebe\SyliusVATPlugin\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-final class GwebSyliusVATExtension extends Extension
+final class GewebeSyliusVATExtension extends Extension
 {
     /** {@inheritdoc} */
     public function load(array $config, ContainerBuilder $container): void
@@ -19,15 +19,15 @@ final class GwebSyliusVATExtension extends Extension
 
         $config = $this->processConfiguration($this->getConfiguration([], $container), $config);
 
-        $definition = $container->getDefinition('gweb_sylius_vat.order_processor');
+        $definition = $container->getDefinition('gewebe_sylius_vat_plugin.order_processor');
         $definition->replaceArgument(0, $config['order']['recalculate']);
 
-        $definition = $container->getDefinition('gweb_sylius_vat.validator');
+        $definition = $container->getDefinition('gewebe_sylius_vat_plugin.validator');
         $definition->replaceArgument(1, $config['validate']['format']);
         $definition->replaceArgument(2, $config['validate']['country']);
         $definition->replaceArgument(3, $config['validate']['existence']);
 
-        $definition = $container->getDefinition('Gweb\SyliusVATPlugin\EventListener\LoginListener');
+        $definition = $container->getDefinition('Gewebe\SyliusVATPlugin\EventListener\LoginListener');
         $definition->replaceArgument(1, $config['revalidate']['on_login']);
         $definition->replaceArgument(2, $config['revalidate']['expiration_days']);
     }

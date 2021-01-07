@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace spec\Gweb\SyliusVATPlugin\Validator\Constraints;
+namespace spec\Gewebe\SyliusVATPlugin\Validator\Constraints;
 
-use Gweb\SyliusVATPlugin\Entity\VatNumberAddressInterface;
-use Gweb\SyliusVATPlugin\Validator\Constraints\VatNumber;
-use Gweb\SyliusVATPlugin\Vat\Number\ClientException;
-use Gweb\SyliusVATPlugin\Vat\Number\ValidatorInterface;
+use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
+use Gewebe\SyliusVATPlugin\Validator\Constraints\VatNumber;
+use Gewebe\SyliusVATPlugin\Vat\Number\ClientException;
+use Gewebe\SyliusVATPlugin\Vat\Number\ValidatorInterface;
 use PhpSpec\ObjectBehavior;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -129,7 +129,7 @@ class VatNumberValidatorSpec extends ObjectBehavior
         $this->initializeContextViolation(
             $context,
             $violationBuilder,
-            'gweb_sylius_vat.address.vat_number.invalid_format'
+            'gewebe_sylius_vat_plugin.address.vat_number.invalid_format'
         );
 
         $address->getVatNumber()->willReturn('XY123');
@@ -146,7 +146,7 @@ class VatNumberValidatorSpec extends ObjectBehavior
         $this->initializeContextViolation(
             $context,
             $violationBuilder,
-            'gweb_sylius_vat.address.vat_number.invalid_country'
+            'gewebe_sylius_vat_plugin.address.vat_number.invalid_country'
         );
 
         $address->getCountryCode()->willReturn('DE');
@@ -164,7 +164,7 @@ class VatNumberValidatorSpec extends ObjectBehavior
         $this->initializeContextViolation(
             $context,
             $violationBuilder,
-            'gweb_sylius_vat.address.vat_number.not_verified'
+            'gewebe_sylius_vat_plugin.address.vat_number.not_verified'
         );
 
         $address->getCountryCode()->willReturn('DE');

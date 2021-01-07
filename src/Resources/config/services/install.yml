@@ -1,9 +1,9 @@
 services:
 
-    gweb_sylius_vat.command.eu_vat_rates:
-        class: Gweb\SyliusVATPlugin\Command\EuInstallCommand
+    gewebe_sylius_vat_plugin.command.eu_vat_rates:
+        class: Gewebe\SyliusVATPlugin\Command\EuInstallCommand
         arguments:
-            - '@gweb_sylius_vat.eu_vat_rates'
+            - '@gewebe_sylius_vat_plugin.eu_vat_rates'
             - '@sylius.factory.country'
             - '@sylius.repository.country'
             - '@sylius.factory.zone'
@@ -15,12 +15,12 @@ services:
         tags:
             - { name: console.command }
 
-    gweb_sylius_vat.eu_vat_rates:
-        class: Gweb\SyliusVATPlugin\Vat\Rates\EuRates
+    gewebe_sylius_vat_plugin.eu_vat_rates:
+        class: Gewebe\SyliusVATPlugin\Vat\Rates\EuRates
         arguments:
-            - '@gweb_sylius_vat.rates'
+            - '@gewebe_sylius_vat_plugin.rates'
 
-    gweb_sylius_vat.rates:
+    gewebe_sylius_vat_plugin.rates:
         class: Ibericode\Vat\Rates
         arguments:
             - '%kernel.cache_dir%/vat-rates.json'
