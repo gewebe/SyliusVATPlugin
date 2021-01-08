@@ -9,10 +9,6 @@ App\Entity\Addressing\Address:
         vatValid:
             type: boolean
             column: vat_valid
-            nullable: true
-            options:
-                unsigned: true
-                default: 0
         vatValidatedAt:
             type: datetime
             column: vat_validated_at

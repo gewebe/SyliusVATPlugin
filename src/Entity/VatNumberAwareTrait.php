@@ -24,7 +24,7 @@ trait VatNumberAwareTrait
     protected $vatNumber;
 
     /**
-     * @ORM\Column(name="vat_valid", type="boolean", nullable=true, options={"unsigned":true, "default":0})
+     * @ORM\Column(name="vat_valid", type="boolean")
      *
      * @var bool|null
      */
