@@ -3,7 +3,6 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE)
-[![Build Status][ico-travis]][link-travis]
 [![Quality Score][ico-code-quality]][link-code-quality]
 
 ## Features
@@ -161,9 +160,7 @@ $ vendor/bin/phpstan analyse -c phpstan.neon -l max src/
 
 [ico-version]: https://img.shields.io/packagist/v/gewebe/sylius-vat-plugin.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/gewebe/SyliusVATPlugin/master.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/gewebe/SyliusVATPlugin.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/gewebe/sylius-vat-plugin
-[link-travis]: https://travis-ci.org/gewebe/SyliusVATPlugin
 [link-code-quality]: https://scrutinizer-ci.com/g/gewebe/SyliusVATPlugin
