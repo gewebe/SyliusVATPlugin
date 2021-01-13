@@ -1,0 +1,34 @@
+services:
+
+    sylius.fixture.example_factory.address:
+        class: Gewebe\SyliusVATPlugin\Fixture\Factory\AddressExampleFactory
+        arguments:
+            - '@sylius.factory.address'
+            - '@sylius.repository.country'
+            - '@sylius.repository.customer'
+
+    sylius.fixture.address:
+        class: Gewebe\SyliusVATPlugin\Fixture\AddressFixture
+        arguments:
+            - '@sylius.manager.address'
+            - '@sylius.fixture.example_factory.address'
+        tags:
+            - { name: sylius_fixtures.fixture }
+
+    sylius.fixture.example_factory.order:
+        class: Gewebe\SyliusVATPlugin\Fixture\Factory\OrderExampleFactory
+        arguments:
+            - '@sylius.factory.order'
+            - '@sylius.factory.order_item'
+            - '@sylius.order_item_quantity_modifier'
+            - '@sylius.manager.order'
+            - '@sylius.repository.channel'
+            - '@sylius.repository.customer'
+            - '@sylius.repository.product'
+            - '@sylius.repository.country'
+            - '@sylius.repository.payment_method'
+            - '@sylius.repository.shipping_method'
+            - '@sylius.factory.address'
+            - '@sm.factory'
+            - '@sylius.checker.order_shipping_method_selection_requirement'
+            - '@sylius.checker.order_payment_method_selection_requirement'
