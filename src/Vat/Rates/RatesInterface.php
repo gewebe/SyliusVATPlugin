@@ -13,9 +13,7 @@ interface RatesInterface
     public const RATE_STANDARD = 'standard';
     public const RATE_REDUCED = 'reduced';
 
-    /**
-     * @return array
-     */
+    /** @return array<string, string> */
     public function getCountries(): array;
 
     /**

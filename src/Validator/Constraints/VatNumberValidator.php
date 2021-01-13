@@ -12,6 +12,9 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 class VatNumberValidator extends ConstraintValidator
 {
     /** @var ValidatorInterface */
@@ -38,20 +41,19 @@ class VatNumberValidator extends ConstraintValidator
         $this->validateExistence = $validateExistence;
     }
 
-    public function validate($address, Constraint $constraint): void
+    public function validate($value, Constraint $constraint): void
     {
-        // need value only as address entity with vat
-        if (!$address instanceof VatNumberAddressInterface) {
+        if (!$value instanceof VatNumberAddressInterface) {
             #throw new UnexpectedValueException($address, VatNumberAddressInterface::class);
             return;
         }
+
+        $address = $value;
 
         if (!$constraint instanceof VatNumber) {
             throw new UnexpectedTypeException($constraint, VatNumber::class);
         }
 
-        // custom constraints should ignore null and empty values to allow
-        // other constraints (NotBlank, NotNull, etc.) take care of that
         if (null === $address->getVatNumber() || '' === $address->getVatNumber()) {
             return;
         }
@@ -71,9 +73,6 @@ class VatNumberValidator extends ConstraintValidator
 
     /**
      * check vat number format
-     * @param VatNumberAddressInterface $address
-     * @param VatNumber $constraint
-     * @return bool
      */
     private function validateFormat(VatNumberAddressInterface $address, VatNumber $constraint): bool
     {
@@ -90,9 +89,6 @@ class VatNumberValidator extends ConstraintValidator
 
     /**
      * check vat number country is same as address country
-     * @param VatNumberAddressInterface $address
-     * @param VatNumber $constraint
-     * @return bool
      */
     private function validateCountry(VatNumberAddressInterface $address, VatNumber $constraint): bool
     {
@@ -112,9 +108,6 @@ class VatNumberValidator extends ConstraintValidator
 
     /**
      * check vat number existence
-     * @param VatNumberAddressInterface $address
-     * @param VatNumber $constraint
-     * @return bool
      */
     private function validateExistence(VatNumberAddressInterface $address, VatNumber $constraint): bool
     {

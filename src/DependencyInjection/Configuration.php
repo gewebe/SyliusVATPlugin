@@ -9,7 +9,10 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 final class Configuration implements ConfigurationInterface
 {
-    /** {@inheritdoc} */
+    /**
+     * @psalm-suppress MixedMethodCall
+     * @psalm-suppress PossiblyUndefinedMethod
+     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('gewebe_sylius_vat');
@@ -33,7 +36,7 @@ final class Configuration implements ConfigurationInterface
                         ->booleanNode('on_login')->defaultValue(true)->end()
                         ->integerNode('expiration_days')->defaultValue(30)->end()
                     ->end()
-                ->end() // revalidiate
+                ->end() // revalidate
         ;
 
         return $treeBuilder;

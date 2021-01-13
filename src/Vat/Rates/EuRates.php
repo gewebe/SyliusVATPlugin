@@ -25,10 +25,14 @@ final class EuRates implements RatesInterface
         $this->countries = new Countries();
     }
 
-    /** @inheritDoc */
     public function getCountries(): array
     {
         $euCountries = [];
+
+        /**
+         * @var string $countryCode
+         * @var string $countryName
+         */
         foreach ($this->countries as $countryCode => $countryName) {
             if (!$this->countries->isCountryCodeInEU($countryCode)) {
                 continue;
@@ -40,10 +44,6 @@ final class EuRates implements RatesInterface
         return $euCountries;
     }
 
-    /**
-     * @inheritDoc
-     * @throws \Exception
-     */
     public function getCountryRate(string $countryCode, string $level = self::RATE_STANDARD): float
     {
         return $this->rates->getRateForCountry($countryCode, $level);

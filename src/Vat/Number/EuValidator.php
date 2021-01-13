@@ -20,7 +20,6 @@ final class EuValidator implements ValidatorInterface
         $this->validator = $validator;
     }
 
-    /** @inheritDoc */
     public function validateCountry(string $vatNumber, string $countryCode): bool
     {
         $country = substr($vatNumber, 0, 2);
@@ -31,19 +30,17 @@ final class EuValidator implements ValidatorInterface
         return false;
     }
 
-    /** @inheritDoc */
     public function validateFormat(string $vatNumber): bool
     {
         return $this->validator->validateVatNumberFormat($vatNumber);
     }
 
-    /** @inheritDoc */
     public function validate(string $vatNumber): bool
     {
         try {
             return $this->validator->validateVatNumber($vatNumber);
         } catch (ViesException $e) {
-            throw new ClientException($e->getMessage(), $e->getCode());
+            throw new ClientException($e->getMessage(), (int) $e->getCode());
         }
     }
 }

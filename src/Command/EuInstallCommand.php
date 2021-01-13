@@ -116,6 +116,9 @@ final class EuInstallCommand extends Command
         return strtolower($country);
     }
 
+    /**
+     * @return string[]
+     */
     private function getOptionCategories(InputInterface $input): array
     {
         $categories = $input->getOption('categories');

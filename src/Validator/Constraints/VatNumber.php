@@ -25,7 +25,6 @@ class VatNumber extends Constraint
     /** @var string */
     public $vatNumberPath = 'vatNumber';
 
-    /** {@inheritdoc} */
     public function getTargets()
     {
         return [self::CLASS_CONSTRAINT, self::PROPERTY_CONSTRAINT];
