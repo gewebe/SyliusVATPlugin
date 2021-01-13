@@ -26,9 +26,9 @@ trait VatNumberAwareTrait
     /**
      * @ORM\Column(name="vat_valid", type="boolean")
      *
-     * @var bool|null
+     * @var bool
      */
-    protected $vatValid;
+    protected $vatValid = false;
 
     /**
      * @ORM\Column(name="vat_validated_at", type="datetime", nullable=true)
