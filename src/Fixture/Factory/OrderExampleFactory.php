@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Gewebe\SyliusVATPlugin\Fixture\Factory;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
 use SM\Factory\FactoryInterface as StateMachineFactoryInterface;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\OrderExampleFactory as BaseOrderExampleFactory;
