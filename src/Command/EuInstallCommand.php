@@ -211,6 +211,7 @@ final class EuInstallCommand extends Command
 
     private function addCountry(string $code): CountryInterface
     {
+        /** @var CountryInterface|null $country */
         $country = $this->countryRepository->findOneBy(['code' => strtoupper($code)]);
         if ($country instanceof CountryInterface) {
             return $country;
@@ -227,12 +228,12 @@ final class EuInstallCommand extends Command
 
     private function addZone(string $code, string $name, array $countries, string $type): ZoneInterface
     {
+        /** @var ZoneInterface|null $zone */
         $zone = $this->zoneRepository->findOneBy(['code' => strtoupper($code), 'type' => $type]);
         if ($zone instanceof ZoneInterface) {
             return $zone;
         }
 
-        /** @var ZoneInterface $zone */
         $zone = $this->zoneFactory->createWithMembers($countries);
         $zone->setCode(strtoupper($code));
         $zone->setName($name);
@@ -245,6 +246,7 @@ final class EuInstallCommand extends Command
 
     private function addTaxCategory(string $name): TaxCategoryInterface
     {
+        /** @var TaxCategoryInterface|null $taxCategory */
         $taxCategory = $this->taxCategoryRepository->findOneBy(['code' => strtolower($name)]);
         if ($taxCategory instanceof TaxCategoryInterface) {
             return $taxCategory;
@@ -273,6 +275,7 @@ final class EuInstallCommand extends Command
             return;
         }
 
+        /** @var TaxRateInterface|null $taxRate */
         $taxRate = $this->taxRateRepository->findOneBy(['code' => strtolower($code).'-'.$category]);
         if ($taxRate instanceof TaxRateInterface) {
             if ($taxRate->getAmount() !== $countryRate) {
