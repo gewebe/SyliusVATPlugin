@@ -7,6 +7,7 @@ namespace Gewebe\SyliusVATPlugin\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Trait that implements the vat number functionality
@@ -18,6 +19,7 @@ trait VatNumberAwareTrait
     /**
      * @ORM\Column(name="vat_number", type="string", nullable=true)
      * @Gedmo\Versioned()
+     * @Groups({"shop:address:read", "shop:address:create", "shop:address:update"})
      *
      * @var string|null
      */
@@ -25,6 +27,7 @@ trait VatNumberAwareTrait
 
     /**
      * @ORM\Column(name="vat_valid", type="boolean")
+     * @Groups({"shop:address:read"})
      *
      * @var bool
      */
@@ -32,6 +35,7 @@ trait VatNumberAwareTrait
 
     /**
      * @ORM\Column(name="vat_validated_at", type="datetime", nullable=true)
+     * @Groups({"shop:address:read"})
      *
      * @var DateTime|null
      */
