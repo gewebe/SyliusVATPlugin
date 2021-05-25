@@ -2,15 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Gewebe\SyliusVATPlugin\Vat\Number;
+namespace Gewebe\SyliusVATPlugin\Vat\Number\Validator;
 
+use Gewebe\SyliusVATPlugin\Vat\Number\ClientException;
+use Gewebe\SyliusVATPlugin\Vat\Number\VatNumberValidatorInterface;
+use Ibericode\Vat\Countries;
 use Ibericode\Vat\Validator;
 use Ibericode\Vat\Vies\ViesException;
 
 /**
  * European VAT number validator
  */
-final class EuValidator implements ValidatorInterface
+final class EuVatNumberValidator implements VatNumberValidatorInterface
 {
     /** @var Validator */
     private $validator;
@@ -18,6 +21,24 @@ final class EuValidator implements ValidatorInterface
     public function __construct(Validator $validator)
     {
         $this->validator = $validator;
+    }
+
+    public function getCountries(): array
+    {
+        $countries = new Countries();
+        $euCountries = [];
+
+        /**
+         * @var string $countryCode
+         * @var string $countryName
+         */
+        foreach ($countries as $countryCode => $countryName) {
+            if ($countries->isCountryCodeInEU($countryCode)) {
+                $euCountries[] = $countryCode;
+            }
+        }
+
+        return $euCountries;
     }
 
     public function validateCountry(string $vatNumber, string $countryCode): bool

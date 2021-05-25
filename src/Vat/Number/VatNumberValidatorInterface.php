@@ -8,8 +8,14 @@ namespace Gewebe\SyliusVATPlugin\Vat\Number;
  * VAT number validator
  * @package Gewebe\SyliusVATPlugin\Validator
  */
-interface ValidatorInterface
+interface VatNumberValidatorInterface
 {
+    /**
+     * ISO-3166-1-alpha2 country codes for validation
+     * @return array
+     */
+    public function getCountries(): array;
+
     /**
      * Validate VAT number country
      * @param string $vatNumber

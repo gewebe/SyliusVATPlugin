@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace spec\Gewebe\SyliusVATPlugin\Vat\Number;
+namespace spec\Gewebe\SyliusVATPlugin\Vat\Number\Validator;
 
 use Gewebe\SyliusVATPlugin\Vat\Number\ClientException;
-use Gewebe\SyliusVATPlugin\Vat\Number\ValidatorInterface;
+use Gewebe\SyliusVATPlugin\Vat\Number\VatNumberValidatorInterface;
 use Ibericode\Vat\Validator;
 use Ibericode\Vat\Vies\ViesException;
 use PhpSpec\ObjectBehavior;
 
-class EuValidatorSpec extends ObjectBehavior
+class EuVatNumberValidatorSpec extends ObjectBehavior
 {
     function let(Validator $validator)
     {
@@ -24,7 +24,7 @@ class EuValidatorSpec extends ObjectBehavior
 
     function it_implements_vat_validator_interface(): void
     {
-        $this->shouldImplement(ValidatorInterface::class);
+        $this->shouldImplement(VatNumberValidatorInterface::class);
     }
 
     function it_validate_vat_number_country()

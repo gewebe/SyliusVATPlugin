@@ -11,7 +11,7 @@ services:
             - { name: validator.constraint_validator }
 
     gewebe_sylius_vat_plugin.eu_vat_validator:
-        class: Gewebe\SyliusVATPlugin\Vat\Number\EuValidator
+        class: Gewebe\SyliusVATPlugin\Vat\Number\Validator\EuVatNumberValidator
         arguments:
             - '@gewebe_sylius_vat_plugin.ibericode_vat.validator'
 
