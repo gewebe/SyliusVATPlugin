@@ -5,26 +5,39 @@ declare(strict_types=1);
 namespace Gewebe\SyliusVATPlugin\OrderProcessing;
 
 use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
+use Sylius\Component\Addressing\Model\ZoneInterface;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
+use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 /**
  * Recalculates the order without VAT tax
  */
 final class VatNumberOrderProcessor implements OrderProcessorInterface
 {
+    /** @var RepositoryInterface */
+    private $zoneRepository;
+
     /** @var bool */
     private $isActive;
 
-    public function __construct(bool $isActive = true)
-    {
+    /** @var ZoneInterface|null */
+    private $euZone;
+
+    public function __construct(
+        RepositoryInterface $zoneRepository,
+        bool $isActive = true
+    ) {
+        $this->zoneRepository = $zoneRepository;
+
         $this->isActive = $isActive;
+        $this->euZone = $this->getEuZone();
     }
 
     public function process(OrderInterface $order): void
     {
-        if (!$this->isActive) {
+        if (!$this->isActive || $this->euZone === null) {
             return;
         }
 
@@ -48,7 +61,8 @@ final class VatNumberOrderProcessor implements OrderProcessorInterface
         }
 
         $shopBillingData = $channel->getShopBillingData();
-        if ($shopBillingData === null) {
+        if ($shopBillingData === null
+            || !$this->isEuZone($shopBillingData->getCountryCode())) {
             return false;
         }
 
@@ -56,8 +70,32 @@ final class VatNumberOrderProcessor implements OrderProcessorInterface
 
         if ($billingAddress instanceof VatNumberAddressInterface
             && $billingAddress->hasValidVatNumber()
+            && $this->isEuZone($billingAddress->getCountryCode())
             && $billingAddress->getCountryCode() !== $shopBillingData->getCountryCode()) {
             return true;
+        }
+
+        return false;
+    }
+
+    private function getEuZone(): ?ZoneInterface
+    {
+        /** @var ZoneInterface|null $euZone */
+        $euZone = $this->zoneRepository->findOneBy(['code' => 'EU']);
+
+        return $euZone;
+    }
+
+    private function isEuZone(?string $countyCode): bool
+    {
+        if ($countyCode === null || $this->euZone === null) {
+            return false;
+        }
+
+        foreach ($this->euZone->getMembers() as $member) {
+            if ($member->getCode() === $countyCode) {
+                return true;
+            }
         }
 
         return false;

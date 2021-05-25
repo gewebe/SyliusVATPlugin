@@ -16,6 +16,9 @@ Feature: Seeing tax total dependent on country and vat
         And the store has a zone "France" with code "FR"
         And it also has the "France" country member
         And the store has "VAT" tax rate of 20% for "Clothes" within the "FR" zone
+        And the store has a zone "European Union" with code "EU"
+        And it also has the "Germany" country member
+        And it also has the "France" country member
         And the store has a product "PHP T-Shirt" priced at "$10.00"
         And it belongs to "Clothes" tax category
         And the store ships everywhere for free

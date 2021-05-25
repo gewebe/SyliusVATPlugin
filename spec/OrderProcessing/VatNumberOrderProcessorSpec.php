@@ -8,19 +8,35 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
 use Gewebe\SyliusVATPlugin\OrderProcessing\VatNumberOrderProcessor;
 use PhpSpec\ObjectBehavior;
+use Sylius\Component\Addressing\Model\ZoneInterface;
+use Sylius\Component\Addressing\Model\ZoneMemberInterface;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\ShopBillingData;
-
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
+use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 final class VatNumberOrderProcessorSpec extends ObjectBehavior
 {
-    function let()
-    {
-        $this->beConstructedWith(true);
+    function let(
+        RepositoryInterface $zoneRepository,
+        ZoneInterface $euZone,
+        ZoneMemberInterface $de,
+        ZoneMemberInterface $fr
+    ) {
+        $de->getCode()->willReturn('DE');
+        $fr->getCode()->willReturn('FR');
+
+        $euZone->getMembers()->willReturn(new ArrayCollection([
+            $de->getWrappedObject(),
+            $fr->getWrappedObject(),
+        ]));
+
+        $zoneRepository->findOneBy(['code' => 'EU'])->willReturn($euZone);
+
+        $this->beConstructedWith($zoneRepository, true);
     }
 
     function it_is_vat_number_processor()
@@ -33,9 +49,11 @@ final class VatNumberOrderProcessorSpec extends ObjectBehavior
         $this->shouldImplement(OrderProcessorInterface::class);
     }
 
-    function it_does_not_process_deactivated(OrderInterface $order): void
-    {
-        $this->beConstructedWith(false);
+    function it_does_not_process_deactivated(
+        RepositoryInterface $zoneRepository,
+        OrderInterface $order
+    ): void {
+        $this->beConstructedWith($zoneRepository, false);
 
         $this->process($order);
     }

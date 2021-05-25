@@ -4,6 +4,7 @@ services:
     gewebe_sylius_vat_plugin.order_processor:
         class: Gewebe\SyliusVATPlugin\OrderProcessing\VatNumberOrderProcessor
         arguments:
+            - '@sylius.repository.zone'
             - '%gewebe_sylius_vat_plugin.order.recalculate%'
         tags:
             - { name: sylius.order_processor, priority: 8 }
