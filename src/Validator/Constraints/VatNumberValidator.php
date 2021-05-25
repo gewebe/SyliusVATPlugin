@@ -44,8 +44,7 @@ class VatNumberValidator extends ConstraintValidator
     public function validate($value, Constraint $constraint): void
     {
         if (!$value instanceof VatNumberAddressInterface) {
-            #throw new UnexpectedValueException($address, VatNumberAddressInterface::class);
-            return;
+            throw new UnexpectedValueException($value, VatNumberAddressInterface::class);
         }
 
         $address = $value;

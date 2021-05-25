@@ -3,7 +3,3 @@ Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface:
     constraints:
         - Gewebe\SyliusVATPlugin\Validator\Constraints\VatNumber:
               groups: sylius
-    getters:
-        vatNumber:
-            - Gewebe\SyliusVATPlugin\Validator\Constraints\VatNumber:
-                  groups: sylius
