@@ -3,17 +3,24 @@ services:
     gewebe_sylius_vat_plugin.validator:
         class: Gewebe\SyliusVATPlugin\Validator\Constraints\VatNumberValidator
         arguments:
-            - '@gewebe_sylius_vat_plugin.eu_vat_validator'
+            - '@gewebe_sylius_vat_plugin.vat_validator_provider'
             - '%gewebe_sylius_vat_plugin.validate.is_active%'
             - '%gewebe_sylius_vat_plugin.validate.country%'
             - '%gewebe_sylius_vat_plugin.validate.existence%'
         tags:
             - { name: validator.constraint_validator }
 
+    gewebe_sylius_vat_plugin.vat_validator_provider:
+        class: Gewebe\SyliusVATPlugin\Vat\Number\VatNumberValidatorProvider
+        arguments:
+            - !tagged_iterator gewebe_sylius_vat_plugin.vat_validator
+
     gewebe_sylius_vat_plugin.eu_vat_validator:
         class: Gewebe\SyliusVATPlugin\Vat\Number\Validator\EuVatNumberValidator
         arguments:
             - '@gewebe_sylius_vat_plugin.ibericode_vat.validator'
+        tags:
+            - { name: gewebe_sylius_vat_plugin.vat_validator }
 
     gewebe_sylius_vat_plugin.ibericode_vat.validator:
         class: Ibericode\Vat\Validator

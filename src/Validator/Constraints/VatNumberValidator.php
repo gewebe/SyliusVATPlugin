@@ -6,7 +6,8 @@ namespace Gewebe\SyliusVATPlugin\Validator\Constraints;
 
 use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
 use Gewebe\SyliusVATPlugin\Vat\Number\ClientException;
-use Gewebe\SyliusVATPlugin\Vat\Number\ValidatorInterface;
+use Gewebe\SyliusVATPlugin\Vat\Number\VatNumberValidatorInterface;
+use Gewebe\SyliusVATPlugin\Vat\Number\VatNumberValidatorProviderInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -17,7 +18,10 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
  */
 class VatNumberValidator extends ConstraintValidator
 {
-    /** @var ValidatorInterface */
+    /** @var VatNumberValidatorProviderInterface */
+    private $validatorProvider;
+
+    /** @var VatNumberValidatorInterface|null */
     private $validator;
 
     /** @var bool */
@@ -30,12 +34,12 @@ class VatNumberValidator extends ConstraintValidator
     private $validateExistence = true;
 
     public function __construct(
-        ValidatorInterface $validator,
+        VatNumberValidatorProviderInterface $validatorProvider,
         bool $isActive = true,
         bool $validateCountry = true,
         bool $validateExistence = true
     ) {
-        $this->validator = $validator;
+        $this->validatorProvider = $validatorProvider;
         $this->isActive = $isActive;
         $this->validateCountry = $validateCountry;
         $this->validateExistence = $validateExistence;
@@ -47,31 +51,55 @@ class VatNumberValidator extends ConstraintValidator
             return;
         }
 
-        if (!$value instanceof VatNumberAddressInterface) {
-            throw new UnexpectedValueException($value, VatNumberAddressInterface::class);
-        }
-
-        $address = $value;
-
         if (!$constraint instanceof VatNumber) {
             throw new UnexpectedTypeException($constraint, VatNumber::class);
         }
 
-        if (null === $address->getVatNumber() || '' === $address->getVatNumber()) {
+        if (!$value instanceof VatNumberAddressInterface) {
+            throw new UnexpectedValueException($value, VatNumberAddressInterface::class);
+        }
+
+        if (null === $value->getVatNumber() || '' === $value->getVatNumber()) {
             return;
         }
 
-        if (!$this->validateFormat($address, $constraint)) {
+        if (!$this->setValidator($value)) {
             return;
+        }
+
+        $this->validateVatNumberAddress($value, $constraint);
+    }
+
+    private function setValidator(VatNumberAddressInterface $address): bool
+    {
+        $countryCode = $address->getCountryCode();
+        if (null === $countryCode || '' === $countryCode) {
+            return false;
+        }
+
+        $this->validator = $this->validatorProvider->getValidator($countryCode);
+        if ($this->validator instanceof VatNumberValidatorInterface) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function validateVatNumberAddress(VatNumberAddressInterface $address, VatNumber $constraint): bool
+    {
+        if (!$this->validateFormat($address, $constraint)) {
+            return false;
         }
 
         if ($this->validateCountry && !$this->validateCountry($address, $constraint)) {
-            return;
+            return false;
         }
 
         if ($this->validateExistence) {
-            $this->validateExistence($address, $constraint);
+            return $this->validateExistence($address, $constraint);
         }
+
+        return false;
     }
 
     /**
@@ -79,6 +107,10 @@ class VatNumberValidator extends ConstraintValidator
      */
     private function validateFormat(VatNumberAddressInterface $address, VatNumber $constraint): bool
     {
+        if ($this->validator === null) {
+            return false;
+        }
+
         $vatNumber = $address->getVatNumber();
 
         if (is_null($vatNumber) || !$this->validator->validateFormat($vatNumber)) {
@@ -95,6 +127,10 @@ class VatNumberValidator extends ConstraintValidator
      */
     private function validateCountry(VatNumberAddressInterface $address, VatNumber $constraint): bool
     {
+        if ($this->validator === null) {
+            return false;
+        }
+
         $vatNumber = $address->getVatNumber();
         $countryCode = $address->getCountryCode();
 
@@ -114,10 +150,14 @@ class VatNumberValidator extends ConstraintValidator
      */
     private function validateExistence(VatNumberAddressInterface $address, VatNumber $constraint): bool
     {
+        if ($this->validator === null) {
+            return false;
+        }
+
         try {
             $vatNumber = $address->getVatNumber();
 
-            $valid = is_null($vatNumber) ? false : $this->validator->validate($vatNumber);
+            $valid = !is_null($vatNumber) && $this->validator->validate($vatNumber);
 
             $address->setVatValid($valid);
         } catch (ClientException $e) {
