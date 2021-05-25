@@ -4,7 +4,7 @@ services:
         class: Gewebe\SyliusVATPlugin\Validator\Constraints\VatNumberValidator
         arguments:
             - '@gewebe_sylius_vat_plugin.eu_vat_validator'
-            - '%gewebe_sylius_vat_plugin.validate.format%'
+            - '%gewebe_sylius_vat_plugin.validate.is_active%'
             - '%gewebe_sylius_vat_plugin.validate.country%'
             - '%gewebe_sylius_vat_plugin.validate.existence%'
         tags:

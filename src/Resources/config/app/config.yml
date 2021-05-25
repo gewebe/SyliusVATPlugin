@@ -3,7 +3,7 @@ gewebe_sylius_vat:
     order:
         recalculate: true
     validate:
-        format: true
+        is_active: true
         country: true
         existence: true
     revalidate:

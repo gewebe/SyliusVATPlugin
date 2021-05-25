@@ -21,7 +21,7 @@ class VatNumberValidator extends ConstraintValidator
     private $validator;
 
     /** @var bool */
-    private $validateFormat = true;
+    private $isActive = true;
 
     /** @var bool */
     private $validateCountry = true;
@@ -31,18 +31,22 @@ class VatNumberValidator extends ConstraintValidator
 
     public function __construct(
         ValidatorInterface $validator,
-        bool $validateFormat,
-        bool $validateCountry,
-        bool $validateExistence
+        bool $isActive = true,
+        bool $validateCountry = true,
+        bool $validateExistence = true
     ) {
         $this->validator = $validator;
-        $this->validateFormat = $validateFormat;
+        $this->isActive = $isActive;
         $this->validateCountry = $validateCountry;
         $this->validateExistence = $validateExistence;
     }
 
     public function validate($value, Constraint $constraint): void
     {
+        if (!$this->isActive) {
+            return;
+        }
+
         if (!$value instanceof VatNumberAddressInterface) {
             throw new UnexpectedValueException($value, VatNumberAddressInterface::class);
         }
@@ -57,7 +61,7 @@ class VatNumberValidator extends ConstraintValidator
             return;
         }
 
-        if (!$this->validateFormat || !$this->validateFormat($address, $constraint)) {
+        if (!$this->validateFormat($address, $constraint)) {
             return;
         }
 

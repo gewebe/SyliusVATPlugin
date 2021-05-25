@@ -28,7 +28,7 @@ final class GewebeSyliusVATExtension extends Extension
         $definition->replaceArgument(1, $configs['order']['recalculate']);
 
         $definition = $container->getDefinition('gewebe_sylius_vat_plugin.validator');
-        $definition->replaceArgument(1, $configs['validate']['format']);
+        $definition->replaceArgument(1, $configs['validate']['is_active']);
         $definition->replaceArgument(2, $configs['validate']['country']);
         $definition->replaceArgument(3, $configs['validate']['existence']);
 
