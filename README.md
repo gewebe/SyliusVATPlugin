@@ -1,8 +1,9 @@
 
-# Sylius VAT number and calculation plugin
+# Sylius VAT number validation and tax calculation plugin
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE)
+[![Build][ico-build]][link-build]
 [![Quality Score][ico-code-quality]][link-code-quality]
 
 ## Features
@@ -144,6 +145,8 @@ $ yarn install
 $ yarn run gulp
 $ bin/console assets:install public -e test
 $ bin/console doctrine:schema:create -e test
+
+$ export APP_ENV=test
 $ symfony server:start --port=8080 --dir=public
 ```
 
@@ -158,6 +161,8 @@ $ vendor/bin/psalm
 [ico-version]: https://img.shields.io/packagist/v/gewebe/sylius-vat-plugin.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/gewebe/SyliusVATPlugin.svg?style=flat-square
+[ico-build]: https://github.com/gewebe/SyliusVATPlugin/actions/workflows/build.yml/badge.svg
 
 [link-packagist]: https://packagist.org/packages/gewebe/sylius-vat-plugin
 [link-code-quality]: https://scrutinizer-ci.com/g/gewebe/SyliusVATPlugin
+[link-build]: https://github.com/gewebe/SyliusVATPlugin/actions/workflows/build.yml
