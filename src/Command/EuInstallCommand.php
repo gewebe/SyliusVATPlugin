@@ -8,6 +8,7 @@ use Gewebe\SyliusVATPlugin\Vat\Rates\RatesInterface;
 use Sylius\Component\Addressing\Factory\ZoneFactory;
 use Sylius\Component\Addressing\Model\CountryInterface;
 use Sylius\Component\Addressing\Model\ZoneInterface;
+use Sylius\Component\Core\Model\Scope;
 use Sylius\Component\Core\Model\TaxRateInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -170,8 +171,15 @@ final class EuInstallCommand extends Command
 
             $euZones[] = $zone->getCode();
 
-            if (strlen($baseCountry) > 0
-                && !in_array(strtolower($countryCode), $thresholdCountries, true)) {
+            if (in_array(strtolower($countryCode), $thresholdCountries, true)) {
+                $zone = $this->addZone(
+                    $countryCode . '-tax',
+                    $countryName . ' Tax',
+                    [$country->getCode()],
+                    ZoneInterface::TYPE_COUNTRY,
+                    Scope::TAX
+                );
+            } elseif (strlen($baseCountry) > 0) {
                 continue;
             }
 
@@ -226,7 +234,7 @@ final class EuInstallCommand extends Command
         return $country;
     }
 
-    private function addZone(string $code, string $name, array $countries, string $type): ZoneInterface
+    private function addZone(string $code, string $name, array $countries, string $type, string $scope = Scope::ALL): ZoneInterface
     {
         /** @var ZoneInterface|null $zone */
         $zone = $this->zoneRepository->findOneBy(['code' => strtoupper($code), 'type' => $type]);
@@ -238,6 +246,7 @@ final class EuInstallCommand extends Command
         $zone->setCode(strtoupper($code));
         $zone->setName($name);
         $zone->setType($type);
+        $zone->setScope($scope);
 
         $this->zoneRepository->add($zone);
 

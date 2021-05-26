@@ -14,6 +14,7 @@ use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
+use Sylius\Component\Core\Model\Scope;
 use Sylius\Component\Core\Model\ShopBillingData;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -34,7 +35,7 @@ final class VatNumberOrderProcessorSpec extends ObjectBehavior
             $fr->getWrappedObject(),
         ]));
 
-        $zoneRepository->findOneBy(['code' => 'EU'])->willReturn($euZone);
+        $zoneRepository->findOneBy(['code' => 'EU', 'scope' => Scope::ALL])->willReturn($euZone);
 
         $this->beConstructedWith($zoneRepository, true);
     }

@@ -7,6 +7,7 @@ namespace Gewebe\SyliusVATPlugin\OrderProcessing;
 use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
 use Sylius\Component\Addressing\Model\ZoneInterface;
 use Sylius\Component\Core\Model\AdjustmentInterface;
+use Sylius\Component\Core\Model\Scope;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -81,7 +82,7 @@ final class VatNumberOrderProcessor implements OrderProcessorInterface
     private function getEuZone(): ?ZoneInterface
     {
         /** @var ZoneInterface|null $euZone */
-        $euZone = $this->zoneRepository->findOneBy(['code' => 'EU']);
+        $euZone = $this->zoneRepository->findOneBy(['code' => 'EU', 'scope' => Scope::ALL]);
 
         return $euZone;
     }

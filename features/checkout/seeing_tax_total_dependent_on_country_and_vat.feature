@@ -11,14 +11,17 @@ Feature: Seeing tax total dependent on country and vat
         And channel "Web" billing data is "Ragnarok", "Frost Alley", "20355" "Hamburg", "Germany" with "1100110011" tax ID
         And the store has a zone "Germany" with code "DE"
         And it also has the "Germany" country member
-        And the store has "MwsT" tax rate of 19% for "Clothes" within the "DE" zone
-        And default tax zone is "DE"
         And the store has a zone "France" with code "FR"
         And it also has the "France" country member
-        And the store has "VAT" tax rate of 20% for "Clothes" within the "FR" zone
-        And the store has a zone "European Union" with code "EU"
-        And it also has the "Germany" country member
+        And the store has a "tax" zone "France tax" with code "FR-tax"
         And it also has the "France" country member
+        And the store has a zone "European Union" with code "EU"
+        And it has the zone named "Germany"
+        And it has the zone named "France"
+        And the store has "MwsT" tax rate of 19% for "Clothes" within the "DE" zone
+        And the store has "VAT" tax rate of 20% for "Clothes" within the "FR-tax" zone
+        And the store has "VAT" tax rate of 19% for "Clothes" within the "EU" zone
+        And default tax zone is "EU"
         And the store has a product "PHP T-Shirt" priced at "$10.00"
         And it belongs to "Clothes" tax category
         And the store ships everywhere for free
