@@ -1,5 +1,5 @@
 
-# Sylius VAT number validation and tax calculation plugin
+# Sylius VAT number and rates plugin
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE)
@@ -7,10 +7,12 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 
 ## Features
- * Installer for EU countries, zones and VAT rates configuration
- * VAT number field at `Address` entity
- * Validate VAT numbers (by country, format and existence)
- * Placing an order with 0% VAT if
+ * New fields for VAT number and validation status at `Address` entity
+ * Validate VAT numbers (by format, country and existence) 
+    * Using [VIES API](http://ec.europa.eu/taxation_customs/vies/) for EU VAT number validation
+ * Revalidate customers VAT numbers after a given time
+ * Installer for EU VAT rates with countries and zones
+ * Placing an order in the EU without VAT if
     * Customers billing country is different from shop billing data
     * VAT number validation was successful
 
@@ -21,28 +23,28 @@
 composer require gewebe/sylius-vat-plugin
 ```
 
-### Enable the plugin
-Register the plugin by adding it to your `config/bundles.php` file
-
+### Enable the plugin in bundles.php
 ```php
-<?php
+# config/bundles.php
 
 return [
-    // ...
+    # ...
+    
     Gewebe\SyliusVATPlugin\GewebeSyliusVATPlugin::class => ['all' => true],
 ];
 ```
 
-### Configure the plugin
-
+### Import the plugin configurations
 ```yaml
 # config/packages/_sylius.yaml
+
 imports:
+    # ...
+       
     - { resource: '@GewebeSyliusVATPlugin/Resources/config/app/config.yml'}
 ```
 
 ### Copy templates
-
 Copy customized templates to your templates directory (e.g `templates/bundles/`):
 
 ```bash
