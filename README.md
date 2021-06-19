@@ -36,8 +36,7 @@ return [
 ### Configure the plugin
 
 ```yaml
-# config/packages/gewebe_sylius_vat_plugin.yaml
-
+# config/packages/_sylius.yaml
 imports:
     - { resource: '@GewebeSyliusVATPlugin/Resources/config/app/config.yml'}
 ```

@@ -1,5 +1,4 @@
 imports:
-    - { resource: "@GewebeSyliusVATPlugin/Resources/config/app/config.yml" }
     - { resource: "../../Behat/Resources/services.yml" }
     - { resource: "../../../vendor/sylius/sylius/src/Sylius/Behat/Resources/config/services.xml" }
 
