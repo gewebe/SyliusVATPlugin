@@ -59,16 +59,19 @@ final class OrderExampleFactory extends BaseOrderExampleFactory
         );
     }
 
+    /**
+     * @psalm-suppress MixedArgument
+     */
     protected function address(OrderInterface $order, string $countryCode): void
     {
         /** @var VatNumberAddressInterface $address */
         $address = $this->addressFactory->createNew();
-        $address->setFirstName((string) $this->faker->firstName());
-        $address->setLastName((string) $this->faker->lastName());
-        $address->setStreet((string) $this->faker->streetAddress());
+        $address->setFirstName($this->faker->firstName());
+        $address->setLastName($this->faker->lastName());
+        $address->setStreet($this->faker->streetAddress());
         $address->setCountryCode($countryCode);
-        $address->setCity((string) $this->faker->city());
-        $address->setPostcode((string) $this->faker->postcode());
+        $address->setCity($this->faker->city());
+        $address->setPostcode($this->faker->postcode());
         $address->setVatValid(false);
 
         $order->setShippingAddress($address);
