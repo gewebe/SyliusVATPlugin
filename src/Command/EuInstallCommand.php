@@ -109,10 +109,7 @@ final class EuInstallCommand extends Command
 
     private function getArgumentCountry(InputInterface $input): string
     {
-        $country = $input->getArgument('country');
-        if (!is_string($country)) {
-            $country = '';
-        }
+        $country = (string) $input->getArgument('country');
 
         return strtolower($country);
     }
@@ -122,10 +119,7 @@ final class EuInstallCommand extends Command
      */
     private function getOptionCategories(InputInterface $input): array
     {
-        $categories = $input->getOption('categories');
-        if (!is_string($categories)) {
-            $categories = '';
-        }
+        $categories = (string) $input->getOption('categories');
 
         return explode(',', $categories);
     }
@@ -137,10 +131,7 @@ final class EuInstallCommand extends Command
 
     private function getOptionThreshold(InputInterface $input): array
     {
-        $threshold = $input->getOption('threshold');
-        if (!is_string($threshold)) {
-            $threshold = '';
-        }
+        $threshold = (string) $input->getOption('threshold');
 
         return explode(',', strtolower($threshold));
     }
