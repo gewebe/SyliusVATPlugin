@@ -28,11 +28,8 @@ final class EuVatNumberValidator implements VatNumberValidatorInterface
         $countries = new Countries();
         $euCountries = [];
 
-        /**
-         * @var string $countryCode
-         * @var string $countryName
-         */
-        foreach ($countries as $countryCode => $countryName) {
+        /** @var string $countryCode */
+        foreach (array_keys(iterator_to_array($countries)) as $countryCode) {
             if ($countries->isCountryCodeInEU($countryCode)) {
                 $euCountries[] = $countryCode;
             }
