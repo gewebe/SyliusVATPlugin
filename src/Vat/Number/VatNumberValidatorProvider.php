@@ -7,7 +7,7 @@ namespace Gewebe\SyliusVATPlugin\Vat\Number;
 class VatNumberValidatorProvider implements VatNumberValidatorProviderInterface
 {
     /** @var VatNumberValidatorInterface[]|iterable */
-    private $validators;
+    private iterable $validators;
 
     public function __construct(iterable $validators)
     {

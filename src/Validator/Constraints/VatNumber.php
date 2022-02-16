@@ -14,17 +14,13 @@ use Symfony\Component\Validator\Constraint;
  */
 class VatNumber extends Constraint
 {
-    /** @var string */
-    public $messageFormat = 'gewebe_sylius_vat_plugin.address.vat_number.invalid_format';
+    public string $messageFormat = 'gewebe_sylius_vat_plugin.address.vat_number.invalid_format';
 
-    /** @var string */
-    public $messageCountry = 'gewebe_sylius_vat_plugin.address.vat_number.invalid_country';
+    public string $messageCountry = 'gewebe_sylius_vat_plugin.address.vat_number.invalid_country';
 
-    /** @var string */
-    public $messageVerified = 'gewebe_sylius_vat_plugin.address.vat_number.not_verified';
+    public string $messageVerified = 'gewebe_sylius_vat_plugin.address.vat_number.not_verified';
 
-    /** @var string */
-    public $vatNumberPath = 'vatNumber';
+    public string $vatNumberPath = 'vatNumber';
 
     public function getTargets()
     {

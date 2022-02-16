@@ -21,10 +21,6 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 final class OrderExampleFactory extends BaseOrderExampleFactory
 {
-    /**
-     * sylius 1.8 still use old ObjectManager
-     * @psalm-suppress ArgumentTypeCoercion
-     */
     public function __construct(
         FactoryInterface $orderFactory,
         FactoryInterface $orderItemFactory,

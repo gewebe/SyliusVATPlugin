@@ -12,16 +12,10 @@ use Ibericode\Vat\Rates;
  */
 final class EuRates implements RatesInterface
 {
-    /** @var Rates */
-    private $rates;
+    private Countries $countries;
 
-    /** @var Countries */
-    private $countries;
-
-    public function __construct(
-        Rates $rates
-    ) {
-        $this->rates = $rates;
+    public function __construct(private Rates $rates)
+    {
         $this->countries = new Countries();
     }
 

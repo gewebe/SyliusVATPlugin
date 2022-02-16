@@ -14,23 +14,11 @@ use Sylius\Component\Core\OrderCheckoutTransitions;
 
 class OrderContext implements Context
 {
-    /** @var ObjectManager */
-    private $objectManager;
-
-    /** @var SharedStorageInterface */
-    private $sharedStorage;
-
-    /** @var StateMachineFactoryInterface */
-    private $stateMachineFactory;
-
     public function __construct(
-        ObjectManager $objectManager,
-        SharedStorageInterface $sharedStorage,
-        StateMachineFactoryInterface $stateMachineFactory
+        private ObjectManager $objectManager,
+        private SharedStorageInterface $sharedStorage,
+        private StateMachineFactoryInterface $stateMachineFactory
     ) {
-        $this->objectManager = $objectManager;
-        $this->sharedStorage = $sharedStorage;
-        $this->stateMachineFactory = $stateMachineFactory;
     }
 
     /**

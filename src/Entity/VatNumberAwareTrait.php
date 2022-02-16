@@ -20,26 +20,20 @@ trait VatNumberAwareTrait
      * @ORM\Column(name="vat_number", type="string", nullable=true)
      * @Gedmo\Versioned()
      * @Groups({"shop:address:read", "shop:address:create", "shop:address:update"})
-     *
-     * @var string|null
      */
-    protected $vatNumber;
+    protected ?string $vatNumber = null;
 
     /**
      * @ORM\Column(name="vat_valid", type="boolean")
      * @Groups({"shop:address:read"})
-     *
-     * @var bool
      */
-    protected $vatValid = false;
+    protected bool $vatValid = false;
 
     /**
      * @ORM\Column(name="vat_validated_at", type="datetime", nullable=true)
      * @Groups({"shop:address:read"})
-     *
-     * @var DateTime|null
      */
-    protected $vatValidatedAt;
+    protected ?DateTime $vatValidatedAt = null;
 
     public function getVatNumber(): ?string
     {

@@ -15,12 +15,8 @@ use Ibericode\Vat\Vies\ViesException;
  */
 final class EuVatNumberValidator implements VatNumberValidatorInterface
 {
-    /** @var Validator */
-    private $validator;
-
-    public function __construct(Validator $validator)
+    public function __construct(private Validator $validator)
     {
-        $this->validator = $validator;
     }
 
     public function getCountries(): array

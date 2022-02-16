@@ -10,14 +10,8 @@ use Webmozart\Assert\Assert;
 
 final class AddressBookVatContext implements Context
 {
-    /**
-     * @var CreatePageInterface
-     */
-    private $createPage;
-
-    public function __construct(CreatePageInterface $createPage)
+    public function __construct(private CreatePageInterface $createPage)
     {
-        $this->createPage = $createPage;
     }
 
     /**

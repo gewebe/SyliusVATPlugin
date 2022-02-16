@@ -17,22 +17,12 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
  */
 final class VatNumberOrderProcessor implements OrderProcessorInterface
 {
-    /** @var RepositoryInterface */
-    private $zoneRepository;
-
-    /** @var bool */
-    private $isActive;
-
-    /** @var ZoneInterface|null */
-    private $euZone;
+    private ?ZoneInterface $euZone;
 
     public function __construct(
-        RepositoryInterface $zoneRepository,
-        bool $isActive = true
+        private RepositoryInterface $zoneRepository,
+        private bool $isActive = true
     ) {
-        $this->zoneRepository = $zoneRepository;
-
-        $this->isActive = $isActive;
         $this->euZone = $this->getEuZone();
     }
 

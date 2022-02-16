@@ -13,18 +13,10 @@ use Webmozart\Assert\Assert;
 
 class VatContext implements Context
 {
-    /** @var ObjectManager */
-    private $objectManager;
-
-    /** @var SharedStorageInterface */
-    private $sharedStorage;
-
     public function __construct(
-        ObjectManager $objectManager,
-        SharedStorageInterface $sharedStorage
+        private ObjectManager $objectManager,
+        private SharedStorageInterface $sharedStorage
     ) {
-        $this->objectManager = $objectManager;
-        $this->sharedStorage = $sharedStorage;
     }
 
     /**

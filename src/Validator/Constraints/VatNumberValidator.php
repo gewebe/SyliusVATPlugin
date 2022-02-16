@@ -18,31 +18,14 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
  */
 class VatNumberValidator extends ConstraintValidator
 {
-    /** @var VatNumberValidatorProviderInterface */
-    private $validatorProvider;
-
-    /** @var VatNumberValidatorInterface|null */
-    private $validator;
-
-    /** @var bool */
-    private $isActive = true;
-
-    /** @var bool */
-    private $validateCountry = true;
-
-    /** @var bool */
-    private $validateExistence = true;
+    private ?VatNumberValidatorInterface $validator = null;
 
     public function __construct(
-        VatNumberValidatorProviderInterface $validatorProvider,
-        bool $isActive = true,
-        bool $validateCountry = true,
-        bool $validateExistence = true
+        private VatNumberValidatorProviderInterface $validatorProvider,
+        private bool $isActive = true,
+        private bool $validateCountry = true,
+        private bool $validateExistence = true
     ) {
-        $this->validatorProvider = $validatorProvider;
-        $this->isActive = $isActive;
-        $this->validateCountry = $validateCountry;
-        $this->validateExistence = $validateExistence;
     }
 
     public function validate($value, Constraint $constraint): void

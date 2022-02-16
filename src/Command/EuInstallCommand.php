@@ -24,54 +24,17 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 final class EuInstallCommand extends Command
 {
-    /** @var RatesInterface */
-    private $vatRates;
-
-    /** @var FactoryInterface */
-    private $countryFactory;
-
-    /** @var RepositoryInterface */
-    private $countryRepository;
-
-    /** @var ZoneFactory */
-    private $zoneFactory;
-
-    /** @var RepositoryInterface */
-    private $zoneRepository;
-
-    /** @var FactoryInterface */
-    private $taxRateFactory;
-
-    /** @var RepositoryInterface */
-    private $taxRateRepository;
-
-    /** @var FactoryInterface */
-    private $taxCategoryFactory;
-
-    /** @var RepositoryInterface */
-    private $taxCategoryRepository;
-
     public function __construct(
-        RatesInterface $vatRates,
-        FactoryInterface $countryFactory,
-        RepositoryInterface $countryRepository,
-        ZoneFactory $zoneFactory,
-        RepositoryInterface $zoneRepository,
-        FactoryInterface $taxRateFactory,
-        RepositoryInterface $taxRateRepository,
-        FactoryInterface $taxCategoryFactory,
-        RepositoryInterface $taxCategoryRepository
+        private RatesInterface $vatRates,
+        private FactoryInterface $countryFactory,
+        private RepositoryInterface $countryRepository,
+        private ZoneFactory $zoneFactory,
+        private RepositoryInterface $zoneRepository,
+        private FactoryInterface $taxRateFactory,
+        private RepositoryInterface $taxRateRepository,
+        private FactoryInterface $taxCategoryFactory,
+        private RepositoryInterface $taxCategoryRepository
     ) {
-        $this->vatRates = $vatRates;
-        $this->countryFactory = $countryFactory;
-        $this->countryRepository = $countryRepository;
-        $this->zoneFactory = $zoneFactory;
-        $this->zoneRepository = $zoneRepository;
-        $this->taxRateFactory = $taxRateFactory;
-        $this->taxRateRepository = $taxRateRepository;
-        $this->taxCategoryFactory = $taxCategoryFactory;
-        $this->taxCategoryRepository = $taxCategoryRepository;
-
         parent::__construct();
     }
 

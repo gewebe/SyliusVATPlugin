@@ -13,23 +13,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class LoginListener
 {
-    /** @var ValidatorInterface */
-    private $validator;
-
-    /** @var bool */
-    private $revalidateOnLogin;
-
-    /** @var int */
-    private $expirationDays;
-
     public function __construct(
-        ValidatorInterface $validator,
-        bool $revalidateOnLogin,
-        int $expirationDays
+        private ValidatorInterface $validator,
+        private bool $revalidateOnLogin,
+        private int $expirationDays
     ) {
-        $this->validator = $validator;
-        $this->revalidateOnLogin = $revalidateOnLogin;
-        $this->expirationDays = $expirationDays;
     }
 
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event): void

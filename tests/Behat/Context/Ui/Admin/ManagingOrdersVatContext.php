@@ -11,18 +11,10 @@ use Webmozart\Assert\Assert;
 
 class ManagingOrdersVatContext implements Context
 {
-    /** @var ShowPageInterface */
-    private $showPage;
-
-    /** @var UpdatePageInterface */
-    private $updatePage;
-
     public function __construct(
-        ShowPageInterface $showPage,
-        UpdatePageInterface $updatePage
+        private ShowPageInterface $showPage,
+        private UpdatePageInterface $updatePage
     ) {
-        $this->showPage = $showPage;
-        $this->updatePage = $updatePage;
     }
 
     /**

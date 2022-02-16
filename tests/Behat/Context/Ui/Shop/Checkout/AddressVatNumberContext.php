@@ -10,14 +10,8 @@ use Webmozart\Assert\Assert;
 
 final class AddressVatNumberContext implements Context
 {
-    /**
-     * @var AddressPage
-     */
-    private $addressPage;
-
-    public function __construct(AddressPage $addressPage)
+    public function __construct(private AddressPage $addressPage)
     {
-        $this->addressPage = $addressPage;
     }
 
     /**
