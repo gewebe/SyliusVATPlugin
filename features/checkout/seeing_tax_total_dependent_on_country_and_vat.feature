@@ -18,13 +18,15 @@ Feature: Seeing tax total dependent on country and vat
         And the store has a zone "European Union" with code "EU"
         And it has the zone named "Germany"
         And it has the zone named "France"
-        And the store has "MwsT" tax rate of 19% for "Clothes" within the "DE" zone
-        And the store has "VAT" tax rate of 20% for "Clothes" within the "FR-tax" zone
-        And the store has "VAT" tax rate of 19% for "Clothes" within the "EU" zone
+        And the store has "MwsT" tax rate of 19% for "VAT" within the "DE" zone
+        And the store has "TVA" tax rate of 20% for "VAT" within the "FR-tax" zone
+        And the store has "Default" tax rate of 19% for "VAT" within the "EU" zone
         And default tax zone is "EU"
         And the store has a product "PHP T-Shirt" priced at "$10.00"
-        And it belongs to "Clothes" tax category
-        And the store ships everywhere for free
+        And it belongs to "VAT" tax category
+        And the store has "Free" shipping method with "$0.00" fee within the "DE" zone
+        And the store has "UPS" shipping method with "$2.50" fee within the "FR" zone
+        And shipping method "UPS" belongs to "VAT" tax category
         And the store allows paying offline
         And I am a logged in customer
         And I have product "PHP T-Shirt" in the cart
@@ -44,17 +46,19 @@ Feature: Seeing tax total dependent on country and vat
     Scenario: Seeing the total tax of 20% in another country
         When I specify the billing address as "Marseille", "Chaude Ruelle", "13003", "France" for "Pierre Simon"
         And I try to complete the addressing step
-        And I proceed with "Free" shipping method and "Offline" payment
+        And I proceed with "UPS" shipping method and "Offline" payment
         Then I should be on the checkout summary step
-        And my tax total should be "$2.00"
-        And my order total should be "$12.00"
+        And my tax total should be "$2.50"
+        And my order shipping should be "$3.00"
+        And my order total should be "$15.00"
 
     @ui
     Scenario: Seeing tax total tax of 0% with valid VAT number from another country than our business country
         When I specify the billing address as "Marseille", "Chaude Ruelle", "13003", "France" for "Pierre Simon"
         And I specify the billing vat number as "FR91552118465"
         And I try to complete the addressing step
-        And I proceed with "Free" shipping method and "Offline" payment
+        And I proceed with "UPS" shipping method and "Offline" payment
         Then I should be on the checkout summary step
         And my tax total should be "$0.00"
-        And my order total should be "$10.00"
+        And my order shipping should be "$2.50"
+        And my order total should be "$12.50"

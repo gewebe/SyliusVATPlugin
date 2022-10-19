@@ -34,9 +34,7 @@ final class VatNumberOrderProcessor implements OrderProcessorInterface
 
         /** @var \Sylius\Component\Core\Model\OrderInterface $order */
         if ($this->isValidForZeroTax($order)) {
-            foreach ($order->getItems() as $item) {
-                $item->removeAdjustmentsRecursively(AdjustmentInterface::TAX_ADJUSTMENT);
-            }
+            $order->removeAdjustmentsRecursively(AdjustmentInterface::TAX_ADJUSTMENT);
         }
     }
 

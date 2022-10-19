@@ -122,8 +122,7 @@ final class VatNumberOrderProcessorSpec extends ObjectBehavior
 
         $order->getBillingAddress()->willReturn($customerBillingAddress);
 
-        $order->getItems()->willReturn(new ArrayCollection([$orderItem->getWrappedObject()]));
-        $orderItem->removeAdjustmentsRecursively(AdjustmentInterface::TAX_ADJUSTMENT)->shouldBeCalled();
+        $order->removeAdjustmentsRecursively(AdjustmentInterface::TAX_ADJUSTMENT)->shouldBeCalled();
 
         $this->process($order);
     }
