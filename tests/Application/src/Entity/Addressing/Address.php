@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Gewebe\SyliusVATPlugin\Application\Entity;
+namespace Tests\Gewebe\SyliusVATPlugin\Application\src\Entity\Addressing;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;

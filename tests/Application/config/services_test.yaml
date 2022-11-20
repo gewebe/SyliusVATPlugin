@@ -11,4 +11,4 @@ sylius_addressing:
     resources:
         address:
             classes:
-                model: Tests\Gewebe\SyliusVATPlugin\Application\Entity\Address
+                model: Tests\Gewebe\SyliusVATPlugin\Application\src\Entity\Addressing\Address
