@@ -1,6 +1,7 @@
 parameters:
     level: max
     reportUnmatchedIgnoredErrors: false
+    checkGenericClassInNonGenericObjectType: false
     checkMissingIterableValueType: false
     paths:
         - src

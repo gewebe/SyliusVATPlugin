@@ -54,7 +54,7 @@ final class EuVatNumberValidator implements VatNumberValidatorInterface
         try {
             return $this->validator->validateVatNumber($vatNumber);
         } catch (ViesException $e) {
-            throw new ClientException($e->getMessage(), (int) $e->getCode());
+            throw new ClientException($e->getMessage(), $e->getCode());
         }
     }
 }
