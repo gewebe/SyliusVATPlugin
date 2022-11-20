@@ -138,17 +138,23 @@ bin/console vat:install:eu DE -c standard,reduced
 
 ## Testing
 
-Setup
+Setup Traditional
 ```bash
 $ composer install
 $ cd tests/Application
 $ yarn install
-$ yarn run gulp
+$ yarn build
 $ bin/console assets:install public -e test
 $ bin/console doctrine:schema:create -e test
 
 $ export APP_ENV=test
 $ symfony server:start --port=8080 --dir=public
+```
+
+Setup Docker
+```bash
+$ docker compose up -d
+$ docker compose exec app make init
 ```
 
 Run Tests
