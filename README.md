@@ -41,7 +41,7 @@ return [
 imports:
     # ...
        
-    - { resource: '@GewebeSyliusVATPlugin/Resources/config/app/config.yml'}
+    - { resource: '@GewebeSyliusVATPlugin/config/app/config.yml'}
 ```
 
 ### Copy templates
@@ -49,9 +49,9 @@ Copy customized templates to your templates directory (e.g `templates/bundles/`)
 
 ```bash
 mkdir -p templates/bundles/SyliusAdminBundle/
-cp -R vendor/gewebe/sylius-vat-plugin/src/Resources/views/SyliusAdminBundle/* templates/bundles/SyliusAdminBundle/
+cp -R vendor/gewebe/sylius-vat-plugin/src/templates/SyliusAdminBundle/* templates/bundles/SyliusAdminBundle/
 mkdir -p templates/bundles/SyliusShopBundle/
-cp -R vendor/gewebe/sylius-vat-plugin/src/Resources/views/SyliusShopBundle/* templates/bundles/SyliusShopBundle/
+cp -R vendor/gewebe/sylius-vat-plugin/src/templates/SyliusShopBundle/* templates/bundles/SyliusShopBundle/
 ```
 
 ### Extend `Address` entity
