@@ -110,7 +110,9 @@ final class VatNumberOrderProcessorSpec extends ObjectBehavior
         OrderInterface $order,
         OrderItemInterface $orderItem,
         ShopBillingData $shopBillingData,
-        VatNumberAddressInterface $customerBillingAddress
+        VatNumberAddressInterface $customerBillingAddress,
+        AdjustmentInterface $taxAdjustment,
+        AdjustmentInterface $shippingAdjustment,
     ) {
         $shopBillingData->getCountryCode()->willReturn('DE');
 
@@ -121,6 +123,32 @@ final class VatNumberOrderProcessorSpec extends ObjectBehavior
         $order->getChannel()->willReturn($channel);
 
         $order->getBillingAddress()->willReturn($customerBillingAddress);
+
+        $taxAdjustment->isNeutral()->willReturn(true);
+        $taxAdjustment->getDetails()->willReturn(['shippingMethodCode' => 'Post']);
+        $taxAdjustment->getAmount()->willReturn(5);
+        $order->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT)->willReturn(new ArrayCollection([
+            $taxAdjustment->getWrappedObject()
+        ]));
+
+        $shippingAdjustment->getDetails()->willReturn(['shippingMethodCode' => 'Post']);
+        $shippingAdjustment->getAmount()->willReturn(25);
+        $shippingAdjustment->setAmount(20)->shouldBeCalled();
+        $order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT)->willReturn(new ArrayCollection([
+            $shippingAdjustment->getWrappedObject(),
+        ]));
+
+        $orderItem->getQuantity()->willReturn(1);
+        $orderItem->getUnitPrice()->willReturn(25);
+        $orderItem->setUnitPrice(20)->shouldBeCalled();
+        $orderItem->recalculateUnitsTotal()->shouldBeCalled();
+        $orderItem->getAdjustmentsRecursively(AdjustmentInterface::TAX_ADJUSTMENT)->willReturn(new ArrayCollection([
+            $taxAdjustment->getWrappedObject()
+        ]));
+
+        $order->getItems()->willReturn(new ArrayCollection([
+            $orderItem->getWrappedObject(),
+        ]));
 
         $order->removeAdjustmentsRecursively(AdjustmentInterface::TAX_ADJUSTMENT)->shouldBeCalled();
 

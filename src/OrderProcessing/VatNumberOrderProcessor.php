@@ -34,7 +34,42 @@ final class VatNumberOrderProcessor implements OrderProcessorInterface
 
         /** @var \Sylius\Component\Core\Model\OrderInterface $order */
         if ($this->isValidForZeroTax($order)) {
+            $this->removeIncludedTaxes($order);
+
             $order->removeAdjustmentsRecursively(AdjustmentInterface::TAX_ADJUSTMENT);
+        }
+    }
+
+    private function removeIncludedTaxes(OrderInterface $order): void
+    {
+        foreach($order->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT) as $taxAdjustment)
+        {
+            if ($taxAdjustment->isNeutral()) {
+                foreach($order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT) as $shipmentAdjustment) 
+                {
+                    if ($shipmentAdjustment->getDetails()['shippingMethodCode'] == $taxAdjustment->getDetails()['shippingMethodCode']) {
+                        $shipmentAdjustment->setAmount($shipmentAdjustment->getAmount() - $taxAdjustment->getAmount());
+                    }
+                }
+            }
+        }
+
+        foreach($order->getItems() as $item)
+        {
+            $includedTaxes = 0;
+            foreach($item->getAdjustmentsRecursively(AdjustmentInterface::TAX_ADJUSTMENT) as $taxAdjustment)
+            {
+                if ($taxAdjustment->isNeutral()) {
+                    $includedTaxes += $taxAdjustment->getAmount();
+                }
+            }
+
+            if ($includedTaxes > 0) {
+                $unitTax = (int) floor($includedTaxes / $item->getQuantity());
+
+                $item->setUnitPrice($item->getUnitPrice() - $unitTax);
+                $item->recalculateUnitsTotal();
+            }
         }
     }
 
