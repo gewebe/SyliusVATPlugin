@@ -165,6 +165,11 @@ $ vendor/bin/phpstan analyse -c phpstan.neon -l max src/
 $ vendor/bin/psalm
 ```
 
+Coding Standard
+```bash
+$ vendor/bin/ecs check
+```
+
 [ico-version]: https://img.shields.io/packagist/v/gewebe/sylius-vat-plugin.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/gewebe/SyliusVATPlugin.svg?style=flat-square
