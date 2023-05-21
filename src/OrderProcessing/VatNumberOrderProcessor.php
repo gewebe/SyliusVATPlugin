@@ -8,6 +8,7 @@ use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
 use Sylius\Component\Addressing\Model\ZoneInterface;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\Scope;
+use Sylius\Component\Core\Resolver\TaxationAddressResolverInterface;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -21,6 +22,7 @@ final class VatNumberOrderProcessor implements OrderProcessorInterface
 
     public function __construct(
         private RepositoryInterface $zoneRepository,
+        private TaxationAddressResolverInterface $taxationAddressResolver,
         private bool $isActive = true
     ) {
         $this->euZone = $this->getEuZone();
@@ -90,12 +92,12 @@ final class VatNumberOrderProcessor implements OrderProcessorInterface
             return false;
         }
 
-        $billingAddress = $order->getBillingAddress();
+        $taxationAddress = $this->taxationAddressResolver->getTaxationAddressFromOrder($order);
 
-        if ($billingAddress instanceof VatNumberAddressInterface
-            && $billingAddress->hasValidVatNumber()
-            && $this->isEuZone($billingAddress->getCountryCode())
-            && $billingAddress->getCountryCode() !== $shopBillingData->getCountryCode()) {
+        if ($taxationAddress instanceof VatNumberAddressInterface
+            && $taxationAddress->hasValidVatNumber()
+            && $this->isEuZone($taxationAddress->getCountryCode())
+            && $taxationAddress->getCountryCode() !== $shopBillingData->getCountryCode()) {
             return true;
         }
 

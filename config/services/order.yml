@@ -5,6 +5,7 @@ services:
         class: Gewebe\SyliusVATPlugin\OrderProcessing\VatNumberOrderProcessor
         arguments:
             - '@sylius.repository.zone'
+            - '@sylius.taxation_address_resolver'
             - '%gewebe_sylius_vat_plugin.order.recalculate%'
         tags:
             - { name: sylius.order_processor, priority: 8 }

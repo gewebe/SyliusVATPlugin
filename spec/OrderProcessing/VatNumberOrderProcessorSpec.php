@@ -16,6 +16,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\Scope;
 use Sylius\Component\Core\Model\ShopBillingData;
+use Sylius\Component\Core\Resolver\TaxationAddressResolverInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 
@@ -23,6 +24,7 @@ final class VatNumberOrderProcessorSpec extends ObjectBehavior
 {
     function let(
         RepositoryInterface $zoneRepository,
+        TaxationAddressResolverInterface $taxationAddressResolver,
         ZoneInterface $euZone,
         ZoneMemberInterface $de,
         ZoneMemberInterface $fr
@@ -37,7 +39,7 @@ final class VatNumberOrderProcessorSpec extends ObjectBehavior
 
         $zoneRepository->findOneBy(['code' => 'EU', 'scope' => Scope::ALL])->willReturn($euZone);
 
-        $this->beConstructedWith($zoneRepository, true);
+        $this->beConstructedWith($zoneRepository, $taxationAddressResolver, true);
     }
 
     function it_is_vat_number_processor()
@@ -52,9 +54,10 @@ final class VatNumberOrderProcessorSpec extends ObjectBehavior
 
     function it_does_not_process_deactivated(
         RepositoryInterface $zoneRepository,
+        TaxationAddressResolverInterface $taxationAddressResolver,
         OrderInterface $order
     ): void {
-        $this->beConstructedWith($zoneRepository, false);
+        $this->beConstructedWith($zoneRepository, $taxationAddressResolver, false);
 
         $this->process($order);
     }
@@ -90,17 +93,17 @@ final class VatNumberOrderProcessorSpec extends ObjectBehavior
         ChannelInterface $channel,
         OrderInterface $order,
         ShopBillingData $shopBillingData,
-        VatNumberAddressInterface $customerBillingAddress
+        TaxationAddressResolverInterface $taxationAddressResolver,
+        VatNumberAddressInterface $taxationAddress
     ) {
         $shopBillingData->getCountryCode()->willReturn('FR')->shouldBeCalled();
 
-        $customerBillingAddress->hasValidVatNumber()->willReturn(true);
-        $customerBillingAddress->getCountryCode()->willReturn('FR')->shouldBeCalled();
+        $taxationAddress->hasValidVatNumber()->willReturn(true);
+        $taxationAddress->getCountryCode()->willReturn('FR')->shouldBeCalled();
+        $taxationAddressResolver->getTaxationAddressFromOrder($order)->willReturn($taxationAddress);
 
         $channel->getShopBillingData()->willReturn($shopBillingData);
         $order->getChannel()->willReturn($channel);
-
-        $order->getBillingAddress()->willReturn($customerBillingAddress);
 
         $this->process($order);
     }
@@ -110,19 +113,18 @@ final class VatNumberOrderProcessorSpec extends ObjectBehavior
         OrderInterface $order,
         OrderItemInterface $orderItem,
         ShopBillingData $shopBillingData,
-        VatNumberAddressInterface $customerBillingAddress,
+        TaxationAddressResolverInterface $taxationAddressResolver,
+        VatNumberAddressInterface $taxationAddress,
         AdjustmentInterface $taxAdjustment,
-        AdjustmentInterface $shippingAdjustment,
+        AdjustmentInterface $shippingAdjustment
     ) {
         $shopBillingData->getCountryCode()->willReturn('DE');
-
-        $customerBillingAddress->hasValidVatNumber()->willReturn(true);
-        $customerBillingAddress->getCountryCode()->willReturn('FR');
-
         $channel->getShopBillingData()->willReturn($shopBillingData);
         $order->getChannel()->willReturn($channel);
 
-        $order->getBillingAddress()->willReturn($customerBillingAddress);
+        $taxationAddress->hasValidVatNumber()->willReturn(true);
+        $taxationAddress->getCountryCode()->willReturn('FR');
+        $taxationAddressResolver->getTaxationAddressFromOrder($order)->willReturn($taxationAddress);
 
         $taxAdjustment->isNeutral()->willReturn(true);
         $taxAdjustment->getDetails()->willReturn(['shippingMethodCode' => 'Post']);
