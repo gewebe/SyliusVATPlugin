@@ -41,6 +41,7 @@ final class EuVatNumberValidator implements VatNumberValidatorInterface
         if (strtolower($country) === strtolower($countryCode)) {
             return true;
         }
+
         return false;
     }
 

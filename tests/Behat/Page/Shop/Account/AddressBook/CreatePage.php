@@ -23,7 +23,7 @@ class CreatePage extends \Sylius\Behat\Page\Shop\Account\AddressBook\CreatePage 
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function getDefinedElements(): array
     {

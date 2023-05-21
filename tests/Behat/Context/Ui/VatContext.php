@@ -15,7 +15,7 @@ class VatContext implements Context
 {
     public function __construct(
         private ObjectManager $objectManager,
-        private SharedStorageInterface $sharedStorage
+        private SharedStorageInterface $sharedStorage,
     ) {
     }
 
@@ -34,8 +34,7 @@ class VatContext implements Context
 
         if ($validation == 'validated') {
             Assert::true($address->hasValidVatNumber());
-        }
-        elseif ($validation == 'invalidated') {
+        } elseif ($validation == 'invalidated') {
             Assert::false($address->hasValidVatNumber());
         }
 

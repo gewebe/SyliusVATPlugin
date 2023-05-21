@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Gewebe\SyliusVATPlugin\Fixture\Factory;
 
-use Sylius\Component\Core\Model\AddressInterface;
 use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\AddressExampleFactory as BaseAddressExampleFactory;
+use Sylius\Component\Core\Model\AddressInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AddressExampleFactory extends BaseAddressExampleFactory

@@ -18,19 +18,23 @@ trait VatNumberAwareTrait
 {
     /**
      * @ORM\Column(name="vat_number", type="string", nullable=true)
+     *
      * @Gedmo\Versioned()
+     *
      * @Groups({"shop:address:read", "shop:address:create", "shop:address:update"})
      */
     protected ?string $vatNumber = null;
 
     /**
      * @ORM\Column(name="vat_valid", type="boolean")
+     *
      * @Groups({"shop:address:read"})
      */
     protected bool $vatValid = false;
 
     /**
      * @ORM\Column(name="vat_validated_at", type="datetime", nullable=true)
+     *
      * @Groups({"shop:address:read"})
      */
     protected ?DateTime $vatValidatedAt = null;
@@ -52,7 +56,7 @@ trait VatNumberAwareTrait
 
     public function hasValidVatNumber(): bool
     {
-        return ($this->hasVatNumber() && $this->vatValid === true);
+        return $this->hasVatNumber() && $this->vatValid === true;
     }
 
     public function setVatValid(bool $valid, ?DateTime $validatedAt = null): void

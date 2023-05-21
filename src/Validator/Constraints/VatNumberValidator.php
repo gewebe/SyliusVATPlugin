@@ -24,7 +24,7 @@ class VatNumberValidator extends ConstraintValidator
         private VatNumberValidatorProviderInterface $validatorProvider,
         private bool $isActive = true,
         private bool $validateCountry = true,
-        private bool $validateExistence = true
+        private bool $validateExistence = true,
     ) {
     }
 
@@ -96,12 +96,15 @@ class VatNumberValidator extends ConstraintValidator
 
         $vatNumber = $address->getVatNumber();
 
-        if (is_null($vatNumber) || !$this->validator->validateFormat($vatNumber)) {
+        if (null === $vatNumber || !$this->validator->validateFormat($vatNumber)) {
             $this->context->buildViolation($constraint->messageFormat)
                 ->atPath($constraint->vatNumberPath)
-                ->addViolation();
+                ->addViolation()
+            ;
+
             return false;
         }
+
         return true;
     }
 
@@ -117,14 +120,17 @@ class VatNumberValidator extends ConstraintValidator
         $vatNumber = $address->getVatNumber();
         $countryCode = $address->getCountryCode();
 
-        if (is_null($vatNumber)
-            || is_null($countryCode)
-            || !$this->validator->validateCountry($vatNumber, $countryCode)) {
+        if (null === $vatNumber ||
+            null === $countryCode ||
+            !$this->validator->validateCountry($vatNumber, $countryCode)) {
             $this->context->buildViolation($constraint->messageCountry)
                 ->atPath($constraint->vatNumberPath)
-                ->addViolation();
+                ->addViolation()
+            ;
+
             return false;
         }
+
         return true;
     }
 
@@ -140,7 +146,7 @@ class VatNumberValidator extends ConstraintValidator
         try {
             $vatNumber = $address->getVatNumber();
 
-            $valid = !is_null($vatNumber) && $this->validator->validate($vatNumber);
+            $valid = null !== $vatNumber && $this->validator->validate($vatNumber);
 
             $address->setVatValid($valid);
         } catch (ClientException $e) {
@@ -153,9 +159,12 @@ class VatNumberValidator extends ConstraintValidator
         if (false === $valid) {
             $this->context->buildViolation($constraint->messageVerified)
                 ->atPath($constraint->vatNumberPath)
-                ->addViolation();
+                ->addViolation()
+            ;
+
             return false;
         }
+
         return true;
     }
 }

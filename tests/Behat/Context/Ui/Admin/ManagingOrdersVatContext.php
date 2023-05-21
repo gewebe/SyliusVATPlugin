@@ -13,7 +13,7 @@ class ManagingOrdersVatContext implements Context
 {
     public function __construct(
         private ShowPageInterface $showPage,
-        private UpdatePageInterface $updatePage
+        private UpdatePageInterface $updatePage,
     ) {
     }
 
@@ -26,11 +26,9 @@ class ManagingOrdersVatContext implements Context
 
         if ($vatValidation == 'valid') {
             Assert::eq($this->showPage->getBillingVatValidation(), 'VAT number is valid');
-        }
-        elseif ($vatValidation == 'invalid') {
+        } elseif ($vatValidation == 'invalid') {
             Assert::eq($this->showPage->getBillingVatValidation(), 'VAT number is invalid');
-        }
-        elseif ($vatValidation == 'unverified') {
+        } elseif ($vatValidation == 'unverified') {
             Assert::eq($this->showPage->getBillingVatValidation(), 'VAT number not validated yet');
         }
     }
@@ -44,11 +42,9 @@ class ManagingOrdersVatContext implements Context
 
         if ($vatValidation == 'valid') {
             Assert::eq($this->showPage->getShippingVatValidation(), 'VAT number is valid');
-        }
-        elseif ($vatValidation == 'invalid') {
+        } elseif ($vatValidation == 'invalid') {
             Assert::eq($this->showPage->getShippingVatValidation(), 'VAT number is invalid');
-        }
-        elseif ($vatValidation == 'unverified') {
+        } elseif ($vatValidation == 'unverified') {
             Assert::eq($this->showPage->getShippingVatValidation(), 'VAT number not validated yet');
         }
     }

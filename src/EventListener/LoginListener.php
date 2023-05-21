@@ -16,7 +16,7 @@ class LoginListener
     public function __construct(
         private ValidatorInterface $validator,
         private bool $revalidateOnLogin,
-        private int $expirationDays
+        private int $expirationDays,
     ) {
     }
 
@@ -45,9 +45,9 @@ class LoginListener
             return;
         }
 
-        $revalidationDate = new \DateTime($this->expirationDays.' days ago');
+        $revalidationDate = new \DateTime($this->expirationDays . ' days ago');
 
-        if (is_null($address->getVatValidatedAt()) || $address->getVatValidatedAt() < $revalidationDate) {
+        if (null === $address->getVatValidatedAt() || $address->getVatValidatedAt() < $revalidationDate) {
             $violations = $this->validator->validate($address, new VatNumber());
 
             if (0 !== count($violations)) {

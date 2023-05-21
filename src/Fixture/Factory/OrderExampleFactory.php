@@ -35,7 +35,7 @@ final class OrderExampleFactory extends BaseOrderExampleFactory
         FactoryInterface $addressFactory,
         StateMachineFactoryInterface $stateMachineFactory,
         OrderShippingMethodSelectionRequirementCheckerInterface $orderShippingMethodSelectionRequirementChecker,
-        OrderPaymentMethodSelectionRequirementCheckerInterface $orderPaymentMethodSelectionRequirementChecker
+        OrderPaymentMethodSelectionRequirementCheckerInterface $orderPaymentMethodSelectionRequirementChecker,
     ) {
         parent::__construct(
             $orderFactory,
@@ -51,7 +51,7 @@ final class OrderExampleFactory extends BaseOrderExampleFactory
             $addressFactory,
             $stateMachineFactory,
             $orderShippingMethodSelectionRequirementChecker,
-            $orderPaymentMethodSelectionRequirementChecker
+            $orderPaymentMethodSelectionRequirementChecker,
         );
     }
 

@@ -33,7 +33,7 @@ final class EuInstallCommand extends Command
         private FactoryInterface $taxRateFactory,
         private RepositoryInterface $taxRateRepository,
         private FactoryInterface $taxCategoryFactory,
-        private RepositoryInterface $taxCategoryRepository
+        private RepositoryInterface $taxCategoryRepository,
     ) {
         parent::__construct();
     }
@@ -46,28 +46,29 @@ final class EuInstallCommand extends Command
             ->addArgument(
                 'country',
                 InputArgument::OPTIONAL,
-                'Domestic Country'
+                'Domestic Country',
             )
             ->addOption(
                 'categories',
                 'c',
                 InputOption::VALUE_REQUIRED,
                 'Tax categories, e.g.: standard,reduced',
-                'standard'
+                'standard',
             )
             ->addOption(
                 'included',
                 'i',
                 InputOption::VALUE_NONE,
-                'Tax rate is included in price'
+                'Tax rate is included in price',
             )
             ->addOption(
                 'threshold',
                 't',
                 InputOption::VALUE_REQUIRED,
                 'Threshold Countries',
-                ''
-            );
+                '',
+            )
+        ;
     }
 
     private function getArgumentCountry(InputInterface $input): string
@@ -115,7 +116,7 @@ final class EuInstallCommand extends Command
 
         $euZones = [];
         foreach ($this->vatRates->getCountries() as $countryCode => $countryName) {
-            $output->writeln('Install: '.$countryCode);
+            $output->writeln('Install: ' . $countryCode);
 
             $country = $this->addCountry($countryCode);
 
@@ -123,7 +124,7 @@ final class EuInstallCommand extends Command
                 $countryCode,
                 $countryName,
                 [$country->getCode()],
-                ZoneInterface::TYPE_COUNTRY
+                ZoneInterface::TYPE_COUNTRY,
             );
 
             $euZones[] = $zone->getCode();
@@ -134,7 +135,7 @@ final class EuInstallCommand extends Command
                     $countryName . ' Tax',
                     [$country->getCode()],
                     ZoneInterface::TYPE_COUNTRY,
-                    Scope::TAX
+                    Scope::TAX,
                 );
             } elseif (strlen($baseCountry) > 0) {
                 continue;
@@ -146,7 +147,7 @@ final class EuInstallCommand extends Command
                     $countryCode,
                     $taxCategory,
                     $zone,
-                    $this->getOptionIncluded($input)
+                    $this->getOptionIncluded($input),
                 );
             }
         }
@@ -156,7 +157,7 @@ final class EuInstallCommand extends Command
             'EU',
             'European Union',
             $euZones,
-            ZoneInterface::TYPE_ZONE
+            ZoneInterface::TYPE_ZONE,
         );
 
         if (strlen($baseCountry) > 0) {
@@ -166,7 +167,7 @@ final class EuInstallCommand extends Command
                     'eu',
                     $taxCategory,
                     $zone,
-                    $this->getOptionIncluded($input)
+                    $this->getOptionIncluded($input),
                 );
             }
         }
@@ -233,7 +234,7 @@ final class EuInstallCommand extends Command
         string $code,
         string $category,
         ZoneInterface $zone,
-        bool $includedInPrice = false
+        bool $includedInPrice = false,
     ): void {
         try {
             $countryRate = $this->vatRates->getCountryRate(strtoupper($country), $category) / 100;
@@ -242,13 +243,14 @@ final class EuInstallCommand extends Command
         }
 
         /** @var TaxRateInterface|null $taxRate */
-        $taxRate = $this->taxRateRepository->findOneBy(['code' => strtolower($code).'-'.$category]);
+        $taxRate = $this->taxRateRepository->findOneBy(['code' => strtolower($code) . '-' . $category]);
         if ($taxRate instanceof TaxRateInterface) {
             if ($taxRate->getAmount() !== $countryRate) {
                 $taxRate->setAmount($countryRate);
 
                 $this->taxRateRepository->add($taxRate);
             }
+
             return;
         }
 
@@ -257,7 +259,7 @@ final class EuInstallCommand extends Command
 
         /** @var TaxRateInterface $taxRate */
         $taxRate = $this->taxRateFactory->createNew();
-        $taxRate->setCode(strtolower($code.'-'.$category));
+        $taxRate->setCode(strtolower($code . '-' . $category));
         $taxRate->setName('VAT');
         $taxRate->setAmount($countryRate);
         $taxRate->setCalculator('default');

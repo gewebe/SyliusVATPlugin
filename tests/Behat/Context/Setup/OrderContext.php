@@ -6,8 +6,8 @@ namespace Tests\Gewebe\SyliusVATPlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
 use Doctrine\Persistence\ObjectManager;
-use SM\Factory\FactoryInterface as StateMachineFactoryInterface;
 use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
+use SM\Factory\FactoryInterface as StateMachineFactoryInterface;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\OrderCheckoutTransitions;
@@ -17,7 +17,7 @@ class OrderContext implements Context
     public function __construct(
         private ObjectManager $objectManager,
         private SharedStorageInterface $sharedStorage,
-        private StateMachineFactoryInterface $stateMachineFactory
+        private StateMachineFactoryInterface $stateMachineFactory,
     ) {
     }
 
@@ -30,7 +30,7 @@ class OrderContext implements Context
         $order = $this->sharedStorage->get('order');
 
         /** @var VatNumberAddressInterface $address */
-        if ($addressType=='billing') {
+        if ($addressType == 'billing') {
             $address = $order->getBillingAddress();
         } else {
             $address = $order->getShippingAddress();

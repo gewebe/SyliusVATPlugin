@@ -18,7 +18,7 @@ class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
         $this->getElement('shipping_vat_number')->setValue($vatNumber);
     }
 
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     protected function getDefinedElements(): array
     {
         return array_merge(parent::getDefinedElements(), [

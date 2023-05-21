@@ -9,5 +9,4 @@ namespace Gewebe\SyliusVATPlugin\Vat\Number;
  */
 class ClientException extends \Exception
 {
-
 }

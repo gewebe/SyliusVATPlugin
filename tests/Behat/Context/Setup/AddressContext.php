@@ -23,7 +23,7 @@ class AddressContext implements Context
         CustomerInterface $customer,
         $vatNumber,
         $validation = null,
-        $validationDate = null
+        $validationDate = null,
     ) {
         /** @var VatNumberAddressInterface $address */
         $address = $customer->getDefaultAddress();
