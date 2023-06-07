@@ -1,0 +1,6 @@
+gewebe_sylius_vat_plugin:
+    address:
+        vat_number:
+            invalid_format: 'Vul een geldig BTW-nummer in.'
+            invalid_country: 'Dit BTW-nummer hoort niet bij het geselecteerde land.'
+            not_verified: 'Dit BTW-nummer kan niet worden geverifieerd.'

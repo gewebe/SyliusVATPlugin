@@ -1,0 +1,7 @@
+gewebe_sylius_vat_plugin:
+    ui:
+        vat: 'IVA'
+        vat_number: 'Partita IVA'
+        vat_number_is_valid: 'Partita IVA è valida'
+        vat_number_is_invalid: 'Partita IVA non valida'
+        vat_number_not_validated_yet: 'Partita IVA non ancora convalidata'

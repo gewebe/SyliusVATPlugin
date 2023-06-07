@@ -1,0 +1,7 @@
+gewebe_sylius_vat_plugin:
+    ui:
+        vat: 'IVA'
+        vat_number: 'Número de IVA'
+        vat_number_is_valid: 'Número de IVA é válido'
+        vat_number_is_invalid: 'Número de IVA é inválido'
+        vat_number_not_validated_yet: 'Número de IVA ainda não validado'

@@ -1,0 +1,7 @@
+gewebe_sylius_vat_plugin:
+    ui:
+        vat: 'BTW'
+        vat_number: 'BTW-nummer'
+        vat_number_is_valid: 'BTW-nummer is geldig'
+        vat_number_is_invalid: 'BTW-nummer is ongeldig'
+        vat_number_not_validated_yet: 'BTW-nummer nog niet gevalideerd'
