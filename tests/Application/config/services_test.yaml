@@ -12,3 +12,9 @@ sylius_addressing:
         address:
             classes:
                 model: Tests\Gewebe\SyliusVATPlugin\Application\src\Entity\Addressing\Address
+
+sylius_core:
+    resources:
+        shop_billing_data:
+            classes:
+                model: Tests\Gewebe\SyliusVATPlugin\Application\src\Entity\Channel\ShopBillingData

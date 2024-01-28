@@ -6,3 +6,8 @@ services:
             - '%gewebe_sylius_vat_plugin.required.default%'
         tags:
             - { name: form.type_extension, extended_type: Sylius\Bundle\AddressingBundle\Form\Type\AddressType }
+
+    gewebe_sylius_vat_plugin.form.extension.shop_billing_data:
+        class: Gewebe\SyliusVATPlugin\Form\Extension\ShopBillingDataTypeExtension
+        tags:
+            - { name: form.type_extension, extended_type: Sylius\Bundle\CoreBundle\Form\Type\ShopBillingDataType }

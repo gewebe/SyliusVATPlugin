@@ -26,7 +26,7 @@ Feature: Seeing tax total dependent on country and vat
 
         # channel
         And the store operates on a channel named "Web"
-        And channel "Web" billing data is "YourShirtShop", "Rue Belliard", "1000" "Brussels", "Belgium" with "1234567890" tax ID
+        And channel "Web" billing data is "ShirtShop", "Rue Belliard", "1000" "Brussels", "Belgium" with "123" tax ID, "BE199" VAT No.
         And default tax zone is "BE"
 
         # taxes

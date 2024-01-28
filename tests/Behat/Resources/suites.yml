@@ -36,6 +36,25 @@ default:
                 - gewebe_sylius_vat_plugin.behat.context.ui.shop.address_book_vat
             filters:
                 tags: "@address_book_vat_number && @ui"
+        ui_channel_vat_number:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.geographical
+                - sylius.behat.context.setup.admin_security
+
+                - sylius.behat.context.transform.channel
+                - sylius.behat.context.transform.country
+
+                - sylius.behat.context.ui.admin.managing_channels
+                - sylius.behat.context.ui.admin.managing_channels_billing_data
+                - sylius.behat.context.ui.admin.notification
+
+                - gewebe_sylius_vat_plugin.behat.context.setup.channel
+                - gewebe_sylius_vat_plugin.behat.context.ui.admin.managing_channels_vat
+            filters:
+                tags: "@channel_vat_number && @ui"
         ui_admin_vat_number:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
@@ -93,6 +112,7 @@ default:
                 - sylius.behat.context.ui.shop.checkout.shipping
                 - sylius.behat.context.ui.shop.checkout.complete
 
+                - gewebe_sylius_vat_plugin.behat.context.setup.channel
                 - gewebe_sylius_vat_plugin.behat.context.ui.shop.checkout.address_vat_number
             filters:
                 tags: "@checkout_vat_number && @ui"

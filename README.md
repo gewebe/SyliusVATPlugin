@@ -7,7 +7,7 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 
 ## Features
- * New fields for VAT number and validation status at `Address` entity
+ * New fields for VAT number at `Address` and `ShopBillingData` entity
  * Configure VAT number field requirement:
     * Optional / Required
     * Required if customer filled “Company” field
@@ -62,8 +62,6 @@ cp -R vendor/gewebe/sylius-vat-plugin/templates/SyliusShopBundle/* templates/bun
 
 ### Extend `Address` entity
 
-- If you use `annotations` mapping:
-
 ```php
 # src/Entity/Addressing/Address.php
 
@@ -83,8 +81,7 @@ class Address extends BaseAddress implements VatNumberAddressInterface
     use VatNumberAwareTrait;
 ```
 
-- If you use `yaml` mapping add also:
-
+If you use `yaml` mapping add also:
 ```yaml
 # config/doctrine/Address.orm.yaml
 
@@ -102,6 +99,41 @@ App\Entity\Addressing\Address:
         vatValidatedAt:
             type: datetime
             column: vat_validated_at
+            nullable: true
+```
+
+### Extend `ShopBillingData` entity
+
+```php
+# src/Entity/Channel/ShopBillingData.php
+
+namespace App\Entity\Channel;
+
+use Doctrine\ORM\Mapping as ORM;
+use Gewebe\SyliusVATPlugin\Entity\ShopBillingDataVatNumberAwareTrait;
+use Gewebe\SyliusVATPlugin\Entity\ShopBillingDataVatNumberInterface;
+use Sylius\Component\Core\Model\ShopBillingData as BaseShopBillingData;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="sylius_shop_billing_data")
+ */
+class ShopBillingData extends BaseShopBillingData implements ShopBillingDataVatNumberInterface
+{
+    use ShopBillingDataVatNumberAwareTrait;
+```
+
+If you use `yaml` mapping add also:
+```yaml
+# config/doctrine/ShopBillingData.orm.yaml
+
+App\Entity\Channel\ShopBillingData:
+    type: entity
+    table: sylius_shop_billing_data
+    fields:
+        vatNumber:
+            type: string
+            column: vat_number
             nullable: true
 ```
 

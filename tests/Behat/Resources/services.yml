@@ -6,6 +6,11 @@ services:
         arguments:
             - "@doctrine.orm.entity_manager"
 
+    gewebe_sylius_vat_plugin.behat.context.setup.channel:
+        class: Tests\Gewebe\SyliusVATPlugin\Behat\Context\Setup\ChannelContext
+        arguments:
+            - "@sylius.manager.channel"
+
     gewebe_sylius_vat_plugin.behat.context.setup.order:
         class: Tests\Gewebe\SyliusVATPlugin\Behat\Context\Setup\OrderContext
         arguments:
@@ -19,6 +24,11 @@ services:
         arguments:
             - "@doctrine.orm.entity_manager"
             - "@sylius.behat.shared_storage"
+
+    gewebe_sylius_vat_plugin.behat.context.ui.admin.managing_channels_vat:
+        class: Tests\Gewebe\SyliusVATPlugin\Behat\Context\Ui\Admin\ManagingChannelsVatContext
+        arguments:
+            - "@gewebe_sylius_vat_plugin.behat.element.admin.channel.shop_billing_vat_number"
 
     gewebe_sylius_vat_plugin.behat.context.ui.admin.managing_orders_vat:
         class: Tests\Gewebe\SyliusVATPlugin\Behat\Context\Ui\Admin\ManagingOrdersVatContext
@@ -35,6 +45,11 @@ services:
         class: Tests\Gewebe\SyliusVATPlugin\Behat\Context\Ui\Shop\Checkout\AddressVatNumberContext
         arguments:
             - "@gewebe_sylius_vat_plugin.behat.page.shop.checkout.address"
+
+
+    gewebe_sylius_vat_plugin.behat.element.admin.channel.shop_billing_vat_number:
+        class: Tests\Gewebe\SyliusVATPlugin\Behat\Element\Admin\Channel\ShopBillingDataVatNumberElement
+        parent: sylius.behat.element
 
 
     gewebe_sylius_vat_plugin.behat.page.admin.order.show:
