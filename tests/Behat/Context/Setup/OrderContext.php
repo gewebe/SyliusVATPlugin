@@ -29,10 +29,11 @@ class OrderContext implements Context
         /** @var OrderInterface $order */
         $order = $this->sharedStorage->get('order');
 
-        /** @var VatNumberAddressInterface $address */
         if ($addressType == 'billing') {
+            /** @var VatNumberAddressInterface $address */
             $address = $order->getBillingAddress();
         } else {
+            /** @var VatNumberAddressInterface $address */
             $address = $order->getShippingAddress();
         }
         $address->setVatNumber($vatNumber);

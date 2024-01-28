@@ -28,13 +28,19 @@ final class VatNumberOrderProcessor implements OrderProcessorInterface
         $this->euZone = $this->getEuZone();
     }
 
+    /**
+     * @param \Sylius\Component\Core\Model\OrderInterface $order
+     *
+     * @phpstan-ignore-next-line
+     *
+     * @psalm-suppress MoreSpecificImplementedParamType
+     */
     public function process(OrderInterface $order): void
     {
         if (!$this->isActive || $this->euZone === null) {
             return;
         }
 
-        /** @var \Sylius\Component\Core\Model\OrderInterface $order */
         if ($this->isValidForZeroTax($order)) {
             $this->removeIncludedTaxes($order);
 
