@@ -8,8 +8,14 @@
 
 ## Features
  * New fields for VAT number and validation status at `Address` entity
- * Validate VAT numbers (by format, country and existence) 
-    * Using [VIES API](http://ec.europa.eu/taxation_customs/vies/) for EU VAT number validation
+ * Configure VAT number field requirement:
+    * Optional / Required
+    * Required if customer filled “Company” field
+    * Required in selected countries
+ * Validate VAT number:
+    * Format for selected country
+    * Country is same as selected country
+    * Validity using [VIES API](http://ec.europa.eu/taxation_customs/vies/) for EU VAT number
  * Revalidate customers VAT numbers after a given time
  * Installer for EU VAT rates with countries and zones
  * Placing an order in the EU without VAT if

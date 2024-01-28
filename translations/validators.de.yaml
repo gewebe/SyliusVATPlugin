@@ -1,6 +1,8 @@
 gewebe_sylius_vat_plugin:
     address:
         vat_number:
+            required: 'Bitte geben Sie eine USt-IdNr. ein.'
+            required_for_company: 'Bitte geben Sie die USt-IdNr. des Unternehmens ein.'
             invalid_format: 'Bitte geben Sie eine gültige USt-IdNr. ein.'
             invalid_country: 'Diese USt-IdNr. gehört nicht zum gewählten Land.'
             not_verified: 'Diese USt-IdNr. kann nicht überprüft werden.'

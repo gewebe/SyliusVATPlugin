@@ -1,6 +1,8 @@
 gewebe_sylius_vat_plugin:
     address:
         vat_number:
+            required: 'Por favor ingrese un número de IVA.'
+            required_for_company: 'Por favor ingrese el número de IVA de su empresa.'
             invalid_format: 'Por favor ingrese un número de IVA válido.'
             invalid_country: 'Este número de IVA no pertenece al país seleccionado.'
             not_verified: 'Este número de IVA no puede ser verificado.'

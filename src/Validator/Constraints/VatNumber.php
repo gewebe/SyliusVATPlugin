@@ -15,6 +15,10 @@ use Symfony\Component\Validator\Constraint;
  */
 class VatNumber extends Constraint
 {
+    public string $messageRequired = 'gewebe_sylius_vat_plugin.address.vat_number.required';
+
+    public string $messageRequiredForCompany = 'gewebe_sylius_vat_plugin.address.vat_number.required_for_company';
+
     public string $messageFormat = 'gewebe_sylius_vat_plugin.address.vat_number.invalid_format';
 
     public string $messageCountry = 'gewebe_sylius_vat_plugin.address.vat_number.invalid_country';

@@ -1,6 +1,8 @@
 gewebe_sylius_vat_plugin:
     address:
         vat_number:
+            required: 'Per favore inserisci una partita IVA.'
+            required_for_company: 'Per favore inserisci la partita IVA dell''azienda.'
             invalid_format: 'Per favore inserisci una partita IVA valida.'
             invalid_country: 'Il numero di partita IVA non appartiene al paese selezionato.'
             not_verified: 'Questo numero di partita IVA non può essere verificato.'

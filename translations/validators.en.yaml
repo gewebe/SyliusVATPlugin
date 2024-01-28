@@ -1,6 +1,8 @@
 gewebe_sylius_vat_plugin:
     address:
         vat_number:
+            required: 'Please enter a VAT number.'
+            required_for_company: 'Please enter the company VAT number.'
             invalid_format: 'Please enter a valid VAT number.'
             invalid_country: 'This VAT number does not belong to the selected country.'
             not_verified: 'This VAT number cannot be verified.'

@@ -11,6 +11,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class AddressTypeExtension extends AbstractTypeExtension
 {
+    public function __construct(
+        private bool $isRequired,
+    ) {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add(
@@ -18,7 +23,7 @@ class AddressTypeExtension extends AbstractTypeExtension
             TextType::class,
             [
                 'label' => 'gewebe_sylius_vat_plugin.ui.vat_number',
-                'required' => false,
+                'required' => $this->isRequired,
             ],
         );
     }

@@ -6,15 +6,27 @@ Feature: Order addressing vat validation
 
     Background:
         Given the store operates on a channel named "Web"
-        And the store operates in "Germany"
+        And the store operates in "Portugal" and "Spain"
         And the store has a product "PHP T-Shirt" priced at "$19.99"
         And I am a logged in customer
         And I have product "PHP T-Shirt" in the cart
         And I am at the checkout addressing step
 
     @ui
-    Scenario: Address an order with invalid vat number
-        When I specify the shipping address as "Hamburg", "Frost Alley", "20355", "Germany" for "Ankh Morpork"
-        And I specify the shipping vat number as "XY118716043"
+    Scenario: Address an order for a company where the VAT number is required
+        When I specify the billing company as "LaLuna"
         And I try to complete the addressing step
-        Then I should be notified that the vat number in shipping is not valid
+        Then I should be notified that the company vat number in billing is required
+
+    @ui
+    Scenario: Address an order for a country where the VAT number is required
+        When I specify the billing address as "Lisboa", "Rua Augusta", "1100-016", "Portugal" for "Maria Lopes"
+        And I try to complete the addressing step
+        Then I should be notified that the vat number in billing is required
+
+    @ui
+    Scenario: Address an order with invalid vat number
+        When I specify the billing address as "Barcelona", "Carrer de Mercedes", "C573+5G", "Spain" for "Pau Güell"
+        And I specify the billing vat number as "XY118716043"
+        And I try to complete the addressing step
+        Then I should be notified that the vat number in billing is not valid

@@ -7,6 +7,14 @@ namespace Tests\Gewebe\SyliusVATPlugin\Behat\Page\Shop\Account\AddressBook;
 class CreatePage extends \Sylius\Behat\Page\Shop\Account\AddressBook\CreatePage implements CreatePageInterface
 {
     /**
+     * @inheritdoc
+     */
+    public function specifyCompany(string $company): void
+    {
+        $this->getElement('company')->setValue($company);
+    }
+
+    /**
      * @inheritDoc
      */
     public function specifyVatNumber(string $vatNumber): void
@@ -28,6 +36,7 @@ class CreatePage extends \Sylius\Behat\Page\Shop\Account\AddressBook\CreatePage 
     protected function getDefinedElements(): array
     {
         return array_merge(parent::getDefinedElements(), [
+            'company' => '#sylius_address_company',
             'vat_number' => '#sylius_address_vatNumber',
         ]);
     }

@@ -2,5 +2,7 @@ services:
 
     gewebe_sylius_vat_plugin.form.extension.address:
         class: Gewebe\SyliusVATPlugin\Form\Extension\AddressTypeExtension
+        arguments:
+            - '%gewebe_sylius_vat_plugin.required.default%'
         tags:
             - { name: form.type_extension, extended_type: Sylius\Bundle\AddressingBundle\Form\Type\AddressType }

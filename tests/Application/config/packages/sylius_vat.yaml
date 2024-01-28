@@ -1,0 +1,5 @@
+gewebe_sylius_vat:
+    required:
+        company: true
+        countries:
+            - "PT"

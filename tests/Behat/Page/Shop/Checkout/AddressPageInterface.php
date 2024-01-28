@@ -6,7 +6,11 @@ namespace Tests\Gewebe\SyliusVATPlugin\Behat\Page\Shop\Checkout;
 
 interface AddressPageInterface
 {
-    public function specifyShippingAddressVatNumber(string $vatNumber);
+    public function specifyBillingAddressCompany(string $company);
 
     public function specifyBillingAddressVatNumber(string $vatNumber);
+
+    public function specifyShippingAddressCompany(string $company);
+
+    public function specifyShippingAddressVatNumber(string $vatNumber);
 }

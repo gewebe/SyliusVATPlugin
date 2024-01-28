@@ -49,7 +49,14 @@ class VatNumberValidatorSpec extends ObjectBehavior
         $validator->validate(self::VAT_VALID_SERVICE_UNAVAILABLE)->willThrow(ClientException::class);
         $validator->validate(self::VAT_VALID)->willReturn(true);
 
-        $this->beConstructedWith($validatorProvider, true, true, true);
+        $this->beConstructedWith(
+            $validatorProvider,
+            $isActive = true,
+            $validateCountry = true,
+            $validateExistence = true,
+            $isCompanyVatRequired = true,
+            $requiredCountries = ['IT'],
+        );
 
         $this->validator = $validator;
     }
@@ -71,38 +78,33 @@ class VatNumberValidatorSpec extends ObjectBehavior
             ->during('validate', [self::VAT_VALID, $constraint]);
     }
 
-    function it_should_not_validate_blank(VatNumberAddressInterface $address, VatNumber $constraint)
-    {
-        $address->getCountryCode()->willReturn('DE');
+    function it_should_not_validate_blank(
+        ExecutionContextInterface $context,
+        ConstraintViolationBuilderInterface $violationBuilder,
+        VatNumberAddressInterface $address,
+        VatNumber $constraint,
+    ) {
+        $context->buildViolation(Argument::any())->willReturn($violationBuilder);
+        $violationBuilder->atPath(Argument::any())->willReturn($violationBuilder);
+        $this->initialize($context);
 
-        $address->getVatNumber()->willReturn('');
-        $this->validate($address, $constraint);
+        $this->validateAddress($address, $constraint, null, 'DE');
 
-        $address->getVatNumber()->willReturn(null);
-        $this->validate($address, $constraint);
+        $this->validateAddress($address, $constraint, null, 'DE', '');
 
+        $this->validateAddress($address, $constraint, '', 'DE', '');
+
+        $violationBuilder->addViolation()->shouldNotHaveBeenCalled();
         $this->validator->validateFormat(Argument::any())->shouldNotHaveBeenCalled();
     }
 
-    function it_should_not_validate_without_country(VatNumberAddressInterface $address, VatNumber $constraint)
+    function it_should_not_validate_without_country_validator(VatNumberAddressInterface $address, VatNumber $constraint)
     {
-        $address->getVatNumber()->willReturn(self::VAT_VALID);
+        $this->validateAddress($address, $constraint, self::VAT_VALID, '');
 
-        $address->getCountryCode()->willReturn('');
-        $this->validate($address, $constraint);
+        $this->validateAddress($address, $constraint, self::VAT_VALID, null);
 
-        $address->getCountryCode()->willReturn(null);
-        $this->validate($address, $constraint);
-
-        $this->validator->validateFormat(Argument::any())->shouldNotHaveBeenCalled();
-    }
-
-    function it_should_not_validate_without_validator(VatNumberAddressInterface $address, VatNumber $constraint)
-    {
-        $address->getVatNumber()->willReturn(self::VAT_VALID);
-        $address->getCountryCode()->willReturn('XY');
-
-        $this->validate($address, $constraint);
+        $this->validateAddress($address, $constraint, self::VAT_VALID, 'XY');
 
         $this->validator->validateFormat(Argument::any())->shouldNotHaveBeenCalled();
     }
@@ -113,11 +115,11 @@ class VatNumberValidatorSpec extends ObjectBehavior
         VatNumberValidatorInterface $validator,
         VatNumberValidatorProviderInterface $validatorProvider
     ) {
-        $this->setupValidator($validator, $validatorProvider, false, true, true);
+        $this->initializeValidator($validator, $validatorProvider, false, true, true);
 
-        $address->getVatNumber()->willReturn(self::VAT_VALID);
+        $this->validateAddress($address, $constraint, self::VAT_VALID, 'DE');
 
-        $this->validate($address, $constraint);
+        $validator->validateFormat(self::VAT_VALID)->shouldNotBeCalled();
     }
 
     function it_should_validate_vat_format_only(
@@ -126,12 +128,12 @@ class VatNumberValidatorSpec extends ObjectBehavior
         VatNumberValidatorInterface $validator,
         VatNumberValidatorProviderInterface $validatorProvider
     ) {
-        $this->setupValidator($validator, $validatorProvider, true, false, false);
+        $this->initializeValidator($validator, $validatorProvider, true, false, false);
 
-        $address->getCountryCode()->willReturn('DE');
-        $address->getVatNumber()->willReturn(self::VAT_VALID);
+        $this->validateAddress($address, $constraint, self::VAT_VALID, 'DE');
 
-        $this->validate($address, $constraint);
+        $validator->validateFormat(self::VAT_VALID)->shouldBeCalled();
+        $validator->validateCountry(self::VAT_VALID, Argument::any())->shouldNotBeCalled();
     }
 
     function it_should_validate_vat_for_any_country(
@@ -140,31 +142,71 @@ class VatNumberValidatorSpec extends ObjectBehavior
         VatNumberValidatorInterface $validator,
         VatNumberValidatorProviderInterface $validatorProvider
     ) {
-        $this->setupValidator($validator, $validatorProvider, true, false, true);
+        $this->initializeValidator($validator, $validatorProvider, true, false, true);
 
-        $address->getCountryCode()->willReturn('AT');
-        $address->getVatNumber()->willReturn(self::VAT_VALID);
-
-        $this->validate($address, $constraint);
+        $this->validateAddress($address, $constraint, self::VAT_VALID, 'AT');
 
         $address->setVatValid(true)->shouldHaveBeenCalled();
+
+        $validator->validateFormat(self::VAT_VALID)->shouldBeCalled();
+        $validator->validateCountry(self::VAT_VALID, Argument::any())->shouldNotBeCalled();
+        $validator->validate(self::VAT_VALID)->shouldBeCalled();
     }
 
-    function it_should_validate_vat_without_check_existence(
+    function it_should_validate_vat_for_matching_country(
         VatNumberAddressInterface $address,
         VatNumber $constraint,
         VatNumberValidatorInterface $validator,
         VatNumberValidatorProviderInterface $validatorProvider
     ) {
-        $this->setupValidator($validator, $validatorProvider, true, true, false);
+        $this->initializeValidator($validator, $validatorProvider, true, true, false);
 
-        $address->getCountryCode()->willReturn('DE');
-        $address->getVatNumber()->willReturn(self::VAT_VALID);
+        $this->validateAddress($address, $constraint, self::VAT_VALID, 'DE');
 
-        $this->validate($address, $constraint);
+        $validator->validateFormat(self::VAT_VALID)->shouldBeCalled();
+        $validator->validateCountry(self::VAT_VALID, 'DE')->shouldBeCalled();
+        $validator->validate(self::VAT_VALID)->shouldNotBeCalled();
     }
 
-    function it_should_not_validate_wrong_vat_format(
+    function it_should_has_violation_when_required_for_company(
+        ExecutionContextInterface $context,
+        ConstraintViolationBuilderInterface $violationBuilder,
+        VatNumberAddressInterface $address,
+        VatNumber $constraint,
+    ) {
+        $this->initializeContextViolation(
+            $context,
+            $violationBuilder,
+            'Required'
+        );
+
+        $constraint->messageRequiredForCompany = 'Required';
+
+        $this->validateAddress($address, $constraint, null, 'DE', 'Test');
+
+        $violationBuilder->addViolation()->shouldHaveBeenCalled();
+    }
+
+    function it_should_has_violation_when_required_for_country(
+        ExecutionContextInterface $context,
+        ConstraintViolationBuilderInterface $violationBuilder,
+        VatNumberAddressInterface $address,
+        VatNumber $constraint,
+    ) {
+        $this->initializeContextViolation(
+            $context,
+            $violationBuilder,
+            'Required'
+        );
+
+        $constraint->messageRequired = 'Required';
+
+        $this->validateAddress($address, $constraint, null, 'IT');
+
+        $violationBuilder->addViolation()->shouldHaveBeenCalled();
+    }
+
+    function it_should_has_violation_for_invalid_format(
         VatNumberAddressInterface $address,
         ExecutionContextInterface $context,
         ConstraintViolationBuilderInterface $violationBuilder,
@@ -176,13 +218,10 @@ class VatNumberValidatorSpec extends ObjectBehavior
             'gewebe_sylius_vat_plugin.address.vat_number.invalid_format'
         );
 
-        $address->getCountryCode()->willReturn('DE');
-        $address->getVatNumber()->willReturn(self::VAT_INVALID);
-
-        $this->validate($address, $constraint);
+        $this->validateAddress($address, $constraint, self::VAT_INVALID, 'DE');
     }
 
-    function it_should_not_validate_different_country(
+    function it_should_has_violation_for_invalid_country(
         VatNumberAddressInterface $address,
         ExecutionContextInterface $context,
         ConstraintViolationBuilderInterface $violationBuilder,
@@ -194,13 +233,10 @@ class VatNumberValidatorSpec extends ObjectBehavior
             'gewebe_sylius_vat_plugin.address.vat_number.invalid_country'
         );
 
-        $address->getCountryCode()->willReturn('DE');
-        $address->getVatNumber()->willReturn(self::VAT_INVALID_COUNTRY);
-
-        $this->validate($address, $constraint);
+        $this->validateAddress($address, $constraint, self::VAT_INVALID_COUNTRY, 'DE');
     }
 
-    function it_should_not_validate_existence(
+    function it_should_has_violation_for_not_verified(
         VatNumberAddressInterface $address,
         ExecutionContextInterface $context,
         ConstraintViolationBuilderInterface $violationBuilder,
@@ -212,33 +248,40 @@ class VatNumberValidatorSpec extends ObjectBehavior
             'gewebe_sylius_vat_plugin.address.vat_number.not_verified'
         );
 
-        $address->getCountryCode()->willReturn('DE');
-        $address->getVatNumber()->willReturn(self::VAT_VALID_FORMAT);
-        $address->setVatValid(false)->shouldBeCalled();
+        $this->validateAddress($address, $constraint, self::VAT_VALID_FORMAT, 'DE');
 
-        $this->validate($address, $constraint);
+        $address->setVatValid(false)->shouldBeCalled();
     }
 
     function it_should_validate_complete(VatNumberAddressInterface $address, VatNumber $constraint)
     {
-        $address->getCountryCode()->willReturn('DE');
-        $address->getVatNumber()->willReturn(self::VAT_VALID);
-
-        $this->validate($address, $constraint);
+        $this->validateAddress($address, $constraint, self::VAT_VALID, 'DE');
 
         $address->setVatValid(true)->shouldHaveBeenCalled();
     }
 
-    function it_should_validate_if_vat_service_not_available(
+    function it_should_not_validate_if_vat_service_unavailable(
         VatNumberAddressInterface $address,
         VatNumber $constraint
     ) {
-        $address->getCountryCode()->willReturn('DE');
-        $address->getVatNumber()->willReturn(self::VAT_VALID_SERVICE_UNAVAILABLE);
-
-        $this->validate($address, $constraint);
+        $this->validateAddress($address, $constraint, self::VAT_VALID_SERVICE_UNAVAILABLE, 'DE');
 
         $address->setVatValid(Argument::any())->shouldNotHaveBeenCalled();
+    }
+
+    private function validateAddress(
+        VatNumberAddressInterface $address,
+        VatNumber $constraint,
+        string|null $vatNumber,
+        string|null $countryCode,
+        string|null $company = null
+    ) {
+        $address->getCompany()->willReturn($company);
+        $address->getCountryCode()->willReturn($countryCode);
+        $address->getVatNumber()->willReturn($vatNumber);
+        $address->hasVatNumber()->willReturn($vatNumber !== '' && $vatNumber !== null);
+
+        $this->validate($address, $constraint);
     }
 
     private function initializeContextViolation(
@@ -254,7 +297,7 @@ class VatNumberValidatorSpec extends ObjectBehavior
         $this->initialize($context);
     }
 
-    private function setupValidator(
+    private function initializeValidator(
         VatNumberValidatorInterface $validator,
         VatNumberValidatorProviderInterface $validatorProvider,
         bool $isActive,
@@ -264,23 +307,5 @@ class VatNumberValidatorSpec extends ObjectBehavior
         $validatorProvider->getValidator(Argument::any())->willReturn($validator);
 
         $this->beConstructedWith($validatorProvider, $isActive, $validateCountry, $validateExistence);
-
-        if ($isActive) {
-            $validator->validateFormat(self::VAT_VALID)->shouldBeCalled();
-        } else {
-            $validator->validateFormat(self::VAT_VALID)->shouldNotBeCalled();
-        }
-
-        if ($isActive && $validateCountry) {
-            $validator->validateCountry(self::VAT_VALID, Argument::any())->shouldBeCalled();
-        } else {
-            $validator->validateCountry(self::VAT_VALID, Argument::any())->shouldNotBeCalled();
-        }
-
-        if ($isActive && $validateExistence) {
-            $validator->validate(self::VAT_VALID)->shouldBeCalled();
-        } else {
-            $validator->validate(self::VAT_VALID)->shouldNotBeCalled();
-        }
     }
 }

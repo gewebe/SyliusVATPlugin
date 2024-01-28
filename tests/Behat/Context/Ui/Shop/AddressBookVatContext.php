@@ -15,6 +15,14 @@ final class AddressBookVatContext implements Context
     }
 
     /**
+     * @When /^I specify my company as "([^"]+)"$/
+     */
+    public function iSpecifyMyVCompany($company)
+    {
+        $this->createPage->specifyCompany($company);
+    }
+
+    /**
      * @When /^I specify my vat number as "([^"]+)"$/
      */
     public function iSpecifyMyVatNumber($vatNumber)

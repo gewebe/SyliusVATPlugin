@@ -7,6 +7,8 @@ services:
             - '%gewebe_sylius_vat_plugin.validate.is_active%'
             - '%gewebe_sylius_vat_plugin.validate.country%'
             - '%gewebe_sylius_vat_plugin.validate.existence%'
+            - '%gewebe_sylius_vat_plugin.required.company%'
+            - '%gewebe_sylius_vat_plugin.required.countries%'
         tags:
             - { name: validator.constraint_validator }
 

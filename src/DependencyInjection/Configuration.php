@@ -31,6 +31,15 @@ final class Configuration implements ConfigurationInterface
                         ->booleanNode('existence')->defaultValue(true)->end()
                     ->end()
                 ->end() // validation
+                ->arrayNode('required')
+                    ->children()
+                        ->booleanNode('default')->defaultValue(true)->end()
+                        ->booleanNode('company')->defaultValue(true)->end()
+                        ->arrayNode('countries')
+                            ->scalarPrototype()->end()
+                        ->end()
+                    ->end()
+                ->end() // required
                 ->arrayNode('revalidate')
                     ->children()
                         ->booleanNode('on_login')->defaultValue(true)->end()

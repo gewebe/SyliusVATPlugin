@@ -31,6 +31,11 @@ final class GewebeSyliusVATExtension extends Extension
         $definition->replaceArgument(1, $configs['validate']['is_active']);
         $definition->replaceArgument(2, $configs['validate']['country']);
         $definition->replaceArgument(3, $configs['validate']['existence']);
+        $definition->replaceArgument(4, $configs['required']['company']);
+        $definition->replaceArgument(5, $configs['required']['countries']);
+
+        $definition = $container->getDefinition('gewebe_sylius_vat_plugin.form.extension.address');
+        $definition->replaceArgument(0, $configs['required']['default']);
 
         $definition = $container->getDefinition('Gewebe\SyliusVATPlugin\EventListener\LoginListener');
         $definition->replaceArgument(1, $configs['revalidate']['on_login']);

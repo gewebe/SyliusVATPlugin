@@ -6,6 +6,8 @@ namespace Tests\Gewebe\SyliusVATPlugin\Behat\Page\Shop\Account\AddressBook;
 
 interface CreatePageInterface extends \Sylius\Behat\Page\Shop\Account\AddressBook\CreatePageInterface
 {
+    public function specifyCompany(string $company): void;
+
     public function specifyVatNumber(string $vatNumber): void;
 
     /**
