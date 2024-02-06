@@ -50,6 +50,16 @@ imports:
     - { resource: '@GewebeSyliusVATPlugin/config/app/config.yml'}
 ```
 
+### Configure taxation address
+
+For EU VAT, the address for taxation should be set to the shipping address in the Sylius configuration.
+```yaml
+# config/packages/_sylius.yaml
+
+sylius_core:
+    shipping_address_based_taxation: true
+```
+
 ### Copy templates
 Copy customized templates to your templates directory (e.g `templates/bundles/`):
 
