@@ -102,7 +102,7 @@ App\Entity\Addressing\Address:
             nullable: true
 ```
 
-### Extend `ShopBillingData` entity
+### Add or Extend `ShopBillingData` entity
 
 ```php
 # src/Entity/Channel/ShopBillingData.php
@@ -135,6 +135,17 @@ App\Entity\Channel\ShopBillingData:
             type: string
             column: vat_number
             nullable: true
+```
+
+Override the resource for `shop_billing_data` in your sylius config:
+```yaml
+# config/packages/_sylius.yaml
+
+sylius_core:
+    resources:
+        shop_billing_data:
+            classes:
+                model: App\Entity\Channel\ShopBillingData
 ```
 
 ### Update your database schema
