@@ -7,6 +7,7 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 
 ## Features
+ * Installer for EU VAT rates with countries and zones
  * New fields for VAT number at `Address` and `ShopBillingData` entity
  * Configure VAT number field requirement:
     * Optional / Required
@@ -17,10 +18,9 @@
     * Country is same as selected country
     * Validity using [VIES API](http://ec.europa.eu/taxation_customs/vies/) for EU VAT number
  * Revalidate customers VAT numbers after a given time
- * Installer for EU VAT rates with countries and zones
- * Placing an order in the EU without VAT if
-    * Customers billing country is different from shop billing data
+ * Placing an order without VAT in the EU, if
     * VAT number validation was successful
+    * Customers taxation country is different from shop billing country
 
 ## Installation
 
