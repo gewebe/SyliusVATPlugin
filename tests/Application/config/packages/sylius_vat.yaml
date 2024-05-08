@@ -1,3 +1,6 @@
+imports:
+    - { resource: "@GewebeSyliusVATPlugin/config/app/config.yml" }
+
 gewebe_sylius_vat:
     required:
         company: true
