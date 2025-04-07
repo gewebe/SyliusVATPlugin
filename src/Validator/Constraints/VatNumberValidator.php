@@ -13,9 +13,6 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
-/**
- * @psalm-suppress PropertyNotSetInConstructor
- */
 class VatNumberValidator extends ConstraintValidator
 {
     private ?VatNumberValidatorInterface $validator = null;

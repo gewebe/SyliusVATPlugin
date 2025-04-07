@@ -10,8 +10,6 @@ use Symfony\Component\Validator\Constraint;
  * Constraint to require a vat number to be valid.
  *
  * @Annotation
- *
- * @psalm-suppress PropertyNotSetInConstructor
  */
 class VatNumber extends Constraint
 {

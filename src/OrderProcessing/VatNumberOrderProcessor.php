@@ -32,8 +32,6 @@ final class VatNumberOrderProcessor implements OrderProcessorInterface
      * @param \Sylius\Component\Core\Model\OrderInterface $order
      *
      * @phpstan-ignore-next-line
-     *
-     * @psalm-suppress MoreSpecificImplementedParamType
      */
     public function process(OrderInterface $order): void
     {
