@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Gewebe\SyliusVATPlugin\OrderProcessing;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
 use Sylius\Component\Addressing\Model\ZoneInterface;
+use Sylius\Component\Addressing\Repository\ZoneRepositoryInterface;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\Scope;
 use Sylius\Component\Core\Resolver\TaxationAddressResolverInterface;
 use Sylius\Component\Order\Model\OrderInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 /**
  * Recalculates the order without VAT tax
@@ -21,11 +22,11 @@ final class VatNumberOrderProcessor implements OrderProcessorInterface
     private ?ZoneInterface $euZone;
 
     public function __construct(
-        private RepositoryInterface $zoneRepository,
+        private EntityManagerInterface $entityManager,
+        private ZoneRepositoryInterface $zoneRepository,
         private TaxationAddressResolverInterface $taxationAddressResolver,
         private bool $isActive = true,
     ) {
-        $this->euZone = $this->getEuZone();
     }
 
     /**
@@ -35,6 +36,8 @@ final class VatNumberOrderProcessor implements OrderProcessorInterface
      */
     public function process(OrderInterface $order): void
     {
+        $this->euZone = $this->getEuZone();
+
         if (!$this->isActive || $this->euZone === null) {
             return;
         }
@@ -107,6 +110,11 @@ final class VatNumberOrderProcessor implements OrderProcessorInterface
     {
         /** @var ZoneInterface|null $euZone */
         $euZone = $this->zoneRepository->findOneBy(['code' => 'EU', 'scope' => Scope::ALL]);
+
+        // @fixme ZoneRepository finds Zone properly with all members, after OrderTaxesProcessor have been executed
+        if ($euZone instanceof ZoneInterface) {
+            $this->entityManager->refresh($euZone);
+        }
 
         return $euZone;
     }

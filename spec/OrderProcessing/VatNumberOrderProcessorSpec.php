@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace spec\Gewebe\SyliusVATPlugin\OrderProcessing;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
 use Gewebe\SyliusVATPlugin\OrderProcessing\VatNumberOrderProcessor;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Addressing\Model\ZoneInterface;
 use Sylius\Component\Addressing\Model\ZoneMemberInterface;
+use Sylius\Component\Addressing\Repository\ZoneRepositoryInterface;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -23,7 +25,8 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 final class VatNumberOrderProcessorSpec extends ObjectBehavior
 {
     function let(
-        RepositoryInterface $zoneRepository,
+        EntityManagerInterface $entityManager,
+        ZoneRepositoryInterface $zoneRepository,
         TaxationAddressResolverInterface $taxationAddressResolver,
         ZoneInterface $euZone,
         ZoneMemberInterface $de,
@@ -39,7 +42,7 @@ final class VatNumberOrderProcessorSpec extends ObjectBehavior
 
         $zoneRepository->findOneBy(['code' => 'EU', 'scope' => Scope::ALL])->willReturn($euZone);
 
-        $this->beConstructedWith($zoneRepository, $taxationAddressResolver, true);
+        $this->beConstructedWith($entityManager, $zoneRepository, $taxationAddressResolver, true);
     }
 
     function it_is_vat_number_processor()
@@ -53,11 +56,12 @@ final class VatNumberOrderProcessorSpec extends ObjectBehavior
     }
 
     function it_does_not_process_deactivated(
+        EntityManagerInterface $entityManager,
         RepositoryInterface $zoneRepository,
         TaxationAddressResolverInterface $taxationAddressResolver,
         OrderInterface $order
     ): void {
-        $this->beConstructedWith($zoneRepository, $taxationAddressResolver, false);
+        $this->beConstructedWith($entityManager, $zoneRepository, $taxationAddressResolver, false);
 
         $this->process($order);
     }
