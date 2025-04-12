@@ -118,11 +118,11 @@ final class EuInstallCommand extends Command
         foreach ($this->vatRates->getCountries() as $countryCode => $countryName) {
             $output->writeln('Install: ' . $countryCode);
 
-            $country = $this->addCountry($countryCode);
+            $country = $this->addCountry(strtoupper($countryCode));
 
             $zone = $this->addZone(
-                $countryCode,
-                $countryName,
+                strtoupper($countryCode) . '-vat',
+                $countryName . ' VAT',
                 [$country->getCode()],
                 ZoneInterface::TYPE_COUNTRY,
             );
@@ -155,7 +155,7 @@ final class EuInstallCommand extends Command
         $output->writeln('Install: EU');
         $zone = $this->addZone(
             'EU',
-            'European Union',
+            'European Union VAT',
             $euZones,
             ZoneInterface::TYPE_ZONE,
         );
@@ -178,14 +178,14 @@ final class EuInstallCommand extends Command
     private function addCountry(string $code): CountryInterface
     {
         /** @var CountryInterface|null $country */
-        $country = $this->countryRepository->findOneBy(['code' => strtoupper($code)]);
+        $country = $this->countryRepository->findOneBy(['code' => $code]);
         if ($country instanceof CountryInterface) {
             return $country;
         }
 
         /** @var CountryInterface $country */
         $country = $this->countryFactory->createNew();
-        $country->setCode(strtoupper($code));
+        $country->setCode($code);
 
         $this->countryRepository->add($country);
 
@@ -195,13 +195,13 @@ final class EuInstallCommand extends Command
     private function addZone(string $code, string $name, array $countries, string $type, string $scope = Scope::ALL): ZoneInterface
     {
         /** @var ZoneInterface|null $zone */
-        $zone = $this->zoneRepository->findOneBy(['code' => strtoupper($code), 'type' => $type]);
+        $zone = $this->zoneRepository->findOneBy(['code' => $code, 'type' => $type]);
         if ($zone instanceof ZoneInterface) {
             return $zone;
         }
 
         $zone = $this->zoneFactory->createWithMembers($countries);
-        $zone->setCode(strtoupper($code));
+        $zone->setCode($code);
         $zone->setName($name);
         $zone->setType($type);
         $zone->setScope($scope);

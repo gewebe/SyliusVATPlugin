@@ -5,43 +5,45 @@ Feature: Seeing tax total dependent on country and vat
     I want to see tax total dependent on country and vat number
 
     Background:
-        # eu countries
+        # be
         Given the store operates in "Belgium"
-        And the store has a zone "Belgium" with code "BE"
+        And the store has a zone "Belgium VAT" with code "BE-vat"
         And it also has the "Belgium" country member
+        # hr
         And the store operates in "Croatia"
-        And the store has a zone "Croatia" with code "HR"
+        And the store has a zone "Croatia VAT" with code "HR-vat"
         And it also has the "Croatia" country member
-        And the store has a "tax" zone "Croatia tax" with code "HR-tax"
-        And it also has the "Croatia" country member
+        # fr
         And the store operates in "France"
-        And the store has a zone "France" with code "FR"
+        And the store has a "tax" zone "France VAT" with code "FR-vat"
         And it also has the "France" country member
-        And the store has a "tax" zone "France tax" with code "FR-tax"
+        And the store has a "shipping" zone "France Shipping" with code "FR-shipping"
         And it also has the "France" country member
-        And the store has a zone "European Union" with code "EU"
-        And it has the zone named "Belgium"
-        And it has the zone named "Croatia"
-        And it has the zone named "France"
+        # eu
+        And the store has a zone "European Union VAT" with code "EU"
+        And it has the zone named "Belgium VAT"
+        And it has the zone named "Croatia VAT"
+        And it has the zone named "France VAT"
 
         # channel
         And the store operates on a channel named "Web"
         And channel "Web" billing data is "ShirtShop", "Rue Belliard", "1000" "Brussels", "Belgium" with "123" tax ID, "BE199" VAT No.
-        And default tax zone is "BE"
+        And default tax zone is "BE-vat"
 
         # taxes
-        And the store has included in price "BTW" tax rate of 21% for "VAT" within the "BE" zone
-        And the store has included in price "TVA" tax rate of 20% for "VAT" within the "FR-tax" zone
-        And the store has "PDV" tax rate of 25% for "VAT" within the "HR-tax" zone
+        And the store has included in price "BTW" tax rate of 21% for "VAT" within the "BE-vat" zone
+        And the store has included in price "TVA" tax rate of 20% for "VAT" within the "FR-vat" zone
+        And the store has included in price "TVA" tax rate of 20% for "VAT" within the "FR-shipping" zone
+        And the store has "PDV" tax rate of 25% for "VAT" within the "HR-vat" zone
 
         # product
         And the store has a product "PHP T-Shirt" priced at "$10.00"
         And it belongs to "VAT" tax category
 
         # shipping
-        And the store has "Free" shipping method with "$0.00" fee within the "BE" zone
-        And the store has "Post-HR" shipping method with "$4.00" fee within the "HR" zone
-        And the store has "Post-FR" shipping method with "$2.50" fee within the "FR" zone
+        And the store has "Free" shipping method with "$0.00" fee within the "BE-vat" zone
+        And the store has "Post-HR" shipping method with "$4.00" fee within the "HR-vat" zone
+        And the store has "Post-FR" shipping method with "$2.50" fee within the "FR-shipping" zone
         And shipping method "Post-FR" belongs to "VAT" tax category
         And the store allows paying offline
 

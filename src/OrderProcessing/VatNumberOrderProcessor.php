@@ -118,7 +118,16 @@ final class VatNumberOrderProcessor implements OrderProcessorInterface
         }
 
         foreach ($this->euZone->getMembers() as $member) {
-            if ($member->getCode() === $countyCode) {
+            $zoneMemberCode = $member->getCode();
+            if (null !== $zoneMemberCode) {
+                $posDivider = strpos($zoneMemberCode, '-');
+
+                if ($posDivider !== false) {
+                    $zoneMemberCode = substr($zoneMemberCode, 0, $posDivider);
+                }
+            }
+
+            if ($zoneMemberCode === $countyCode) {
                 return true;
             }
         }
