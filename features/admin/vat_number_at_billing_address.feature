@@ -24,7 +24,7 @@ Feature: See VAT number at billing address after an order has been placed
         Then I should see valid VAT number "DE123123123" in the billing address
         When I want to modify a customer's billing address of this order
         And I do specify billing address VAT number to "DE321321321"
-        And I try to save my changes
+        And I save my changes
         Then I should see valid VAT number "DE321321321" in the billing address
 
     @ui

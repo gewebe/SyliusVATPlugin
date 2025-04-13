@@ -22,8 +22,8 @@ class UpdatePage extends BaseUpdatePage implements UpdatePageInterface
     protected function getDefinedElements(): array
     {
         return array_merge(parent::getDefinedElements(), [
-            'billing_vat_number' => '#sylius_order_billingAddress_vatNumber',
-            'shipping_vat_number' => '#sylius_order_shippingAddress_vatNumber',
+            'billing_vat_number' => '#sylius_admin_order_billingAddress_vatNumber',
+            'shipping_vat_number' => '#sylius_admin_order_shippingAddress_vatNumber',
         ]);
     }
 }

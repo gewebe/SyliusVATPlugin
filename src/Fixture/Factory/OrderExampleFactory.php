@@ -6,7 +6,6 @@ namespace Gewebe\SyliusVATPlugin\Fixture\Factory;
 
 use Doctrine\Persistence\ObjectManager;
 use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
-use SM\Factory\FactoryInterface as StateMachineFactoryInterface;
 use Sylius\Abstraction\StateMachine\StateMachineInterface;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\OrderExampleFactory as BaseOrderExampleFactory;
 use Sylius\Component\Addressing\Model\CountryInterface;
@@ -47,7 +46,7 @@ final class OrderExampleFactory extends BaseOrderExampleFactory
         protected PaymentMethodRepositoryInterface $paymentMethodRepository,
         protected ShippingMethodRepositoryInterface $shippingMethodRepository,
         protected FactoryInterface $addressFactory,
-        protected StateMachineFactoryInterface|StateMachineInterface $stateMachineFactory,
+        protected StateMachineInterface $stateMachineFactory,
         protected OrderShippingMethodSelectionRequirementCheckerInterface $orderShippingMethodSelectionRequirementChecker,
         protected OrderPaymentMethodSelectionRequirementCheckerInterface $orderPaymentMethodSelectionRequirementChecker,
     ) {

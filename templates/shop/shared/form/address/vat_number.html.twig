@@ -1,0 +1,7 @@
+{% set form = hookable_metadata.context.form %}
+
+{% if form.vatNumber is defined %}
+    <div class="field mb-3">
+        {{ form_row(form.vatNumber, sylius_test_form_attribute(hookable_metadata.context.type|default(null) ~ 'vatNumber')) }}
+    </div>
+{% endif %}

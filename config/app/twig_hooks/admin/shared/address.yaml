@@ -1,0 +1,9 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.order.show.content.sections.customer':
+            billing_address_vat_number:
+                template: '@GewebeSyliusVATPlugin/admin/order/show/content/sections/customer/billing_address_vat_number.html.twig'
+                priority: 150
+            shipping_address_vat_number:
+                template: '@GewebeSyliusVATPlugin/admin/order/show/content/sections/customer/shipping_address_vat_number.html.twig'
+                priority: 50

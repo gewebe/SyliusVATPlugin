@@ -21,7 +21,7 @@ final class ShopBillingDataVatNumberElement extends Element implements ShopBilli
     protected function getDefinedElements(): array
     {
         return array_merge(parent::getDefinedElements(), [
-            'vat_number' => '#sylius_channel_shopBillingData_vatNumber',
+            'vat_number' => '#sylius_admin_channel_shopBillingData_vatNumber',
         ]);
     }
 }

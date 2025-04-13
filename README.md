@@ -47,7 +47,7 @@ return [
 imports:
     # ...
        
-    - { resource: '@GewebeSyliusVATPlugin/config/app/config.yml'}
+    - { resource: '@GewebeSyliusVATPlugin/config/config.yaml'}
 ```
 
 ### Configure taxation address
@@ -201,36 +201,74 @@ bin/console vat:install:eu DE -c standard,reduced
 
 ## Testing
 
-Setup Traditional
-```bash
-$ composer install
-$ cd tests/Application
-$ yarn install
-$ yarn build
-$ bin/console assets:install public -e test
-$ bin/console doctrine:schema:create -e test
+### Traditional
 
-$ export APP_ENV=test
-$ symfony server:start --port=8080 --dir=public
-```
+1. From the plugin root directory, run the following commands:
 
-Setup Docker
-```bash
-$ docker compose up -d
-$ docker compose exec app make init
-```
+    ```bash
+    $ composer install
+    $ (cd tests/Application && yarn install)
+    $ (cd tests/Application && yarn build)
+    $ (cd tests/Application && APP_ENV=test bin/console assets:install public)
 
-Run Tests
-```bash
-$ vendor/bin/behat
-$ vendor/bin/phpspec run
-$ vendor/bin/phpstan analyse -c phpstan.neon -l max src/
-```
+    $ (cd tests/Application && APP_ENV=test bin/console doctrine:database:create)
+    $ (cd tests/Application && APP_ENV=test bin/console doctrine:schema:create)
+    # Optionally load data fixtures
+    $ (cd tests/Application && APP_ENV=test bin/console sylius:fixtures:load --no-interaction)
+    ```
 
-Coding Standard
-```bash
-$ vendor/bin/ecs check
-```
+To be able to set up a plugin's database, remember to configure your database credentials in `tests/Application/.env` and `tests/Application/.env.test`.
+
+2. Run your local server:
+
+      ```bash
+      symfony server:ca:install
+      APP_ENV=test symfony server:start --dir=tests/Application/public --daemon
+      ```
+
+3. Open your browser and navigate to `https://localhost:8000`.
+
+### Docker
+
+1. Execute `make init` to initialize the container and install the dependencies.
+
+2. Execute `make database-init` to create the database and run migrations.
+
+3. (Optional) Execute `make load-fixtures` to load the fixtures.
+
+4. Your app is available at `http://localhost`.
+
+### Running plugin tests
+
+  - PHPUnit
+
+    ```bash
+    vendor/bin/phpunit
+    ```
+
+  - PHPSpec
+
+    ```bash
+    vendor/bin/phpspec run
+    ```
+
+  - Behat (non-JS scenarios)
+
+    ```bash
+    vendor/bin/behat --strict --tags="~@javascript&&~@mink:chromedriver"
+    ```
+
+- PHPStan - Static Analysis
+
+  ```bash
+  vendor/bin/phpstan analyse -c phpstan.neon -l max src/  
+  ```
+
+  - Coding Standard
+  
+    ```bash
+    vendor/bin/ecs check
+    ```
 
 [ico-version]: https://img.shields.io/packagist/v/gewebe/sylius-vat-plugin.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square

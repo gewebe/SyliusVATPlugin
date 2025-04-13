@@ -1,0 +1,8 @@
+{% set address = hookable_metadata.context.address %}
+
+{% if address.vatNumber is not null %}
+    <div class="address-vat text-muted">
+        {{ 'gewebe_sylius_vat_plugin.ui.vat'|trans }}:
+        <span class="vat-number">{{ address.vatNumber }}</span>
+    </div>
+{% endif %}

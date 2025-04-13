@@ -103,7 +103,7 @@ final class EuInstallCommand extends Command
         return explode(',', strtolower($threshold));
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $baseCountry = $this->getArgumentCountry($input);
 

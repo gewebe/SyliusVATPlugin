@@ -1,8 +1,0 @@
-{% include '@!SyliusShop/Common/_address.html.twig' %}
-
-{% if address.vatNumber is not null %}
-    <div class="address-vat">
-        {{ 'gewebe_sylius_vat_plugin.ui.vat'|trans }}:
-        <span class="vat-number">{{ address.vatNumber }}</span>
-    </div>
-{% endif %}

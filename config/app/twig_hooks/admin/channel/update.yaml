@@ -1,0 +1,6 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.channel.update.content.form.sections.shop_billing_data':
+            vat_number:
+                template: '@GewebeSyliusVATPlugin/admin/channel/form/sections/shop_billing_data/vat_number.html.twig'
+                priority: -100

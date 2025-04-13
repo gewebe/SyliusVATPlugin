@@ -58,7 +58,7 @@ Feature: Seeing tax total dependent on country and vat
         And I try to complete the addressing step
         And I proceed with "Free" shipping method and "Offline" payment
         Then I should be on the checkout summary step
-        And my tax total should be "(Included in price) $3.47"
+        And my tax total should be "$3.47"
         And my order total should be "$20.00"
 
     @ui
@@ -68,7 +68,7 @@ Feature: Seeing tax total dependent on country and vat
         And I try to complete the addressing step
         And I proceed with "Free" shipping method and "Offline" payment
         Then I should be on the checkout summary step
-        And my tax total should be "(Included in price) $3.47"
+        And my tax total should be "$3.47"
         And my order total should be "$20.00"
 
     @ui
@@ -98,7 +98,7 @@ Feature: Seeing tax total dependent on country and vat
         And I try to complete the addressing step
         And I proceed with "Post-FR" shipping method and "Offline" payment
         Then I should be on the checkout summary step
-        And my tax total should be "(Included in price) $3.75"
+        And my tax total should be "$3.75"
         And my order shipping should be "$2.50"
         And my order total should be "$22.50"
 

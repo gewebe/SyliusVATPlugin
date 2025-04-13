@@ -1,0 +1,26 @@
+{% set order = hookable_metadata.context.resource %}
+
+{% if order.shippingAddress is not null and order.shippingAddress.hasVatNumber %}
+    <div>
+        <strong>{{ 'gewebe_sylius_vat_plugin.ui.vat_number'|trans }}:</strong>
+    </div>
+    <div class="mb-3">
+        <div class="address-vat-number" {{ sylius_test_html_attribute('shipping-address-vat-number') }}>
+            {{ order.shippingAddress.vatNumber }}
+        </div>
+        {% if order.shippingAddress.vatValidatedAt is not empty %}
+            <div class="address-vat-status text-muted" {{ sylius_test_html_attribute('shipping-address-vat-status') }}>
+                {% if order.shippingAddress.hasValidVatNumber %}
+                    {{ 'gewebe_sylius_vat_plugin.ui.vat_number_is_valid'|trans }}
+                {% else %}
+                    {{ 'gewebe_sylius_vat_plugin.ui.vat_number_is_invalid'|trans }}
+                {% endif %}
+            </div>
+            <div class="address-vat-date text-muted">{{ order.shippingAddress.vatValidatedAt|format_datetime }}</div>
+        {% else %}
+            <div class="address-vat-status text-muted" {{ sylius_test_html_attribute('shipping-address-vat-status') }}>
+                {{ 'gewebe_sylius_vat_plugin.ui.vat_number_not_validated_yet'|trans }}
+            </div>
+        {% endif %}
+    </div>
+{% endif %}

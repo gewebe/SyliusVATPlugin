@@ -50,10 +50,10 @@ class ShowPage extends BaseShowPage implements ShowPageInterface
     protected function getDefinedElements(): array
     {
         return array_merge(parent::getDefinedElements(), [
-            'billing_vat_number' => '#billing-address div.address-vat-number span',
-            'billing_vat_validation' => '#billing-address div.address-vat-status',
-            'shipping_vat_number' => '#shipping-address div.address-vat-number span',
-            'shipping_vat_validation' => '#shipping-address div.address-vat-status',
+            'billing_vat_number' => '[data-test-billing-address-vat-number]',
+            'billing_vat_validation' => '[data-test-billing-address-vat-status]',
+            'shipping_vat_number' => '[data-test-shipping-address-vat-number]',
+            'shipping_vat_validation' => '[data-test-shipping-address-vat-status]',
         ]);
     }
 }

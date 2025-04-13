@@ -36,8 +36,8 @@ class CreatePage extends \Sylius\Behat\Page\Shop\Account\AddressBook\CreatePage 
     protected function getDefinedElements(): array
     {
         return array_merge(parent::getDefinedElements(), [
-            'company' => '#sylius_address_company',
-            'vat_number' => '#sylius_address_vatNumber',
+            'company' => '[data-test-company]',
+            'vat_number' => '[data-test-vatNumber]',
         ]);
     }
 }

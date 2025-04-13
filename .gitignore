@@ -1,6 +1,7 @@
 .idea/
 
 /vendor/
+/var/
 /node_modules/
 /composer.lock
 
@@ -13,6 +14,7 @@
 /behat.yml
 /phpspec.yml
 /phpunit.xml
+/compose.override.yml
 .phpunit.result.cache
 
 # Symfony CLI https://symfony.com/doc/current/setup/symfony_server.html#different-php-settings-per-project

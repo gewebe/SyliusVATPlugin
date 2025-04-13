@@ -25,7 +25,7 @@ class VatNumber extends Constraint
 
     public string $vatNumberPath = 'vatNumber';
 
-    public function getTargets()
+    public function getTargets(): array|string
     {
         return [self::CLASS_CONSTRAINT, self::PROPERTY_CONSTRAINT];
     }

@@ -16,7 +16,7 @@ services:
         arguments:
             - "@doctrine.orm.entity_manager"
             - "@sylius.behat.shared_storage"
-            - "@sm.factory"
+            - "@sylius_abstraction.state_machine"
 
 
     gewebe_sylius_vat_plugin.behat.context.ui.vat:
