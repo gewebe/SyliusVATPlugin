@@ -21,7 +21,7 @@ class VatNumberValidator extends ConstraintValidator
         private VatNumberValidatorProviderInterface $validatorProvider,
         private bool $isActive = true,
         private bool $validateCountry = true,
-        private bool $validateExistence = true,
+        private bool $validateRegistration = true,
         private bool $isCompanyVatRequired = true,
         private array $requiredCountries = [],
     ) {
@@ -118,8 +118,8 @@ class VatNumberValidator extends ConstraintValidator
             return false;
         }
 
-        if ($this->validateExistence) {
-            return $this->validateExistence($address, $constraint);
+        if ($this->validateRegistration) {
+            return $this->validateRegistration($address, $constraint);
         }
 
         return false;
@@ -175,9 +175,9 @@ class VatNumberValidator extends ConstraintValidator
     }
 
     /**
-     * check vat number existence
+     * check vat number registration
      */
-    private function validateExistence(VatNumberAddressInterface $address, VatNumber $constraint): bool
+    private function validateRegistration(VatNumberAddressInterface $address, VatNumber $constraint): bool
     {
         if ($this->validator === null) {
             return false;

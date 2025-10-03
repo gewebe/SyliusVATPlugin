@@ -27,7 +27,7 @@ interface VatNumberValidatorInterface
     public function validateFormat(string $vatNumber): bool;
 
     /**
-     * Validate VAT number format and existence
+     * Validate VAT number format and registration
      *
      * @throws ClientException
      */

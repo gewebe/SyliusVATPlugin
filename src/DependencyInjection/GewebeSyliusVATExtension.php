@@ -34,7 +34,7 @@ final class GewebeSyliusVATExtension extends AbstractResourceExtension implement
         $definition = $container->getDefinition('gewebe_sylius_vat_plugin.validator');
         $definition->replaceArgument(1, $configs['validate']['is_active']);
         $definition->replaceArgument(2, $configs['validate']['country']);
-        $definition->replaceArgument(3, $configs['validate']['existence']);
+        $definition->replaceArgument(3, $configs['validate']['registration']);
         $definition->replaceArgument(4, $configs['required']['company']);
         $definition->replaceArgument(5, $configs['required']['countries']);
 

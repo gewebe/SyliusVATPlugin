@@ -24,7 +24,7 @@ final class Configuration implements ConfigurationInterface
                     ->children()
                         ->booleanNode('is_active')->defaultValue(true)->end()
                         ->booleanNode('country')->defaultValue(true)->end()
-                        ->booleanNode('existence')->defaultValue(true)->end()
+                        ->booleanNode('registration')->defaultValue(true)->end()
                     ->end()
                 ->end() // validation
                 ->arrayNode('required')

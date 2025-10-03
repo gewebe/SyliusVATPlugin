@@ -9,7 +9,7 @@ gewebe_sylius_vat:
     validate:
         is_active: true
         country: true
-        existence: true
+        registration: true
     required:
         default: false
         company: false
