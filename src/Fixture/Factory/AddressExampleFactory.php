@@ -13,6 +13,8 @@ final class AddressExampleFactory extends BaseAddressExampleFactory
 {
     public function create(array $options = []): AddressInterface
     {
+        $options = $this->optionsResolver->resolve($options);
+
         $address = parent::create($options);
 
         if (!$address instanceof VatNumberAddressInterface) {
@@ -20,11 +22,11 @@ final class AddressExampleFactory extends BaseAddressExampleFactory
         }
 
         if (isset($options['vat_number'])) {
-            $address->setVatNumber((string) $options['vat_number']);
+            $address->setVatNumber($options['vat_number']);
         }
 
         if (isset($options['vat_valid'])) {
-            $address->setVatValid((bool) $options['vat_valid']);
+            $address->setVatValid($options['vat_valid']);
         }
 
         return $address;
@@ -37,8 +39,8 @@ final class AddressExampleFactory extends BaseAddressExampleFactory
         $resolver
             ->setDefault('vat_number', null)
             ->setAllowedTypes('vat_number', ['null', 'string'])
-            ->setDefault('vat_valid', false)
-            ->setAllowedTypes('vat_valid', 'bool')
+            ->setDefault('vat_valid', null)
+            ->setAllowedTypes('vat_valid', ['null', 'bool'])
             ->setDefault('vat_validated_at', null)
             ->setAllowedTypes('vat_validated_at', ['null', 'string'])
         ;
