@@ -3,7 +3,6 @@ services:
     Gewebe\SyliusVATPlugin\EventListener\LoginListener:
         arguments:
             - '@validator'
-            - '%gewebe_sylius_vat_plugin.revalidate.on_login%'
-            - '%gewebe_sylius_vat_plugin.revalidate.expiration_days%'
+            - '@gewebe_sylius_vat_plugin.vat_number_validator_config'
         tags:
             - { name: 'kernel.event_listener', event: 'security.interactive_login' }

@@ -5,4 +5,5 @@ gewebe_sylius_vat_plugin:
             required_for_company: 'Please enter the company VAT number.'
             invalid_format: 'Please enter a valid VAT number.'
             invalid_country: 'This VAT number does not belong to the selected country.'
-            not_verified: 'This VAT number cannot be verified.'
+            invalid_registration: 'VAT number is unknown and not yet registered online.'
+            service_unavailable: 'VAT number cannot be verified at the moment. Please try again later.'

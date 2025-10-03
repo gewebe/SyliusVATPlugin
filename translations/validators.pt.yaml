@@ -4,5 +4,6 @@ gewebe_sylius_vat_plugin:
             required: 'Por favor insira um número de IVA.'
             required_for_company: 'Por favor insira o número de IVA da empresa.'
             invalid_format: 'Por favor insira um número de IVA válido.'
-            invalid_country: 'Este número de IVA não pertence ao país selecionado.'
-            not_verified: 'Este número de IVA não pode ser verificado.'
+            invalid_country: 'Número de IVA não pertence ao país selecionado.'
+            invalid_registration: 'Número de IVA é desconhecido e ainda não está registado online.'
+            service_unavailable: 'Número de IVA não pode ser verificado de momento. Tente novamente mais tarde.'

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Gewebe\SyliusVATPlugin\Validator\Constraints;
 
+use Gewebe\SyliusVATPlugin\Config\VatNumberValidatorConfig;
 use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
 use Gewebe\SyliusVATPlugin\Vat\Number\ClientException;
 use Gewebe\SyliusVATPlugin\Vat\Number\VatNumberValidatorInterface;
@@ -15,15 +16,9 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 class VatNumberValidator extends ConstraintValidator
 {
-    private ?VatNumberValidatorInterface $validator = null;
-
     public function __construct(
-        private VatNumberValidatorProviderInterface $validatorProvider,
-        private bool $isActive = true,
-        private bool $validateCountry = true,
-        private bool $validateRegistration = true,
-        private bool $isCompanyVatRequired = true,
-        private array $requiredCountries = [],
+        private readonly VatNumberValidatorProviderInterface $validatorProvider,
+        private readonly VatNumberValidatorConfig $validatorConfig,
     ) {
     }
 
@@ -37,31 +32,52 @@ class VatNumberValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, VatNumberAddressInterface::class);
         }
 
-        if (!$this->hasVatNumberForCompany($value, $constraint)) {
+        if ($this->hasVatNumberForCompany($value, $constraint) === false ||
+            $this->hasVatNumberForCountry($value, $constraint) === false ||
+            $this->validatorConfig->validateFormat === false ||
+            !$value->getVatNumber() ||
+            !$value->getCountryCode()
+        ) {
             return;
         }
 
-        if (!$this->hasVatNumberForCountry($value, $constraint)) {
+        $vatNumberValidator = $this->validatorProvider->getValidator($value->getCountryCode());
+        if (null === $vatNumberValidator) {
             return;
         }
 
-        if (!$value->hasVatNumber()) {
+        if ($vatNumberValidator->validateFormat($value->getVatNumber()) === false) {
+            $this->addViolation($constraint->messageInvalidFormat, $constraint->vatNumberPath);
+
             return;
         }
 
-        $this->validateVatNumberAddress($value, $constraint);
+        if ($this->validatorConfig->validateCountry &&
+            $vatNumberValidator->validateCountry($value->getVatNumber(), $value->getCountryCode()) === false
+        ) {
+            $this->addViolation($constraint->messageInvalidCountry, $constraint->vatNumberPath);
+
+            return;
+        }
+
+        if ($this->validatorConfig->validateRegistration) {
+            $this->validateRegistration($value, $vatNumberValidator, $constraint);
+        }
+    }
+
+    private function addViolation(string $message, string $path): void
+    {
+        $this->context->buildViolation($message)->atPath($path)->addViolation();
     }
 
     private function hasVatNumberForCompany(VatNumberAddressInterface $address, VatNumber $constraint): bool
     {
-        if ($this->isCompanyVatRequired &&
-            null !== $address->getCompany() &&
-            '' !== $address->getCompany() &&
-            !$address->hasVatNumber()) {
-            $this->context->buildViolation($constraint->messageRequiredForCompany)
-                ->atPath($constraint->vatNumberPath)
-                ->addViolation()
-            ;
+        if ($this->validatorConfig->isRequiredForCompany &&
+            $address->getCompany() !== null &&
+            $address->getCompany() !== '' &&
+            $address->hasVatNumber() === false
+        ) {
+            $this->addViolation($constraint->messageRequiredForCompany, $constraint->vatNumberPath);
 
             return false;
         }
@@ -71,13 +87,11 @@ class VatNumberValidator extends ConstraintValidator
 
     private function hasVatNumberForCountry(VatNumberAddressInterface $address, VatNumber $constraint): bool
     {
-        if (count($this->requiredCountries) > 0 &&
-            in_array($address->getCountryCode(), $this->requiredCountries, true) &&
-            !$address->hasVatNumber()) {
-            $this->context->buildViolation($constraint->messageRequired)
-                ->atPath($constraint->vatNumberPath)
-                ->addViolation()
-            ;
+        if (count($this->validatorConfig->requiredForCountries) > 0 &&
+            in_array($address->getCountryCode(), $this->validatorConfig->requiredForCountries, true) &&
+            $address->hasVatNumber() === false
+        ) {
+            $this->addViolation($constraint->messageRequired, $constraint->vatNumberPath);
 
             return false;
         }
@@ -85,126 +99,25 @@ class VatNumberValidator extends ConstraintValidator
         return true;
     }
 
-    private function setValidator(VatNumberAddressInterface $address): bool
-    {
-        $countryCode = $address->getCountryCode();
-        if (null === $countryCode || '' === $countryCode) {
-            return false;
-        }
-
-        $this->validator = $this->validatorProvider->getValidator($countryCode);
-        if ($this->validator instanceof VatNumberValidatorInterface) {
-            return true;
-        }
-
-        return false;
-    }
-
-    private function validateVatNumberAddress(VatNumberAddressInterface $address, VatNumber $constraint): bool
-    {
-        if (!$this->isActive) {
-            return false;
-        }
-
-        if (!$this->setValidator($address)) {
-            return false;
-        }
-
-        if (!$this->validateFormat($address, $constraint)) {
-            return false;
-        }
-
-        if ($this->validateCountry && !$this->validateCountry($address, $constraint)) {
-            return false;
-        }
-
-        if ($this->validateRegistration) {
-            return $this->validateRegistration($address, $constraint);
-        }
-
-        return false;
-    }
-
-    /**
-     * check vat number format
-     */
-    private function validateFormat(VatNumberAddressInterface $address, VatNumber $constraint): bool
-    {
-        if ($this->validator === null) {
-            return false;
-        }
-
-        $vatNumber = $address->getVatNumber();
-
-        if (null === $vatNumber || !$this->validator->validateFormat($vatNumber)) {
-            $this->context->buildViolation($constraint->messageFormat)
-                ->atPath($constraint->vatNumberPath)
-                ->addViolation()
-            ;
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * check vat number country is same as address country
-     */
-    private function validateCountry(VatNumberAddressInterface $address, VatNumber $constraint): bool
-    {
-        if ($this->validator === null) {
-            return false;
-        }
-
-        $vatNumber = $address->getVatNumber();
-        $countryCode = $address->getCountryCode();
-
-        if (null === $vatNumber ||
-            null === $countryCode ||
-            !$this->validator->validateCountry($vatNumber, $countryCode)) {
-            $this->context->buildViolation($constraint->messageCountry)
-                ->atPath($constraint->vatNumberPath)
-                ->addViolation()
-            ;
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * check vat number registration
-     */
-    private function validateRegistration(VatNumberAddressInterface $address, VatNumber $constraint): bool
-    {
-        if ($this->validator === null) {
-            return false;
-        }
-
+    private function validateRegistration(
+        VatNumberAddressInterface $address,
+        VatNumberValidatorInterface $validator,
+        VatNumber $constraint,
+    ): void {
         try {
-            $vatNumber = $address->getVatNumber();
-
-            $valid = null !== $vatNumber && $this->validator->validate($vatNumber);
-
-            $address->setVatValid($valid);
+            $validVatNumber = $validator->validate($address->getVatNumber() ?? '');
         } catch (ClientException $e) {
-            // ignore VAT client exceptions (when the service is down)
-            // this could mean that an unexisting VAT number passes validation,
-            // but it's (probably) better than a hard-error
-            return true;
+            if ($this->validatorConfig->validateOnServiceUnavailable === true) {
+                $this->addViolation($constraint->messageServiceUnavailable, $constraint->vatNumberPath);
+            }
+
+            return;
         }
 
-        if (false === $valid) {
-            $this->context->buildViolation($constraint->messageVerified)
-                ->atPath($constraint->vatNumberPath)
-                ->addViolation()
-            ;
+        $address->setVatValid($validVatNumber);
 
-            return false;
+        if (false === $validVatNumber) {
+            $this->addViolation($constraint->messageInvalidRegistration, $constraint->vatNumberPath);
         }
-
-        return true;
     }
 }

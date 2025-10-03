@@ -4,5 +4,6 @@ gewebe_sylius_vat_plugin:
             required: 'Per favore inserisci una partita IVA.'
             required_for_company: 'Per favore inserisci la partita IVA dell''azienda.'
             invalid_format: 'Per favore inserisci una partita IVA valida.'
-            invalid_country: 'Il numero di partita IVA non appartiene al paese selezionato.'
-            not_verified: 'Questo numero di partita IVA non può essere verificato.'
+            invalid_country: 'Numero di partita IVA non appartiene al paese selezionato.'
+            invalid_registration: 'Numero di partita IVA è sconosciuto e non è ancora registrato online.'
+            service_unavailable: 'Al momento non è possibile verificare la partita IVA. Riprova più tardi.'

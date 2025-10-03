@@ -4,5 +4,6 @@ gewebe_sylius_vat_plugin:
             required: 'Bitte geben Sie eine USt-IdNr. ein.'
             required_for_company: 'Bitte geben Sie die USt-IdNr. des Unternehmens ein.'
             invalid_format: 'Bitte geben Sie eine gültige USt-IdNr. ein.'
-            invalid_country: 'Diese USt-IdNr. gehört nicht zum gewählten Land.'
-            not_verified: 'Diese USt-IdNr. kann nicht überprüft werden.'
+            invalid_country: 'USt-IdNr. passt nicht zum gewählten Land.'
+            invalid_registration: 'USt-IdNr. ist unbekannt und noch nicht online registriert.'
+            service_unavailable: 'USt-IdNr. kann aktuell nicht überprüft werden. Bitte versuchen Sie es später.'

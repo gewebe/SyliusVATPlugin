@@ -1,28 +1,37 @@
 services:
 
-    gewebe_sylius_vat_plugin.validator:
+    gewebe_sylius_vat_plugin.vat_number_validator:
         class: Gewebe\SyliusVATPlugin\Validator\Constraints\VatNumberValidator
         arguments:
-            - '@gewebe_sylius_vat_plugin.vat_validator_provider'
-            - '%gewebe_sylius_vat_plugin.validate.is_active%'
-            - '%gewebe_sylius_vat_plugin.validate.country%'
-            - '%gewebe_sylius_vat_plugin.validate.registration%'
-            - '%gewebe_sylius_vat_plugin.required.company%'
-            - '%gewebe_sylius_vat_plugin.required.countries%'
+            - '@gewebe_sylius_vat_plugin.vat_number_validator_provider'
+            - '@gewebe_sylius_vat_plugin.vat_number_validator_config'
         tags:
             - { name: validator.constraint_validator }
 
-    gewebe_sylius_vat_plugin.vat_validator_provider:
+    gewebe_sylius_vat_plugin.vat_number_validator_config:
+        class: Gewebe\SyliusVATPlugin\Config\VatNumberValidatorConfig
+        arguments:
+            - '%gewebe_sylius_vat_plugin.required.default%'
+            - '%gewebe_sylius_vat_plugin.required.company%'
+            - '%gewebe_sylius_vat_plugin.required.countries%'
+            - '%gewebe_sylius_vat_plugin.validate.format%'
+            - '%gewebe_sylius_vat_plugin.validate.country%'
+            - '%gewebe_sylius_vat_plugin.validate.registration%'
+            - '%gewebe_sylius_vat_plugin.validate.on_service_unavailable%'
+            - '%gewebe_sylius_vat_plugin.validate.on_login%'
+            - '%gewebe_sylius_vat_plugin.validate.expiration_days%'
+
+    gewebe_sylius_vat_plugin.vat_number_validator_provider:
         class: Gewebe\SyliusVATPlugin\Vat\Number\VatNumberValidatorProvider
         arguments:
-            - !tagged_iterator gewebe_sylius_vat_plugin.vat_validator
+            - !tagged_iterator gewebe_sylius_vat_plugin.zone_vat_number_validator
 
-    gewebe_sylius_vat_plugin.eu_vat_validator:
+    gewebe_sylius_vat_plugin.eu_vat_number_validator:
         class: Gewebe\SyliusVATPlugin\Vat\Number\Validator\EuVatNumberValidator
         arguments:
             - '@gewebe_sylius_vat_plugin.ibericode_vat.validator'
         tags:
-            - { name: gewebe_sylius_vat_plugin.vat_validator }
+            - { name: gewebe_sylius_vat_plugin.zone_vat_number_validator }
 
     gewebe_sylius_vat_plugin.ibericode_vat.validator:
         class: Ibericode\Vat\Validator

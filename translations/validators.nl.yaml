@@ -4,5 +4,6 @@ gewebe_sylius_vat_plugin:
             required: 'Vul een BTW-nummer in.'
             required_for_company: 'Vul het BTW-nummer van het bedrijf in.'
             invalid_format: 'Vul een geldig BTW-nummer in.'
-            invalid_country: 'Dit BTW-nummer hoort niet bij het geselecteerde land.'
-            not_verified: 'Dit BTW-nummer kan niet worden geverifieerd.'
+            invalid_country: 'BTW-nummer hoort niet bij het geselecteerde land.'
+            invalid_registration: 'BTW-nummer is onbekend en nog niet online geregistreerd.'
+            service_unavailable: 'BTW-nummer kan op dit moment niet geverifieerd worden. Probeer het later opnieuw.'

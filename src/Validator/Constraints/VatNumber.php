@@ -17,11 +17,13 @@ class VatNumber extends Constraint
 
     public string $messageRequiredForCompany = 'gewebe_sylius_vat_plugin.address.vat_number.required_for_company';
 
-    public string $messageFormat = 'gewebe_sylius_vat_plugin.address.vat_number.invalid_format';
+    public string $messageInvalidFormat = 'gewebe_sylius_vat_plugin.address.vat_number.invalid_format';
 
-    public string $messageCountry = 'gewebe_sylius_vat_plugin.address.vat_number.invalid_country';
+    public string $messageInvalidCountry = 'gewebe_sylius_vat_plugin.address.vat_number.invalid_country';
 
-    public string $messageVerified = 'gewebe_sylius_vat_plugin.address.vat_number.not_verified';
+    public string $messageInvalidRegistration = 'gewebe_sylius_vat_plugin.address.vat_number.invalid_registration';
+
+    public string $messageServiceUnavailable = 'gewebe_sylius_vat_plugin.address.vat_number.service_unavailable';
 
     public string $vatNumberPath = 'vatNumber';
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Gewebe\SyliusVATPlugin\EventListener;
 
+use Gewebe\SyliusVATPlugin\Config\VatNumberValidatorConfig;
 use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
 use Gewebe\SyliusVATPlugin\Validator\Constraints\VatNumber;
 use Sylius\Component\Core\Model\CustomerInterface;
@@ -14,15 +15,14 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class LoginListener
 {
     public function __construct(
-        private ValidatorInterface $validator,
-        private bool $revalidateOnLogin,
-        private int $expirationDays,
+        private readonly ValidatorInterface $validator,
+        private readonly VatNumberValidatorConfig $vatNumberValidatorConfig,
     ) {
     }
 
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event): void
     {
-        if ($this->revalidateOnLogin === false) {
+        if ($this->vatNumberValidatorConfig->revalidateOnLogin === false) {
             return;
         }
 
@@ -45,7 +45,7 @@ class LoginListener
             return;
         }
 
-        $revalidationDate = new \DateTime($this->expirationDays . ' days ago');
+        $revalidationDate = new \DateTime($this->vatNumberValidatorConfig->expirationDays . ' days ago');
 
         if (null === $address->getVatValidatedAt() || $address->getVatValidatedAt() < $revalidationDate) {
             $violations = $this->validator->validate($address, new VatNumber());

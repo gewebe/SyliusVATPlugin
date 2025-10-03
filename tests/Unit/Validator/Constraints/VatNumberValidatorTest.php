@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Gewebe\SyliusVATPlugin\Unit\Validator\Constraints;
 
+use Gewebe\SyliusVATPlugin\Config\VatNumberValidatorConfig;
 use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
 use Gewebe\SyliusVATPlugin\Validator\Constraints\VatNumber;
 use Gewebe\SyliusVATPlugin\Validator\Constraints\VatNumberValidator;
@@ -95,25 +96,37 @@ final class VatNumberValidatorTest extends TestCase
     {
         $context = $this->getContext(true, 'messageRequiredForCompany');
 
-        $this->validateAddress($context, null, 'DE', 'Sylius',);
+        $config = new VatNumberValidatorConfig(isRequiredForCompany: true);
+
+        $this->validateAddress($context, null, 'DE', 'Sylius', $config);
     }
 
     public function testWithoutViolationIfRequiredForCompanyDisabled(): void
     {
         $context = $this->getContext(false, 'messageRequiredForCompany');
 
-        $this->validateAddress($context, null, 'DE', 'Sylius', true, false);
-        $this->validateAddress($context, '', 'DE', 'Sylius', true, false);
+        $config = new VatNumberValidatorConfig(isRequiredForCompany: false);
+
+        $this->validateAddress($context, null, 'DE', 'Sylius', $config);
+        $this->validateAddress($context, '', 'DE', 'Sylius', $config);
     }
 
     public function testViolationIfRequiredForCountryEnabled(): void
     {
-        $this->validateAddress($this->getContext(true), null, 'IT');
+        $config = new VatNumberValidatorConfig(requiredForCountries: ['IT']);
+
+        $this->validateAddress($this->getContext(true), null, 'IT', null, $config);
     }
 
     public function testWithoutViolationIfNotActive(): void
     {
-        $this->validateAddress($this->getContext(), self::VAT_INVALID, 'DE', null, false);
+        $this->validateAddress(
+            $this->getContext(),
+            self::VAT_INVALID,
+            'DE',
+            null,
+            new VatNumberValidatorConfig(validateFormat: false)
+        );
     }
 
     public function testWithoutViolationIfNoValidatorAvailable(): void
@@ -123,21 +136,21 @@ final class VatNumberValidatorTest extends TestCase
 
     public function testViolationForInvalidFormat(): void
     {
-        $context = $this->getContext(true, 'messageFormat');
+        $context = $this->getContext(true, 'messageInvalidFormat');
 
         $this->validateAddress($context, self::VAT_INVALID, 'DE');
     }
 
     public function testViolationForInvalidCountry(): void
     {
-        $context = $this->getContext(true, 'messageCountry');
+        $context = $this->getContext(true, 'messageInvalidCountry');
 
         $this->validateAddress($context, self::VAT_INVALID_COUNTRY, 'DE');
     }
 
     public function testViolationForInvalidRegistration(): void
     {
-        $context = $this->getContext(true, 'messageVerified');
+        $context = $this->getContext(true, 'messageInvalidRegistration');
 
         $this->validateAddress($context, self::VAT_INVALID_REGISTRATION, 'DE');
     }
@@ -184,18 +197,11 @@ final class VatNumberValidatorTest extends TestCase
 
     private function initVatNumberValidator(
         ?ExecutionContextInterface $context = null,
-        bool $isActive = true,
-        bool $validateCountry = true,
-        bool $validateRegistration = true,
-        bool $isCompanyVatRequired = true,
+        ?VatNumberValidatorConfig $validatorConfig = null,
     ): VatNumberValidator {
         $vatNumberValidator = new VatNumberValidator(
             $this->provider,
-            $isActive,
-            $validateCountry,
-            $validateRegistration,
-            $isCompanyVatRequired,
-            ['IT'],
+            $validatorConfig ?? new VatNumberValidatorConfig()
         );
 
         if ($context !== null) {
@@ -206,19 +212,15 @@ final class VatNumberValidatorTest extends TestCase
     }
 
     private function validateAddress(
-        ?ExecutionContextInterface $context,
+        ExecutionContextInterface $context,
         ?string $vatNumber,
         ?string $countryCode,
         ?string $company = null,
-        bool $isActive = true,
-        bool $isCompanyVatRequired = true,
+        ?VatNumberValidatorConfig $validatorConfig = null,
     ): void {
         $vatNumberValidator = $this->initVatNumberValidator(
             $context,
-            $isActive,
-            true,
-            true,
-            $isCompanyVatRequired,
+            $validatorConfig,
         );
 
         $address = $this->createMock(VatNumberAddressInterface::class);
@@ -229,7 +231,7 @@ final class VatNumberValidatorTest extends TestCase
 
         if ($vatNumber === self::VAT_VALID) {
             $address->expects(self::once())->method('setVatValid')->with(true);
-        } elseif($vatNumber === self::VAT_INVALID_REGISTRATION) {
+        } elseif ($vatNumber === self::VAT_INVALID_REGISTRATION) {
             $address->expects(self::once())->method('setVatValid')->with(false);
         } else {
             $address->expects(self::never())->method('setVatValid');
