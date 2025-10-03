@@ -8,6 +8,10 @@
         <testsuite name="GewebeSyliusVATPlugin Test Suite">
             <directory>tests</directory>
         </testsuite>
+
+        <testsuite name="unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
     </testsuites>
 
     <php>

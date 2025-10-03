@@ -246,12 +246,6 @@ To be able to set up a plugin's database, remember to configure your database cr
     vendor/bin/phpunit
     ```
 
-  - PHPSpec
-
-    ```bash
-    vendor/bin/phpspec run
-    ```
-
   - Behat (non-JS scenarios)
 
     ```bash

@@ -1,4 +1,0 @@
-suites:
-    main:
-        namespace: Gewebe\SyliusVATPlugin
-        psr4_prefix: Gewebe\SyliusVATPlugin
