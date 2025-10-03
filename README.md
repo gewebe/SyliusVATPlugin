@@ -203,27 +203,26 @@ bin/console vat:install:eu DE -c standard,reduced
 
 ### Traditional
 
-1. From the plugin root directory, run the following commands:
+1. From the plugin skeleton root directory, run the following commands:
 
     ```bash
-    $ composer install
-    $ (cd tests/Application && yarn install)
-    $ (cd tests/Application && yarn build)
-    $ (cd tests/Application && APP_ENV=test bin/console assets:install public)
-
-    $ (cd tests/Application && APP_ENV=test bin/console doctrine:database:create)
-    $ (cd tests/Application && APP_ENV=test bin/console doctrine:schema:create)
+    (cd vendor/sylius/test-application && yarn install)
+    (cd vendor/sylius/test-application && yarn build)
+    vendor/bin/console assets:install
+   
+    vendor/bin/console doctrine:database:create
+    vendor/bin/console doctrine:migrations:migrate -n
     # Optionally load data fixtures
-    $ (cd tests/Application && APP_ENV=test bin/console sylius:fixtures:load --no-interaction)
+    vendor/bin/console sylius:fixtures:load -n
     ```
 
-To be able to set up a plugin's database, remember to configure your database credentials in `tests/Application/.env` and `tests/Application/.env.test`.
+To be able to set up a plugin's database, remember to configure your database credentials in `tests/TestApplication/.env` and `tests/TestApplication/.env.test`.
 
 2. Run your local server:
 
       ```bash
       symfony server:ca:install
-      APP_ENV=test symfony server:start --dir=tests/Application/public --daemon
+      symfony server:start -d
       ```
 
 3. Open your browser and navigate to `https://localhost:8000`.
@@ -237,6 +236,8 @@ To be able to set up a plugin's database, remember to configure your database cr
 3. (Optional) Execute `make load-fixtures` to load the fixtures.
 
 4. Your app is available at `http://localhost`.
+
+## Usage
 
 ### Running plugin tests
 

@@ -8,7 +8,7 @@ use Behat\Behat\Context\Context;
 use Doctrine\Persistence\ObjectManager;
 use Sylius\Component\Addressing\Model\CountryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
-use Tests\Gewebe\SyliusVATPlugin\Application\src\Entity\Channel\ShopBillingData;
+use Tests\Gewebe\SyliusVATPlugin\Entity\Channel\ShopBillingData;
 
 final class ChannelContext implements Context
 {

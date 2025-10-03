@@ -1,0 +1,36 @@
+imports:
+    - { resource: "@GewebeSyliusVATPlugin/config/config.yaml" }
+    - { resource: "services_test.php" }
+
+gewebe_sylius_vat:
+    required:
+        company: true
+        countries:
+            - "PT"
+
+twig:
+    paths:
+        '%kernel.project_dir%/../../../tests/TestApplication/templates': ~
+
+doctrine:
+    orm:
+        entity_managers:
+            default:
+                mappings:
+                    TestApplication:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/../../../tests/TestApplication/src/Entity'
+                        prefix: Tests\Gewebe\SyliusVATPlugin\Entity
+
+sylius_addressing:
+    resources:
+        address:
+            classes:
+                model: Tests\Gewebe\SyliusVATPlugin\Entity\Addressing\Address
+
+sylius_core:
+    resources:
+        shop_billing_data:
+            classes:
+                model: Tests\Gewebe\SyliusVATPlugin\Entity\Channel\ShopBillingData

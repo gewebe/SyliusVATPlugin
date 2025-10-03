@@ -5,12 +5,12 @@ services:
         image: mysql:8.4
         platform: linux/amd64
         healthcheck:
-            test: '/usr/bin/mysql --execute "SHOW databases;"'
+            test: '/usr/bin/mysql --user=root --password=root --execute "SHOW databases;"'
             timeout: 3s
             interval: 1s
             retries: 10
         environment:
-            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+            MYSQL_ROOT_PASSWORD: root
         cap_add:
             - SYS_NICE # prevent "mbind: Operation not permitted" errors
     nginx:

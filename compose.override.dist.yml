@@ -10,7 +10,7 @@ services:
             # You can move these environment variables to your .env.local file
             APP_ENV: ${ENV:-prod}
             APP_SECRET: EDITME
-            DATABASE_URL: "mysql://root@mysql/sylius_%kernel.environment%"
+            DATABASE_URL: "mysql://root:root@mysql/gewebe_sylius_vat_plugin_%kernel.environment%"
             MAILER_DSN: smtp://mailhog:1025
             MESSENGER_TRANSPORT_DSN: doctrine://default
             SYLIUS_MESSENGER_TRANSPORT_MAIN_DSN: doctrine://default
@@ -44,7 +44,7 @@ services:
             - "3306:3306"
     nginx:
         environment:
-            WORKING_DIR: /srv/sylius/tests/Application
+            WORKING_DIR: /srv/sylius/vendor/sylius/test-application
         volumes:
             - .:/srv/sylius:ro
             # if you develop on Linux, you may use a bind-mounted host directory instead
@@ -58,7 +58,7 @@ services:
         entrypoint: [ "/bin/sh","-c" ]
         command:
             - |
-                cd tests/Application
+                cd vendor/sylius/test-application
                 yarn install
                 yarn build
         volumes:

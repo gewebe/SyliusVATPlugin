@@ -21,6 +21,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Install EU countries, zones and VAT rates to Sylius
+ *
+ *  @Todo: rewrite setup of different tax schemas
  */
 final class EuInstallCommand extends Command
 {

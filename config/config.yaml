@@ -1,5 +1,7 @@
+# Put your plugin configuration here
+
 imports:
-    - { resource: "app/twig_hooks/**/*.yaml" }
+    - { resource: "twig_hooks/**/*.yaml" }
 
 gewebe_sylius_vat:
     order:

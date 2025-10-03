@@ -1,9 +1,0 @@
-gewebe_sylius_vat_plugin_shop:
-    resource: "@GewebeSyliusVATPlugin/config/shop_routing.yaml"
-    prefix: /{_locale}
-    requirements:
-        _locale: ^[a-z]{2}(?:_[A-Z]{2})?$
-
-gewebe_sylius_vat_plugin_admin:
-    resource: "@GewebeSyliusVATPlugin/config/admin_routing.yaml"
-    prefix: /admin

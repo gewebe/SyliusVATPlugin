@@ -1,0 +1,5 @@
+gewebe_sylius_vat_admin:
+    resource: "@GewebeSyliusVATPlugin/config/routes/admin.yaml"
+
+gewebe_sylius_vat_shop:
+    resource: "@GewebeSyliusVATPlugin/config/routes/shop.yaml"

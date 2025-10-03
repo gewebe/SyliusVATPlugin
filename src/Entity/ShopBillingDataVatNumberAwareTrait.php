@@ -7,6 +7,7 @@ namespace Gewebe\SyliusVATPlugin\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use TestApplication\src\Entity\Channel\ShopBillingData;
 
 /**
  * Trait that implements the shop billing data vat number functionality
