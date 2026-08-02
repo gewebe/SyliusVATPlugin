@@ -2,4 +2,4 @@
 Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface:
     constraints:
         - Gewebe\SyliusVATPlugin\Validator\Constraints\VatNumber:
-              groups: sylius
+              groups: [sylius, sylius_shipping_address_update]
