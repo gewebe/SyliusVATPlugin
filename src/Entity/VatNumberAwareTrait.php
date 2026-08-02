@@ -23,10 +23,12 @@ trait VatNumberAwareTrait
     protected ?string $vatNumber = null;
 
     #[ORM\Column(name: 'vat_valid', type: Types::BOOLEAN)]
+    #[Gedmo\Versioned]
     #[Groups(['shop:address:read'])]
     protected bool $vatValid = false;
 
     #[ORM\Column(name: 'vat_validated_at', type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Gedmo\Versioned]
     #[Groups(['shop:address:read'])]
     protected ?DateTime $vatValidatedAt = null;
 
