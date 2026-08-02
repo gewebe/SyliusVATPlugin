@@ -34,5 +34,20 @@ services:
         tags:
             - { name: gewebe_sylius_vat_plugin.zone_vat_number_validator }
 
+    gewebe_sylius_vat_plugin.uk_vat_number_validator:
+        class: Gewebe\SyliusVATPlugin\Vat\Number\Validator\UkVatNumberValidator
+        arguments:
+            - '@gewebe_sylius_vat_plugin.hmrc_client'
+        tags:
+            - { name: gewebe_sylius_vat_plugin.zone_vat_number_validator }
+
+    gewebe_sylius_vat_plugin.hmrc_client:
+        class: Gewebe\SyliusVATPlugin\Vat\Number\Hmrc\HmrcClient
+        arguments:
+            - '@http_client'
+            - !abstract 'hmrc.base_url'
+            - !abstract 'hmrc.client_id'
+            - !abstract 'hmrc.client_secret'
+
     gewebe_sylius_vat_plugin.ibericode_vat.validator:
         class: Ibericode\Vat\Validator

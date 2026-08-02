@@ -36,6 +36,21 @@ default:
                 - gewebe_sylius_vat_plugin.behat.context.ui.shop.address_book_vat
             filters:
                 tags: "@address_book_vat_number && @ui"
+        ui_address_book_uk_vat_number:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.geographical
+                - sylius.behat.context.setup.shop_security
+
+                - sylius.behat.context.transform.address
+
+                - sylius.behat.context.ui.shop.address_book
+
+                - gewebe_sylius_vat_plugin.behat.context.ui.shop.address_book_vat
+            filters:
+                tags: "@address_book_uk_vat_number && @ui"
         ui_channel_vat_number:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm

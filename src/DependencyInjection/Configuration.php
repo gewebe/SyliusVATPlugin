@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Gewebe\SyliusVATPlugin\DependencyInjection;
 
+use Gewebe\SyliusVATPlugin\Vat\Number\Hmrc\HmrcClient;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -56,6 +57,22 @@ final class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end() // validate
+                ->arrayNode('hmrc')
+                    ->addDefaultsIfNotSet()
+                    ->info('Online validation of UK VAT numbers through the HMRC API.')
+                    ->children()
+                        ->scalarNode('base_url')->defaultValue(HmrcClient::PRODUCTION_BASE_URL)
+                            ->cannotBeEmpty()
+                            ->info('Base url of the HMRC API, use ' . HmrcClient::SANDBOX_BASE_URL . ' for testing.')
+                        ->end()
+                        ->scalarNode('client_id')->defaultNull()
+                            ->info('Client ID of the HMRC API')
+                        ->end()
+                        ->scalarNode('client_secret')->defaultNull()
+                            ->info('Client secret of the HMRC API')
+                        ->end()
+                    ->end()
+                ->end() // hmrc
                 ->arrayNode('revalidate')
                     ->addDefaultsIfNotSet()
                     ->children()

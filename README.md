@@ -16,7 +16,8 @@
  * Validate VAT number:
     * Format for selected country
     * Country is same as selected country
-    * Validity using [VIES API](http://ec.europa.eu/taxation_customs/vies/) for EU VAT number
+    * Valid EU registration via [VIES API](http://ec.europa.eu/taxation_customs/vies/)
+    * Valid UK (GB) registration via [HMRC API](https://developer.service.hmrc.gov.uk/api-documentation/docs/api/service/vat-registered-companies-api)
  * Revalidate customers VAT numbers after a given time
  * Placing an order without VAT in the EU, if
     * VAT number validation was successful
@@ -179,6 +180,30 @@ bin/console vat:install:eu DE -c standard,reduced
 
 ##### 2. Show VAT number and validation status at admin orders
 ![Screenshot order shipping address with vat number](docs/images/admin_order_address.png)
+
+### Validate UK VAT numbers with the HMRC API
+
+VAT numbers of addresses in the United Kingdom (country code `GB`) are validated against the
+open access [HMRC "Check a UK VAT number" API](https://developer.service.hmrc.gov.uk/api-documentation/docs/api/service/vat-registered-companies-api).
+No credentials are required. The default can be changed in the application config:
+
+```yaml
+# config/packages/_sylius.yaml
+
+gewebe_sylius_vat:
+    hmrc:
+        base_url: 'https://api.service.hmrc.gov.uk'  # https://test-api.service.hmrc.gov.uk for the sandbox
+```
+
+Like the VIES check, the online lookup is only performed when `validate.registration` is enabled.
+
+Accepted formats are standard (`GB123456789`), branch traders (`GB123456789001`), government
+departments (`GBGD001`) and health authorities (`GBHA599`); the `GB` prefix is optional.
+Government department and health authority numbers cannot be looked up online and are therefore
+only checked for their format.
+
+If the HMRC service is unavailable a `ClientException` is thrown, which is handled by the
+`validate.on_service_unavailable` setting, just like a VIES outage.
 
 
 ## Testing

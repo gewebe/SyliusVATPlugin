@@ -7,7 +7,8 @@
     "require": {
         "php": "^8.2",
         "ibericode/vat": "^2.1",
-        "sylius/sylius": "^2.1"
+        "sylius/sylius": "^2.1",
+        "symfony/http-client": "^6.4 || ^7.4"
     },
     "require-dev": {
         "behat/behat": "^3.16",

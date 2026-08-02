@@ -10,6 +10,10 @@ services:
     gewebe_sylius_vat_plugin.behat.vies_client:
         class: Tests\Gewebe\SyliusVATPlugin\Behat\Service\FakeViesClient
 
+    # Do not call the live HMRC service in tests
+    gewebe_sylius_vat_plugin.hmrc_client:
+        class: Tests\Gewebe\SyliusVATPlugin\Behat\Service\FakeHmrcClient
+
     gewebe_sylius_vat_plugin.behat.context.setup.address:
         class: Tests\Gewebe\SyliusVATPlugin\Behat\Context\Setup\AddressContext
         arguments:
