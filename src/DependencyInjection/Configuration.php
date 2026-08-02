@@ -16,6 +16,7 @@ final class Configuration implements ConfigurationInterface
         $treeBuilder->getRootNode()
             ->children()
                 ->arrayNode('order')
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->booleanNode('recalculate')->defaultValue(true)
                             ->info('Order will be recalculated without taxes if possible.')
@@ -23,6 +24,7 @@ final class Configuration implements ConfigurationInterface
                     ->end()
                 ->end() // order
                 ->arrayNode('required')
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->booleanNode('default')->defaultValue(false)
                             ->info('VAT number is required by default.')
@@ -37,6 +39,7 @@ final class Configuration implements ConfigurationInterface
                     ->end()
                 ->end() // required
                 ->arrayNode('validate')
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->booleanNode('format')->defaultValue(true)
                             ->info('Verify the country-specific VAT number format.')
@@ -54,6 +57,7 @@ final class Configuration implements ConfigurationInterface
                     ->end()
                 ->end() // validate
                 ->arrayNode('revalidate')
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->booleanNode('on_login')->defaultValue(true)
                             ->info('VAT number will be revalidated again on login.')
