@@ -40,6 +40,8 @@ services:
         class: Tests\Gewebe\SyliusVATPlugin\Behat\Context\Ui\Shop\AddressBookVatContext
         arguments:
             - "@gewebe_sylius_vat_plugin.behat.page.shop.account.address_book.create"
+            - "@doctrine.orm.entity_manager"
+            - "@sylius.repository.address"
 
     gewebe_sylius_vat_plugin.behat.context.ui.shop.checkout.address_vat_number:
         class: Tests\Gewebe\SyliusVATPlugin\Behat\Context\Ui\Shop\Checkout\AddressVatNumberContext

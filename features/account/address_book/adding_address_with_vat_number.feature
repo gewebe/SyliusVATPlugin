@@ -33,7 +33,14 @@ Feature: Adding a new address with VAT number to the book
         And I should be notified about 1 errors
 
     @ui
-    Scenario: Adding address with correct VAT number to address book
+    Scenario: Adding and updating address with a valid VAT number to address book
         When I specify my VAT number as "DE118716043"
         And I add it
         Then I should be notified that the address has been successfully added
+        And I see in the database that vat number for "Ankh Morpork" is valid
+        When I try to edit the address of "Ankh Morpork"
+        And I specify my VAT number as "DE999999999"
+        And I save my changed address
+        Then I should be notified that the address has been successfully updated
+        And I see in the database that vat number for "Ankh Morpork" is not valid
+

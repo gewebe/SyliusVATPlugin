@@ -62,4 +62,25 @@ final class AddressTest extends TestCase
         $address->setVatValid(true);
         static::assertTrue($address->hasValidVatNumber());
     }
+
+    public function testSetVatNumberResetsValidState(): void
+    {
+        $address = new Address();
+        $address->setVatNumber('DE123456789');
+        $address->setVatValid(true, new \DateTime());
+
+        static::assertTrue($address->hasValidVatNumber());
+        static::assertNotNull($address->getVatValidatedAt());
+
+        // Test that setting same number DOES NOT reset state
+        $address->setVatNumber('DE123456789');
+        static::assertTrue($address->hasValidVatNumber(), 'vatValid should NOT be reset when setting the same vatNumber');
+        static::assertNotNull($address->getVatValidatedAt(), 'vatValidatedAt should NOT be reset when setting the same vatNumber');
+
+        // Test that changing number DOES reset state
+        $address->setVatNumber('DE987654321');
+
+        static::assertFalse($address->hasValidVatNumber(), 'vatValid should be reset to false after changing vatNumber');
+        static::assertNull($address->getVatValidatedAt(), 'vatValidatedAt should be reset to null after changing vatNumber');
+    }
 }

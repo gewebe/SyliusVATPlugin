@@ -37,6 +37,11 @@ trait VatNumberAwareTrait
 
     public function setVatNumber(?string $vatNumber): void
     {
+        if ($this->vatNumber !== $vatNumber) {
+            $this->vatValid = false;
+            $this->vatValidatedAt = null;
+        }
+
         $this->vatNumber = $vatNumber;
     }
 
