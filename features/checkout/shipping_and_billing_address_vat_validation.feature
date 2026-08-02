@@ -27,6 +27,6 @@ Feature: Order addressing vat validation
     @ui
     Scenario: Address an order with invalid VAT number
         When I specify the billing address as "Barcelona", "Carrer de Mercedes", "C573+5G", "Spain" for "Pau Güell"
-        And I specify the billing VAT number as "XY118716043"
+        And I specify the billing VAT number as "ES666666666"
         And I try to complete the addressing step
         Then I should be notified that the VAT number in billing is not valid

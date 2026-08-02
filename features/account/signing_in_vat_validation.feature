@@ -5,6 +5,7 @@ Feature: Signing in to the store with expired VAT number validation
     I want to shop with a valid VAT number
 
     Background:
+        # "BE0123456789" is registered with the fake VIES service
         Given the store operates on a channel named "Web"
         And the store operates in "Belgium"
         And there is a customer account "ted@example.com" identified by "bear"
@@ -15,21 +16,21 @@ Feature: Signing in to the store with expired VAT number validation
 
     @ui
     Scenario: Trying to sign in with VAT number validated yesterday
-        Given their default address VAT number is "BE0402231383" validated since "1 day ago"
+        Given their default address VAT number is "BE0123456789" validated since "1 day ago"
         When I try to log in
         Then I should be logged in
         And my VAT number for the default address was validated "1 day ago"
 
     @ui
     Scenario: Trying to sign in with expired valid VAT number
-        Given their default address VAT number is "BE0402231383" validated since "2020-10-10 11:00"
+        Given their default address VAT number is "BE0123456789" validated since "2020-10-10 11:00"
         When I try to log in
         Then I should be logged in
         And my VAT number for the default address was validated "today"
 
     @ui
     Scenario: Trying to sign in with expired invalid VAT number
-        Given their default address VAT number is "BE1231231231" validated since "2020-10-10 11:00"
+        Given their default address VAT number is "BE6666666666" validated since "2020-10-10 11:00"
         When I try to log in
         Then I should be logged in
         And my VAT number for the default address was invalidated "today"

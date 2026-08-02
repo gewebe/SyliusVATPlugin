@@ -1,6 +1,15 @@
 services:
     _defaults: { public: true }
 
+    # Do not call the live VIES service in tests
+    gewebe_sylius_vat_plugin.ibericode_vat.validator:
+        class: Ibericode\Vat\Validator
+        arguments:
+            - '@gewebe_sylius_vat_plugin.behat.vies_client'
+
+    gewebe_sylius_vat_plugin.behat.vies_client:
+        class: Tests\Gewebe\SyliusVATPlugin\Behat\Service\FakeViesClient
+
     gewebe_sylius_vat_plugin.behat.context.setup.address:
         class: Tests\Gewebe\SyliusVATPlugin\Behat\Context\Setup\AddressContext
         arguments:

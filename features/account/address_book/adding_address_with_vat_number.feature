@@ -5,6 +5,7 @@ Feature: Adding a new address with VAT number to the book
     I want to be able to add a new address with VAT number to address book
 
     Background:
+        # "DE123456789" is registered with the fake VIES service, "DE999999999" simulates a service outage
         Given the store operates on a channel named "Web"
         And the store operates in "Portugal" and "Germany"
         And I am a logged in customer
@@ -26,15 +27,22 @@ Feature: Adding a new address with VAT number to the book
         And I should be notified about 1 errors
 
     @ui
-    Scenario: Adding address with wrong VAT number to address book
-        When I specify my VAT number as "XY118716043"
+    Scenario: Adding address with a malformed VAT number to address book
+        When I specify my VAT number as "DE666XY"
+        And I add it
+        Then I should still be on the address addition page
+        And I should be notified about 1 errors
+
+    @ui
+    Scenario: Adding address with invalid VAT number to address book
+        When I specify my VAT number as "DE666666666"
         And I add it
         Then I should still be on the address addition page
         And I should be notified about 1 errors
 
     @ui
     Scenario: Adding and updating address with a valid VAT number to address book
-        When I specify my VAT number as "DE118716043"
+        When I specify my VAT number as "DE123456789"
         And I add it
         Then I should be notified that the address has been successfully added
         And I see in the database that vat number for "Ankh Morpork" is valid

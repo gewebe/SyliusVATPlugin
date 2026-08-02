@@ -22,11 +22,11 @@ use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
 final class VatNumberValidatorTest extends TestCase
 {
-    private const VAT_VALID = 'DE118716043';
-    private const VAT_INVALID = 'XY123';
+    private const VAT_VALID = 'DE123456789';
+    private const VAT_INVALID_FORMAT = 'DE666XY';
     private const VAT_INVALID_COUNTRY = 'ATU12345678';
-    private const VAT_INVALID_REGISTRATION = 'DE123456789';
-    private const VAT_SERVICE_UNAVAILABLE = 'DE123123123';
+    private const VAT_INVALID_REGISTRATION = 'DE666666666';
+    private const VAT_SERVICE_UNAVAILABLE = 'DE999999999';
 
     private MockObject&VatNumberValidatorProviderInterface $provider;
 
@@ -37,7 +37,7 @@ final class VatNumberValidatorTest extends TestCase
         $vatNumberValidator->method('validateFormat')
             ->willReturnMap([
                                 [self::VAT_VALID, true],
-                                [self::VAT_INVALID, false],
+                                [self::VAT_INVALID_FORMAT, false],
                                 [self::VAT_INVALID_COUNTRY, true],
                                 [self::VAT_INVALID_REGISTRATION, true],
                                 [self::VAT_SERVICE_UNAVAILABLE, true],
@@ -122,7 +122,7 @@ final class VatNumberValidatorTest extends TestCase
     {
         $this->validateAddress(
             $this->getContext(),
-            self::VAT_INVALID,
+            self::VAT_INVALID_FORMAT,
             'DE',
             null,
             new VatNumberValidatorConfig(validateFormat: false)
@@ -131,14 +131,14 @@ final class VatNumberValidatorTest extends TestCase
 
     public function testWithoutViolationIfNoValidatorAvailable(): void
     {
-        $this->validateAddress($this->getContext(), self::VAT_INVALID, 'XY');
+        $this->validateAddress($this->getContext(), self::VAT_INVALID_FORMAT, 'XY');
     }
 
     public function testViolationForInvalidFormat(): void
     {
         $context = $this->getContext(true, 'messageInvalidFormat');
 
-        $this->validateAddress($context, self::VAT_INVALID, 'DE');
+        $this->validateAddress($context, self::VAT_INVALID_FORMAT, 'DE');
     }
 
     public function testViolationForInvalidCountry(): void

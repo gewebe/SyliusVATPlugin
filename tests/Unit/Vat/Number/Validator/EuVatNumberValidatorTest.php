@@ -24,19 +24,19 @@ final class EuVatNumberValidatorTest extends TestCase
         $this->validator->method('validateVatNumberFormat')
             ->willReturnCallback(function (string $vatNumber) {
                 return match ($vatNumber) {
-                    'XY123' => false,
-                    'DE123123123' => true,
+                    'DE666XY' => false,
+                    'DE123456789' => true,
                     default => false,
                 };
             });
 
         $this->validator->method('validateVatNumber')
             ->willReturnCallback(function (string $vatNumber) {
-                if ($vatNumber === 'DE321321321') {
+                if ($vatNumber === 'DE999999999') {
                     throw new ViesException('VIES down');
                 }
 
-                return $vatNumber === 'DE123123123';
+                return $vatNumber === 'DE123456789';
             });
 
         $this->euVatNumberValidator = new EuVatNumberValidator($this->validator);
@@ -49,25 +49,25 @@ final class EuVatNumberValidatorTest extends TestCase
 
     public function testValidateCountry(): void
     {
-        self::assertTrue($this->euVatNumberValidator->validateCountry('DE123123123', 'DE'));
-        self::assertTrue($this->euVatNumberValidator->validateCountry('DE123123123', 'de'));
-        self::assertFalse($this->euVatNumberValidator->validateCountry('DE123123123', 'FR'));
+        self::assertTrue($this->euVatNumberValidator->validateCountry('DE123456789', 'DE'));
+        self::assertTrue($this->euVatNumberValidator->validateCountry('DE123456789', 'de'));
+        self::assertFalse($this->euVatNumberValidator->validateCountry('DE123456789', 'FR'));
     }
 
     public function testValidateFormat(): void
     {
-        self::assertFalse($this->euVatNumberValidator->validateFormat('XY123'));
-        self::assertTrue($this->euVatNumberValidator->validateFormat('DE123123123'));
+        self::assertFalse($this->euVatNumberValidator->validateFormat('DE666XY'));
+        self::assertTrue($this->euVatNumberValidator->validateFormat('DE123456789'));
     }
 
     public function testValidate(): void
     {
-        self::assertTrue($this->euVatNumberValidator->validate('DE123123123'));
+        self::assertTrue($this->euVatNumberValidator->validate('DE123456789'));
     }
 
     public function testExceptionIfServiceUnavailable(): void
     {
         $this->expectException(ClientException::class);
-        $this->euVatNumberValidator->validate('DE321321321');
+        $this->euVatNumberValidator->validate('DE999999999');
     }
 }

@@ -30,7 +30,7 @@ final class AddressTest extends TestCase
         $address->setVatNumber(' ');
         static::assertTrue($address->hasVatNumber());
 
-        $address->setVatNumber('DE123123123');
+        $address->setVatNumber('DE123456789');
         static::assertTrue($address->hasVatNumber());
     }
 
@@ -56,7 +56,7 @@ final class AddressTest extends TestCase
         static::assertFalse($address->hasValidVatNumber());
 
         $address->setVatValid(false);
-        $address->setVatNumber('DE123123123');
+        $address->setVatNumber('DE123456789');
         static::assertFalse($address->hasValidVatNumber());
 
         $address->setVatValid(true);

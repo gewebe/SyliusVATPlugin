@@ -5,6 +5,7 @@ Feature: See VAT number at billing address after an order has been placed
     I want to be able to validate a customer's VAT number after an order has been placed
 
     Background:
+        # "DE123456789" and "DE123123123" are registered with the fake VIES service
         Given the store operates on a channel named "Web"
         And the store operates in "Germany"
         And the store has a zone "Germany" with code "DE"
@@ -17,15 +18,15 @@ Feature: See VAT number at billing address after an order has been placed
 
     @ui
     Scenario: Modifying a customer's billing address VAT number
-        Given the customer set the billing address VAT number to "DE123123123" which is valid
+        Given the customer set the billing address VAT number to "DE123456789" which is valid
         And the customer chose "Free" shipping method with "Cash on Delivery" payment
         When I am logged in as an administrator
         And I view the summary of the order "#00000001"
-        Then I should see valid VAT number "DE123123123" in the billing address
+        Then I should see valid VAT number "DE123456789" in the billing address
         When I want to modify a customer's billing address of this order
-        And I do specify billing address VAT number to "DE321321321"
+        And I do specify billing address VAT number to "DE123123123"
         And I save my changes
-        Then I should see valid VAT number "DE321321321" in the billing address
+        Then I should see valid VAT number "DE123123123" in the billing address
 
     @ui
     Scenario Outline: See customer's VAT number validation status
@@ -37,9 +38,9 @@ Feature: See VAT number at billing address after an order has been placed
 
         Examples:
             | vatNumber | vatValid | addressType |
-            |  DE118716043   |  valid  |  billing  |
-            |  DE123123123   |  invalid  |  billing  |
-            |  DE123123123   |  unverified  |  billing  |
-            |  DE118716043   |  valid  |  shipping  |
-            |  DE123123123   |  invalid  |  shipping  |
-            |  DE123123123   |  unverified  |  shipping  |
+            |  DE123456789   |  valid  |  billing  |
+            |  DE666666666   |  invalid  |  billing  |
+            |  DE987654321   |  unverified  |  billing  |
+            |  DE123456789   |  valid  |  shipping  |
+            |  DE666666666   |  invalid  |  shipping  |
+            |  DE987654321   |  unverified  |  shipping  |
