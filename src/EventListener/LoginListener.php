@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Gewebe\SyliusVATPlugin\EventListener;
 
+use DateTime;
 use Gewebe\SyliusVATPlugin\Config\VatNumberValidatorConfig;
 use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
 use Gewebe\SyliusVATPlugin\Validator\Constraints\VatNumber;
@@ -45,7 +46,7 @@ class LoginListener
             return;
         }
 
-        $revalidationDate = new \DateTime($this->vatNumberValidatorConfig->expirationDays . ' days ago');
+        $revalidationDate = new DateTime($this->vatNumberValidatorConfig->expirationDays . ' days ago');
 
         if (null === $address->getVatValidatedAt() || $address->getVatValidatedAt() < $revalidationDate) {
             $violations = $this->validator->validate($address, new VatNumber());

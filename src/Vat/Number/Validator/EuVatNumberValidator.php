@@ -15,18 +15,22 @@ use Ibericode\Vat\Vies\ViesException;
  */
 final class EuVatNumberValidator implements VatNumberValidatorInterface
 {
-    public function __construct(private Validator $validator)
-    {
+    public function __construct(
+        private readonly Validator $validator,
+        private readonly Countries $countries = new Countries(),
+    ) {
     }
 
+    /**
+     * @return list<string>
+     */
     public function getCountries(): array
     {
-        $countries = new Countries();
         $euCountries = [];
 
         /** @var string $countryCode */
-        foreach (array_keys(iterator_to_array($countries)) as $countryCode) {
-            if ($countries->isCountryCodeInEU($countryCode)) {
+        foreach (array_keys(iterator_to_array($this->countries)) as $countryCode) {
+            if ($this->countries->isCountryCodeInEU($countryCode)) {
                 $euCountries[] = $countryCode;
             }
         }
@@ -36,13 +40,7 @@ final class EuVatNumberValidator implements VatNumberValidatorInterface
 
     public function validateCountry(string $vatNumber, string $countryCode): bool
     {
-        $country = substr($vatNumber, 0, 2);
-
-        if (strtolower($country) === strtolower($countryCode)) {
-            return true;
-        }
-
-        return false;
+        return 0 === strcasecmp(substr($vatNumber, 0, 2), $countryCode);
     }
 
     public function validateFormat(string $vatNumber): bool
@@ -55,7 +53,7 @@ final class EuVatNumberValidator implements VatNumberValidatorInterface
         try {
             return $this->validator->validateVatNumber($vatNumber);
         } catch (ViesException $e) {
-            throw new ClientException($e->getMessage(), $e->getCode());
+            throw new ClientException($e->getMessage(), $e->getCode(), $e);
         }
     }
 }

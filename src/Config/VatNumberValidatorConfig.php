@@ -6,6 +6,9 @@ namespace Gewebe\SyliusVATPlugin\Config;
 
 final readonly class VatNumberValidatorConfig
 {
+    /**
+     * @param list<string> $requiredForCountries ISO-3166-1-alpha2 country codes
+     */
     public function __construct(
         public bool $isRequired = false,
         public bool $isRequiredForCompany = true,

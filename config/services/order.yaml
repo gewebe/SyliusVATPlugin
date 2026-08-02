@@ -7,6 +7,6 @@ services:
             - '@doctrine.orm.entity_manager'
             - '@sylius.repository.zone'
             - '@sylius.resolver.taxation_address'
-            - '%gewebe_sylius_vat_plugin.order.recalculate%'
+            - !abstract 'order.recalculate'
         tags:
             - { name: sylius.order_processor, priority: 8 }

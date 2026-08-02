@@ -60,16 +60,6 @@ sylius_core:
     shipping_address_based_taxation: true
 ```
 
-### Copy templates
-Copy customized templates to your templates directory (e.g `templates/bundles/`):
-
-```bash
-mkdir -p templates/bundles/SyliusAdminBundle/
-cp -R vendor/gewebe/sylius-vat-plugin/templates/SyliusAdminBundle/* templates/bundles/SyliusAdminBundle/
-mkdir -p templates/bundles/SyliusShopBundle/
-cp -R vendor/gewebe/sylius-vat-plugin/templates/SyliusShopBundle/* templates/bundles/SyliusShopBundle/
-```
-
 ### Extend `Address` entity
 
 ```php
@@ -82,10 +72,6 @@ use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
 use Gewebe\SyliusVATPlugin\Entity\VatNumberAwareTrait;
 use Sylius\Component\Core\Model\Address as BaseAddress;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="sylius_address")
- */
 #[ORM\Entity]
 #[ORM\Table(name: 'sylius_address')]
 class Address extends BaseAddress implements VatNumberAddressInterface
@@ -126,10 +112,6 @@ use Gewebe\SyliusVATPlugin\Entity\ShopBillingDataVatNumberAwareTrait;
 use Gewebe\SyliusVATPlugin\Entity\ShopBillingDataVatNumberInterface;
 use Sylius\Component\Core\Model\ShopBillingData as BaseShopBillingData;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="sylius_shop_billing_data")
- */
 #[ORM\Entity]
 #[ORM\Table(name: 'sylius_shop_billing_data')]
 class ShopBillingData extends BaseShopBillingData implements ShopBillingDataVatNumberInterface
@@ -220,10 +202,10 @@ To be able to set up a plugin's database, remember to configure your database cr
 
 2. Run your local server:
 
-      ```bash
-      symfony server:ca:install
-      symfony server:start -d
-      ```
+    ```bash
+    symfony server:ca:install
+    symfony server:start -d
+    ```
 
 3. Open your browser and navigate to `https://localhost:8000`.
 
@@ -241,17 +223,17 @@ To be able to set up a plugin's database, remember to configure your database cr
 
 ### Running plugin tests
 
-  - PHPUnit
+- PHPUnit
 
-    ```bash
-    vendor/bin/phpunit
-    ```
+  ```bash
+  vendor/bin/phpunit
+  ```
 
-  - Behat (non-JS scenarios)
+- Behat (non-JS scenarios)
 
-    ```bash
-    vendor/bin/behat --strict --tags="~@javascript&&~@mink:chromedriver"
-    ```
+  ```bash
+  vendor/bin/behat --strict --tags="~@javascript&&~@mink:chromedriver"
+  ```
 
 - PHPStan - Static Analysis
 
@@ -259,17 +241,17 @@ To be able to set up a plugin's database, remember to configure your database cr
   vendor/bin/phpstan analyse -c phpstan.neon -l max src/  
   ```
 
-  - Coding Standard
+- Coding Standard
   
-    ```bash
-    vendor/bin/ecs check
-    ```
+  ```bash
+  vendor/bin/ecs check
+  ```
 
 [ico-version]: https://img.shields.io/packagist/v/gewebe/sylius-vat-plugin.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/gewebe/SyliusVATPlugin.svg?style=flat-square
-[ico-build]: https://github.com/gewebe/SyliusVATPlugin/actions/workflows/build.yml/badge.svg
+[ico-build]: https://github.com/gewebe/SyliusVATPlugin/actions/workflows/build.yaml/badge.svg
 
 [link-packagist]: https://packagist.org/packages/gewebe/sylius-vat-plugin
 [link-code-quality]: https://scrutinizer-ci.com/g/gewebe/SyliusVATPlugin
-[link-build]: https://github.com/gewebe/SyliusVATPlugin/actions/workflows/build.yml
+[link-build]: https://github.com/gewebe/SyliusVATPlugin/actions/workflows/build.yaml

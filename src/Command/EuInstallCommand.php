@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace Gewebe\SyliusVATPlugin\Command;
 
+use Exception;
 use Gewebe\SyliusVATPlugin\Vat\Rates\RatesInterface;
 use Sylius\Component\Addressing\Factory\ZoneFactory;
 use Sylius\Component\Addressing\Model\CountryInterface;
 use Sylius\Component\Addressing\Model\ZoneInterface;
 use Sylius\Component\Core\Model\Scope;
 use Sylius\Component\Core\Model\TaxRateInterface;
-use Sylius\Component\Resource\Factory\FactoryInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\Component\Taxation\Model\TaxCategoryInterface;
+use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
+use Sylius\Resource\Factory\FactoryInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,18 +26,31 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  *  @Todo: rewrite setup of different tax schemas
  */
+#[AsCommand(
+    name: 'vat:install:eu',
+    description: 'Install European countries, zones and VAT rates',
+)]
 final class EuInstallCommand extends Command
 {
+    /**
+     * @param FactoryInterface<CountryInterface> $countryFactory
+     * @param RepositoryInterface<CountryInterface> $countryRepository
+     * @param RepositoryInterface<ZoneInterface> $zoneRepository
+     * @param FactoryInterface<TaxRateInterface> $taxRateFactory
+     * @param RepositoryInterface<TaxRateInterface> $taxRateRepository
+     * @param FactoryInterface<TaxCategoryInterface> $taxCategoryFactory
+     * @param RepositoryInterface<TaxCategoryInterface> $taxCategoryRepository
+     */
     public function __construct(
-        private RatesInterface $vatRates,
-        private FactoryInterface $countryFactory,
-        private RepositoryInterface $countryRepository,
-        private ZoneFactory $zoneFactory,
-        private RepositoryInterface $zoneRepository,
-        private FactoryInterface $taxRateFactory,
-        private RepositoryInterface $taxRateRepository,
-        private FactoryInterface $taxCategoryFactory,
-        private RepositoryInterface $taxCategoryRepository,
+        private readonly RatesInterface $vatRates,
+        private readonly FactoryInterface $countryFactory,
+        private readonly RepositoryInterface $countryRepository,
+        private readonly ZoneFactory $zoneFactory,
+        private readonly RepositoryInterface $zoneRepository,
+        private readonly FactoryInterface $taxRateFactory,
+        private readonly RepositoryInterface $taxRateRepository,
+        private readonly FactoryInterface $taxCategoryFactory,
+        private readonly RepositoryInterface $taxCategoryRepository,
     ) {
         parent::__construct();
     }
@@ -43,8 +58,6 @@ final class EuInstallCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('vat:install:eu')
-            ->setDescription('Install European countries, zones and VAT rates')
             ->addArgument(
                 'country',
                 InputArgument::OPTIONAL,
@@ -125,21 +138,21 @@ final class EuInstallCommand extends Command
             $zone = $this->addZone(
                 strtoupper($countryCode) . '-vat',
                 $countryName . ' VAT',
-                [$country->getCode()],
+                [(string) $country->getCode()],
                 ZoneInterface::TYPE_COUNTRY,
             );
 
-            $euZones[] = $zone->getCode();
+            $euZones[] = (string) $zone->getCode();
 
             if (in_array(strtolower($countryCode), $thresholdCountries, true)) {
                 $zone = $this->addZone(
                     $countryCode . '-tax',
                     $countryName . ' Tax',
-                    [$country->getCode()],
+                    [(string) $country->getCode()],
                     ZoneInterface::TYPE_COUNTRY,
                     Scope::TAX,
                 );
-            } elseif (strlen($baseCountry) > 0) {
+            } elseif ('' !== $baseCountry) {
                 continue;
             }
 
@@ -162,7 +175,7 @@ final class EuInstallCommand extends Command
             ZoneInterface::TYPE_ZONE,
         );
 
-        if (strlen($baseCountry) > 0) {
+        if ('' !== $baseCountry) {
             foreach ($taxCategories as $taxCategory) {
                 $this->addTaxRate(
                     $baseCountry,
@@ -174,7 +187,7 @@ final class EuInstallCommand extends Command
             }
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     private function addCountry(string $code): CountryInterface
@@ -240,7 +253,7 @@ final class EuInstallCommand extends Command
     ): void {
         try {
             $countryRate = $this->vatRates->getCountryRate(strtoupper($country), $category) / 100;
-        } catch (\Exception $e) {
+        } catch (Exception) {
             return;
         }
 

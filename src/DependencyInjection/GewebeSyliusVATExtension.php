@@ -25,22 +25,21 @@ final class GewebeSyliusVATExtension extends AbstractResourceExtension implement
             return;
         }
 
-        /** @var string[][] $configs */
-        $configs = $this->processConfiguration($configuration, $configs);
+        $config = $this->processConfiguration($configuration, $configs);
 
         $definition = $container->getDefinition('gewebe_sylius_vat_plugin.order_processor');
-        $definition->replaceArgument(3, $configs['order']['recalculate']);
+        $definition->replaceArgument(3, $config['order']['recalculate']);
 
         $definition = $container->getDefinition('gewebe_sylius_vat_plugin.vat_number_validator_config');
-        $definition->replaceArgument(0, $configs['required']['default']);
-        $definition->replaceArgument(1, $configs['required']['company']);
-        $definition->replaceArgument(2, $configs['required']['countries']);
-        $definition->replaceArgument(3, $configs['validate']['format']);
-        $definition->replaceArgument(4, $configs['validate']['country']);
-        $definition->replaceArgument(5, $configs['validate']['registration']);
-        $definition->replaceArgument(6, $configs['validate']['on_service_unavailable']);
-        $definition->replaceArgument(7, $configs['revalidate']['on_login']);
-        $definition->replaceArgument(8, $configs['revalidate']['expiration_days']);
+        $definition->replaceArgument(0, $config['required']['default']);
+        $definition->replaceArgument(1, $config['required']['company']);
+        $definition->replaceArgument(2, $config['required']['countries']);
+        $definition->replaceArgument(3, $config['validate']['format']);
+        $definition->replaceArgument(4, $config['validate']['country']);
+        $definition->replaceArgument(5, $config['validate']['registration']);
+        $definition->replaceArgument(6, $config['validate']['on_service_unavailable']);
+        $definition->replaceArgument(7, $config['revalidate']['on_login']);
+        $definition->replaceArgument(8, $config['revalidate']['expiration_days']);
     }
 
     public function prepend(ContainerBuilder $container): void

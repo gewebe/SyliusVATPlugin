@@ -10,11 +10,7 @@ class ShowPage extends BaseShowPage implements ShowPageInterface
 {
     public function hasBillingVatNumber(string $vatNumber): bool
     {
-        if ($this->getBillingVatNumber() == $vatNumber) {
-            return true;
-        }
-
-        return false;
+        return $this->getBillingVatNumber() === $vatNumber;
     }
 
     public function getBillingVatNumber(): string
@@ -29,11 +25,7 @@ class ShowPage extends BaseShowPage implements ShowPageInterface
 
     public function hasShippingVatNumber(string $vatNumber): bool
     {
-        if ($this->getShippingVatNumber() == $vatNumber) {
-            return true;
-        }
-
-        return false;
+        return $this->getShippingVatNumber() === $vatNumber;
     }
 
     public function getShippingVatNumber(): string
@@ -46,7 +38,6 @@ class ShowPage extends BaseShowPage implements ShowPageInterface
         return $this->getElement('shipping_vat_validation')->getText();
     }
 
-    /** @inheritdoc */
     protected function getDefinedElements(): array
     {
         return array_merge(parent::getDefinedElements(), [

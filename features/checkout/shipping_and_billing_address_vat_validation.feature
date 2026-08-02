@@ -2,7 +2,7 @@
 Feature: Order addressing vat validation
     In order to avoid making mistakes when addressing an order
     As an Customer
-    I want to be prevented from adding it with invalid vat number
+    I want to be prevented from adding it with invalid VAT number
 
     Background:
         Given the store operates on a channel named "Web"
@@ -16,17 +16,17 @@ Feature: Order addressing vat validation
     Scenario: Address an order for a company where the VAT number is required
         When I specify the billing company as "LaLuna"
         And I try to complete the addressing step
-        Then I should be notified that the company vat number in billing is required
+        Then I should be notified that the company VAT number in billing is required
 
     @ui
     Scenario: Address an order for a country where the VAT number is required
         When I specify the billing address as "Lisboa", "Rua Augusta", "1100-016", "Portugal" for "Maria Lopes"
         And I try to complete the addressing step
-        Then I should be notified that the vat number in billing is required
+        Then I should be notified that the VAT number in billing is required
 
     @ui
-    Scenario: Address an order with invalid vat number
+    Scenario: Address an order with invalid VAT number
         When I specify the billing address as "Barcelona", "Carrer de Mercedes", "C573+5G", "Spain" for "Pau Güell"
-        And I specify the billing vat number as "XY118716043"
+        And I specify the billing VAT number as "XY118716043"
         And I try to complete the addressing step
-        Then I should be notified that the vat number in billing is not valid
+        Then I should be notified that the VAT number in billing is not valid

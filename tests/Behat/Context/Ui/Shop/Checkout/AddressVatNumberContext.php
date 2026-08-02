@@ -5,74 +5,63 @@ declare(strict_types=1);
 namespace Tests\Gewebe\SyliusVATPlugin\Behat\Context\Ui\Shop\Checkout;
 
 use Behat\Behat\Context\Context;
+use Behat\Step\Then;
+use Behat\Step\When;
 use Tests\Gewebe\SyliusVATPlugin\Behat\Page\Shop\Checkout\AddressPage;
 use Webmozart\Assert\Assert;
 
 final class AddressVatNumberContext implements Context
 {
-    public function __construct(private AddressPage $addressPage)
+    public function __construct(private readonly AddressPage $addressPage)
     {
     }
 
-    /**
-     * @When /^I specify the billing company as "([^"]+)"$/
-     */
-    public function iSpecifyTheCompanyForBillingAddress($company)
+    #[When('/^I specify the billing company as "([^"]+)"$/')]
+    public function iSpecifyTheCompanyForBillingAddress(string $company): void
     {
         $this->addressPage->specifyBillingAddressCompany($company);
     }
 
-    /**
-     * @When /^I specify the billing vat number as "([^"]+)"$/
-     */
-    public function iSpecifyTheVatNumberForBillingAddress($vatNumber)
+    #[When('/^I specify the billing VAT number as "([^"]+)"$/')]
+    public function iSpecifyTheVatNumberForBillingAddress(string $vatNumber): void
     {
         $this->addressPage->specifyBillingAddressVatNumber($vatNumber);
     }
 
-    /**
-     * @When /^I specify the shipping company as "([^"]+)"$/
-     */
-    public function iSpecifyTheCompanyForShippingAddress($company)
+    #[When('/^I specify the shipping company as "([^"]+)"$/')]
+    public function iSpecifyTheCompanyForShippingAddress(string $company): void
     {
         $this->addressPage->specifyShippingAddressCompany($company);
     }
 
-    /**
-     * @When /^I specify the shipping vat number as "([^"]+)"$/
-     */
-    public function iSpecifyTheVatNumberForShippingAddress($vatNumber)
+    #[When('/^I specify the shipping VAT number as "([^"]+)"$/')]
+    public function iSpecifyTheVatNumberForShippingAddress(string $vatNumber): void
     {
         $this->addressPage->specifyShippingAddressVatNumber($vatNumber);
     }
 
-    /**
-     * @Then /^I should be notified that the vat number in (shipping|billing) is required$/
-     */
-    public function iShouldBeNotifiedThatTheVatNumberIsRequired($type)
+    #[Then('/^I should be notified that the VAT number in (shipping|billing) is required$/')]
+    public function iShouldBeNotifiedThatTheVatNumberIsRequired(string $type): void
     {
-        $expectedMessage = 'Please enter a VAT number.';
-        $element = sprintf('%s_vat_number', $type);
-        Assert::true($this->addressPage->checkValidationMessageFor($element, $expectedMessage));
+        $this->assertValidationMessage($type, 'Please enter a VAT number.');
     }
 
-    /**
-     * @Then /^I should be notified that the company vat number in (shipping|billing) is required$/
-     */
-    public function iShouldBeNotifiedThatTheCompanyVatNumberIsRequired($type)
+    #[Then('/^I should be notified that the company VAT number in (shipping|billing) is required$/')]
+    public function iShouldBeNotifiedThatTheCompanyVatNumberIsRequired(string $type): void
     {
-        $expectedMessage = 'Please enter the company VAT number.';
-        $element = sprintf('%s_vat_number', $type);
-        Assert::true($this->addressPage->checkValidationMessageFor($element, $expectedMessage));
+        $this->assertValidationMessage($type, 'Please enter the company VAT number.');
     }
 
-    /**
-     * @Then /^I should be notified that the vat number in (shipping|billing) is not valid$/
-     */
-    public function iShouldBeNotifiedThatTheVatNumberIsNotValid($type)
+    #[Then('/^I should be notified that the VAT number in (shipping|billing) is not valid$/')]
+    public function iShouldBeNotifiedThatTheVatNumberIsNotValid(string $type): void
     {
-        $expectedMessage = 'Please enter a valid VAT number.';
-        $element = sprintf('%s_vat_number', $type);
-        Assert::true($this->addressPage->checkValidationMessageFor($element, $expectedMessage));
+        $this->assertValidationMessage($type, 'Please enter a valid VAT number.');
+    }
+
+    private function assertValidationMessage(string $type, string $expectedMessage): void
+    {
+        Assert::true(
+            $this->addressPage->checkValidationMessageFor(sprintf('%s_vat_number', $type), $expectedMessage),
+        );
     }
 }

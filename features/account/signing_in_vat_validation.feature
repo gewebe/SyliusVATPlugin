@@ -1,8 +1,8 @@
 @customer_login_vat_number
-Feature: Signing in to the store with expired vat number validation
-    In order to have always a validated vat number
+Feature: Signing in to the store with expired VAT number validation
+    In order to have always a validated VAT number
     As a Customer
-    I want to shop with a valid vat number
+    I want to shop with a valid VAT number
 
     Background:
         Given the store operates on a channel named "Web"
@@ -14,21 +14,21 @@ Feature: Signing in to the store with expired vat number validation
         And I specify the password as "bear"
 
     @ui
-    Scenario: Trying to sign in with vat number validated yesterday
+    Scenario: Trying to sign in with VAT number validated yesterday
         Given their default address VAT number is "BE0402231383" validated since "1 day ago"
         When I try to log in
         Then I should be logged in
         And my VAT number for the default address was validated "1 day ago"
 
     @ui
-    Scenario: Trying to sign in with expired valid vat number
+    Scenario: Trying to sign in with expired valid VAT number
         Given their default address VAT number is "BE0402231383" validated since "2020-10-10 11:00"
         When I try to log in
         Then I should be logged in
         And my VAT number for the default address was validated "today"
 
     @ui
-    Scenario: Trying to sign in with expired invalid vat number
+    Scenario: Trying to sign in with expired invalid VAT number
         Given their default address VAT number is "BE1231231231" validated since "2020-10-10 11:00"
         When I try to log in
         Then I should be logged in

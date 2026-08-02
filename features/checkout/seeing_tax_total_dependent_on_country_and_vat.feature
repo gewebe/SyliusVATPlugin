@@ -1,8 +1,8 @@
 @checkout_vat_number
 Feature: Seeing tax total dependent on country and vat
-    In order to be certain about total tax for vat number
+    In order to be certain about total tax for VAT number
     As an Customer
-    I want to see tax total dependent on country and vat number
+    I want to see tax total dependent on country and VAT number
 
     Background:
         # be
@@ -64,7 +64,7 @@ Feature: Seeing tax total dependent on country and vat
     @ui
     Scenario: Seeing included tax of 21% with valid VAT number within business country
         When I specify the billing address as "Gent", "Merelstraat", "9000", "Belgium" for "Ankh Morpork"
-        And I specify the billing vat number as "BE0402231383"
+        And I specify the billing VAT number as "BE0402231383"
         And I try to complete the addressing step
         And I proceed with "Free" shipping method and "Offline" payment
         Then I should be on the checkout summary step
@@ -84,7 +84,7 @@ Feature: Seeing tax total dependent on country and vat
     @ui
     Scenario: Seeing excluded tax of 0% with valid VAT number from other than business country
         When I specify the billing address as "Zagreb", "Crni put", "10000", "Croatia" for "Sabina Babic"
-        And I specify the billing vat number as "HR00183562417"
+        And I specify the billing VAT number as "HR00183562417"
         And I try to complete the addressing step
         And I proceed with "Post-HR" shipping method and "Offline" payment
         Then I should be on the checkout summary step
@@ -105,7 +105,7 @@ Feature: Seeing tax total dependent on country and vat
     @ui
     Scenario: Seeing included tax of 0% with valid VAT number from other than business country
         When I specify the billing address as "Marseille", "Chaude Ruelle", "13003", "France" for "Pierre Simon"
-        And I specify the billing vat number as "FR91552118465"
+        And I specify the billing VAT number as "FR91552118465"
         And I try to complete the addressing step
         And I proceed with "Post-FR" shipping method and "Offline" payment
         Then I should be on the checkout summary step

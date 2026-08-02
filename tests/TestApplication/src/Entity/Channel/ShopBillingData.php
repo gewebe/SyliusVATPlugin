@@ -11,9 +11,6 @@ use Sylius\Component\Core\Model\ShopBillingData as BaseShopBillingData;
 
 /**
  * ShopBillingData entity with vat number implemented as trait
- *
- * @ORM\Entity
- * @ORM\Table(name="sylius_shop_billing_data")
  */
 #[ORM\Entity]
 #[ORM\Table(name: 'sylius_shop_billing_data')]

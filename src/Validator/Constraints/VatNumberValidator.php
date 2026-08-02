@@ -35,8 +35,9 @@ class VatNumberValidator extends ConstraintValidator
         if ($this->hasVatNumberForCompany($value, $constraint) === false ||
             $this->hasVatNumberForCountry($value, $constraint) === false ||
             $this->validatorConfig->validateFormat === false ||
-            !$value->getVatNumber() ||
-            !$value->getCountryCode()
+            $value->getVatNumber() === null ||
+            $value->getVatNumber() === '' ||
+            $value->getCountryCode() === null
         ) {
             return;
         }
@@ -106,7 +107,7 @@ class VatNumberValidator extends ConstraintValidator
     ): void {
         try {
             $validVatNumber = $validator->validate($address->getVatNumber() ?? '');
-        } catch (ClientException $e) {
+        } catch (ClientException) {
             if ($this->validatorConfig->validateOnServiceUnavailable === true) {
                 $this->addViolation($constraint->messageServiceUnavailable, $constraint->vatNumberPath);
             }

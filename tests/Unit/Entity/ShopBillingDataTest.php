@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Gewebe\SyliusVATPlugin\Unit\Entity;
 
-use Gewebe\SyliusVATPlugin\Entity\ShopBillingData;
 use Gewebe\SyliusVATPlugin\Entity\ShopBillingDataVatNumberInterface;
 use PHPUnit\Framework\TestCase;
+use Tests\Gewebe\SyliusVATPlugin\Entity\Channel\ShopBillingData;
 
 final class ShopBillingDataTest extends TestCase
 {

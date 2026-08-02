@@ -1,8 +1,8 @@
 @address_book_vat_number
-Feature: Adding a new address with vat number to the book
-    In order to have saved addresses with vat number on my account
+Feature: Adding a new address with VAT number to the book
+    In order to have saved addresses with VAT number on my account
     As a Customer
-    I want to be able to add a new address with vat number to address book
+    I want to be able to add a new address with VAT number to address book
 
     Background:
         Given the store operates on a channel named "Web"
@@ -26,14 +26,14 @@ Feature: Adding a new address with vat number to the book
         And I should be notified about 1 errors
 
     @ui
-    Scenario: Adding address with wrong vat number to address book
-        When I specify my vat number as "XY118716043"
+    Scenario: Adding address with wrong VAT number to address book
+        When I specify my VAT number as "XY118716043"
         And I add it
         Then I should still be on the address addition page
         And I should be notified about 1 errors
 
     @ui
-    Scenario: Adding address with correct vat number to address book
-        When I specify my vat number as "DE118716043"
+    Scenario: Adding address with correct VAT number to address book
+        When I specify my VAT number as "DE118716043"
         And I add it
         Then I should be notified that the address has been successfully added

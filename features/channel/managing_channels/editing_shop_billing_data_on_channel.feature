@@ -1,8 +1,8 @@
 @channel_vat_number
-Feature: Editing shop billing data with vat number on channel
-    In order to have proper shop billing data with vat number on shop-related documents
+Feature: Editing shop billing data with VAT number on channel
+    In order to have proper shop billing data with VAT number on shop-related documents
     As an Administrator
-    I want to be able to edit shop billing data with vat number on a channel
+    I want to be able to edit shop billing data with VAT number on a channel
 
     Background:
         Given the store operates on a channel named "Web"
@@ -11,7 +11,7 @@ Feature: Editing shop billing data with vat number on channel
         And I am logged in as an administrator
 
     @ui
-    Scenario: Editing shop billing data with vat number on channel
+    Scenario: Editing shop billing data with VAT number on channel
         When I want to modify a channel "Web"
         And I specify company as "Jodeliti"
         And I specify tax ID as "99-999/9999"

@@ -11,6 +11,8 @@ interface VatNumberValidatorInterface
 {
     /**
      * ISO-3166-1-alpha2 country codes for validation
+     *
+     * @return list<string>
      */
     public function getCountries(): array;
 

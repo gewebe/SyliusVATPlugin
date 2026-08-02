@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Gewebe\SyliusVATPlugin\Unit\Entity;
 
-use Gewebe\SyliusVATPlugin\Entity\Address;
 use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
 use PHPUnit\Framework\TestCase;
+use Tests\Gewebe\SyliusVATPlugin\Entity\Addressing\Address;
 
 final class AddressTest extends TestCase
 {

@@ -11,9 +11,6 @@ use Sylius\Component\Core\Model\Address as BaseAddress;
 
 /**
  * Address entity with vat number
- *
- * @ORM\Entity
- * @ORM\Table(name="sylius_address")
  */
 #[ORM\Entity]
 #[ORM\Table(name: 'sylius_address')]

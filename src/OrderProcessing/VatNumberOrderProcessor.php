@@ -19,13 +19,13 @@ use Sylius\Component\Order\Processor\OrderProcessorInterface;
  */
 final class VatNumberOrderProcessor implements OrderProcessorInterface
 {
-    private ?ZoneInterface $euZone;
+    private ?ZoneInterface $euZone = null;
 
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private ZoneRepositoryInterface $zoneRepository,
-        private TaxationAddressResolverInterface $taxationAddressResolver,
-        private bool $isActive = true,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ZoneRepositoryInterface $zoneRepository,
+        private readonly TaxationAddressResolverInterface $taxationAddressResolver,
+        private readonly bool $isActive = true,
     ) {
     }
 
@@ -54,7 +54,7 @@ final class VatNumberOrderProcessor implements OrderProcessorInterface
         foreach ($order->getAdjustments(AdjustmentInterface::TAX_ADJUSTMENT) as $taxAdjustment) {
             if ($taxAdjustment->isNeutral()) {
                 foreach ($order->getAdjustments(AdjustmentInterface::SHIPPING_ADJUSTMENT) as $shipmentAdjustment) {
-                    if ($shipmentAdjustment->getDetails()['shippingMethodCode'] == $taxAdjustment->getDetails()['shippingMethodCode']) {
+                    if ($shipmentAdjustment->getDetails()['shippingMethodCode'] === $taxAdjustment->getDetails()['shippingMethodCode']) {
                         $shipmentAdjustment->setAmount($shipmentAdjustment->getAmount() - $taxAdjustment->getAmount());
                     }
                 }
@@ -96,14 +96,10 @@ final class VatNumberOrderProcessor implements OrderProcessorInterface
 
         $taxationAddress = $this->taxationAddressResolver->getTaxationAddressFromOrder($order);
 
-        if ($taxationAddress instanceof VatNumberAddressInterface &&
+        return $taxationAddress instanceof VatNumberAddressInterface &&
             $taxationAddress->hasValidVatNumber() &&
             $this->isEuZone($taxationAddress->getCountryCode()) &&
-            $taxationAddress->getCountryCode() !== $shopBillingData->getCountryCode()) {
-            return true;
-        }
-
-        return false;
+            $taxationAddress->getCountryCode() !== $shopBillingData->getCountryCode();
     }
 
     private function getEuZone(): ?ZoneInterface

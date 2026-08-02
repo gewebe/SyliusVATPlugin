@@ -10,16 +10,17 @@ services:
 
     gewebe_sylius_vat_plugin.vat_number_validator_config:
         class: Gewebe\SyliusVATPlugin\Config\VatNumberValidatorConfig
+        # All arguments are set from the bundle configuration in GewebeSyliusVATExtension::load()
         arguments:
-            - '%gewebe_sylius_vat_plugin.required.default%'
-            - '%gewebe_sylius_vat_plugin.required.company%'
-            - '%gewebe_sylius_vat_plugin.required.countries%'
-            - '%gewebe_sylius_vat_plugin.validate.format%'
-            - '%gewebe_sylius_vat_plugin.validate.country%'
-            - '%gewebe_sylius_vat_plugin.validate.registration%'
-            - '%gewebe_sylius_vat_plugin.validate.on_service_unavailable%'
-            - '%gewebe_sylius_vat_plugin.validate.on_login%'
-            - '%gewebe_sylius_vat_plugin.validate.expiration_days%'
+            - !abstract 'required.default'
+            - !abstract 'required.company'
+            - !abstract 'required.countries'
+            - !abstract 'validate.format'
+            - !abstract 'validate.country'
+            - !abstract 'validate.registration'
+            - !abstract 'validate.on_service_unavailable'
+            - !abstract 'revalidate.on_login'
+            - !abstract 'revalidate.expiration_days'
 
     gewebe_sylius_vat_plugin.vat_number_validator_provider:
         class: Gewebe\SyliusVATPlugin\Vat\Number\VatNumberValidatorProvider

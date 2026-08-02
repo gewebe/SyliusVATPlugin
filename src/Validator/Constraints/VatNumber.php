@@ -8,9 +8,8 @@ use Symfony\Component\Validator\Constraint;
 
 /**
  * Constraint to require a vat number to be valid.
- *
- * @Annotation
  */
+#[\Attribute(\Attribute::TARGET_CLASS | \Attribute::TARGET_PROPERTY)]
 class VatNumber extends Constraint
 {
     public string $messageRequired = 'gewebe_sylius_vat_plugin.address.vat_number.required';
