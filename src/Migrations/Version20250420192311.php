@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Gewebe\SyliusVATPlugin\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\Migrations\AbstractMigration;
+use Sylius\Bundle\CoreBundle\Doctrine\Migrations\AbstractMigration;
 
 final class Version20250420192311 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Add vat number field';
+        return 'Add VAT number fields';
     }
 
     public function up(Schema $schema): void
