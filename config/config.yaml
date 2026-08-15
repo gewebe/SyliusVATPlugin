@@ -8,7 +8,7 @@ gewebe_sylius_vat:
         recalculate: true
     required:
         default: false
-        company: false
+        company: true
         countries: []
     revalidate:
         on_login: true
