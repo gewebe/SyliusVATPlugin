@@ -6,6 +6,7 @@ namespace Gewebe\SyliusVATPlugin\DependencyInjection;
 
 use Sylius\Bundle\CoreBundle\DependencyInjection\PrependDoctrineMigrationsTrait;
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
+use Sylius\Bundle\ShopBundle\Modifier\AddressFormValuesModifierInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
@@ -19,6 +20,11 @@ final class GewebeSyliusVATExtension extends AbstractResourceExtension implement
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
         $loader->load('services.yaml');
+
+        // Sylius 2.1 has no address form value modifier; a compiler pass configures the fallback component instead.
+        if (!interface_exists(AddressFormValuesModifierInterface::class)) {
+            $container->removeDefinition('gewebe_sylius_vat_plugin.form.modifier.vat_number_address_form_values');
+        }
 
         $configuration = $this->getConfiguration([], $container);
         if ($configuration === null) {

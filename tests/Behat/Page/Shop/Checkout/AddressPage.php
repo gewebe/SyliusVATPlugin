@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Gewebe\SyliusVATPlugin\Behat\Page\Shop\Checkout;
 
 use Sylius\Behat\Page\Shop\Checkout\AddressPage as BaseAddressPage;
+use Webmozart\Assert\Assert;
 
 class AddressPage extends BaseAddressPage implements AddressPageInterface
 {
@@ -18,6 +19,16 @@ class AddressPage extends BaseAddressPage implements AddressPageInterface
         $this->getElement('billing_vat_number')->setValue($vatNumber);
     }
 
+    public function getBillingAddressVatNumber(): string
+    {
+        $this->waitForFormToStopLoading();
+
+        $vatNumber = $this->getElement('billing_vat_number')->getValue();
+        Assert::string($vatNumber);
+
+        return $vatNumber;
+    }
+
     public function specifyShippingAddressCompany(string $company): void
     {
         $this->getElement('shipping_company')->setValue($company);
@@ -26,6 +37,16 @@ class AddressPage extends BaseAddressPage implements AddressPageInterface
     public function specifyShippingAddressVatNumber(string $vatNumber): void
     {
         $this->getElement('shipping_vat_number')->setValue($vatNumber);
+    }
+
+    public function getShippingAddressVatNumber(): string
+    {
+        $this->waitForFormToStopLoading();
+
+        $vatNumber = $this->getElement('shipping_vat_number')->getValue();
+        Assert::string($vatNumber);
+
+        return $vatNumber;
     }
 
     protected function getDefinedElements(): array

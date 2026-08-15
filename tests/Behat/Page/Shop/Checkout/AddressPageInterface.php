@@ -10,7 +10,11 @@ interface AddressPageInterface
 
     public function specifyBillingAddressVatNumber(string $vatNumber): void;
 
+    public function getBillingAddressVatNumber(): string;
+
     public function specifyShippingAddressCompany(string $company): void;
 
     public function specifyShippingAddressVatNumber(string $vatNumber): void;
+
+    public function getShippingAddressVatNumber(): string;
 }

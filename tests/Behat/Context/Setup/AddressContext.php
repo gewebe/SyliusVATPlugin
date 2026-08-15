@@ -9,6 +9,7 @@ use Behat\Step\Given;
 use DateTime;
 use Doctrine\Persistence\ObjectManager;
 use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
+use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 
 class AddressContext implements Context
@@ -34,6 +35,17 @@ class AddressContext implements Context
             $address->setVatValid($validation === 'validated', new DateTime($validationDate ?? 'now'));
         }
 
+        $this->objectManager->flush();
+    }
+
+    #[Given('/^the ("[^"]+" street) VAT number is "([^"]+)"$/')]
+    public function theAddressVatNumberIs(AddressInterface $address, string $vatNumber): void
+    {
+        if (!$address instanceof VatNumberAddressInterface) {
+            throw new \InvalidArgumentException('The address does not support VAT numbers.');
+        }
+
+        $address->setVatNumber($vatNumber);
         $this->objectManager->flush();
     }
 }

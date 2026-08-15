@@ -40,6 +40,17 @@ final class AddressVatNumberContext implements Context
         $this->addressPage->specifyShippingAddressVatNumber($vatNumber);
     }
 
+    #[Then('/^the (shipping|billing) VAT number should be "([^"]+)"$/')]
+    public function theVatNumberShouldBe(string $type, string $vatNumber): void
+    {
+        $actualVatNumber = $type === 'shipping'
+            ? $this->addressPage->getShippingAddressVatNumber()
+            : $this->addressPage->getBillingAddressVatNumber()
+        ;
+
+        Assert::same($actualVatNumber, $vatNumber);
+    }
+
     #[Then('/^I should be notified that the VAT number in (shipping|billing) is required$/')]
     public function iShouldBeNotifiedThatTheVatNumberIsRequired(string $type): void
     {

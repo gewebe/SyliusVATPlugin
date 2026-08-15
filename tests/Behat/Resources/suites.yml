@@ -105,6 +105,7 @@ default:
                 - sylius.behat.context.hook.doctrine_orm
 
                 - sylius.behat.context.setup.cart
+                - sylius.behat.context.setup.address
                 - sylius.behat.context.setup.channel
                 - sylius.behat.context.setup.geographical
                 - sylius.behat.context.setup.payment
@@ -122,6 +123,7 @@ default:
                 - sylius.behat.context.transform.shipping_method
                 - sylius.behat.context.transform.shared_storage
                 - sylius.behat.context.transform.tax_category
+                - sylius.behat.context.transform.user
                 - sylius.behat.context.transform.zone
 
                 - sylius.behat.context.ui.shop.checkout
@@ -130,6 +132,7 @@ default:
                 - sylius.behat.context.ui.shop.checkout.complete
 
                 - gewebe_sylius_vat_plugin.behat.context.setup.channel
+                - gewebe_sylius_vat_plugin.behat.context.setup.address
                 - gewebe_sylius_vat_plugin.behat.context.ui.shop.checkout.address_vat_number
             filters:
                 tags: "@checkout_vat_number && @ui"

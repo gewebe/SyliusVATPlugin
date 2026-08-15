@@ -11,3 +11,8 @@ services:
         class: Gewebe\SyliusVATPlugin\Form\Extension\ShopBillingDataTypeExtension
         tags:
             - { name: form.type_extension, extended_type: Sylius\Bundle\CoreBundle\Form\Type\ShopBillingDataType }
+
+    gewebe_sylius_vat_plugin.form.modifier.vat_number_address_form_values:
+        class: Gewebe\SyliusVATPlugin\Form\Modifier\VatNumberAddressFormValuesModifier
+        tags:
+            - { name: sylius_shop.modifier.address_form_values }

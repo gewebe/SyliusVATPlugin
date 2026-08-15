@@ -53,6 +53,14 @@ Feature: Seeing tax total dependent on country and vat
         And I have 2 products "PHP T-Shirt" in the cart
         And I am at the checkout addressing step
 
+    @ui @javascript
+    Scenario: Choosing an address with VAT number from the address book
+        Given I have an address "Ankh Morpork", "Rue Neuve", "1000", "Brussels", "Belgium" in my address book
+        And the "Rue Neuve" street VAT number is "BE0123456789"
+        And I go to the checkout addressing step
+        When I choose "Rue Neuve" street for billing address
+        Then the billing VAT number should be "BE0123456789"
+
     @ui
     Scenario: Seeing included tax of 21% within business country
         When I specify the billing address as "Gent", "Merelstraat", "9000", "Belgium" for "Ankh Morpork"
