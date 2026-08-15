@@ -184,8 +184,10 @@ bin/console vat:install:eu DE -c standard,reduced
 ### Validate UK VAT numbers with the HMRC API
 
 VAT numbers of addresses in the United Kingdom (country code `GB`) are validated against the
-open access [HMRC "Check a UK VAT number" API](https://developer.service.hmrc.gov.uk/api-documentation/docs/api/service/vat-registered-companies-api).
-No credentials are required. The default can be changed in the application config:
+[HMRC "Check a UK VAT number" API](https://developer.service.hmrc.gov.uk/api-documentation/docs/api/service/vat-registered-companies-api/2.0/oas/page)
+Version 2 of the API. 
+
+Configure the credentials and, optionally, the API base URL in the application config:
 
 ```yaml
 # config/packages/_sylius.yaml
@@ -193,17 +195,14 @@ No credentials are required. The default can be changed in the application confi
 gewebe_sylius_vat:
     hmrc:
         base_url: 'https://api.service.hmrc.gov.uk'  # https://test-api.service.hmrc.gov.uk for the sandbox
+        client_id: '%env(HMRC_CLIENT_ID)%'
+        client_secret: '%env(HMRC_CLIENT_SECRET)%'
 ```
 
-Like the VIES check, the online lookup is only performed when `validate.registration` is enabled.
-
-Accepted formats are standard (`GB123456789`), branch traders (`GB123456789001`), government
+Accepted UK VAT number formats are standard (`GB123456789`), branch traders (`GB123456789001`), government
 departments (`GBGD001`) and health authorities (`GBHA599`); the `GB` prefix is optional.
 Government department and health authority numbers cannot be looked up online and are therefore
 only checked for their format.
-
-If the HMRC service is unavailable a `ClientException` is thrown, which is handled by the
-`validate.on_service_unavailable` setting, just like a VIES outage.
 
 
 ## Testing
