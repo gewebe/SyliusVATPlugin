@@ -17,7 +17,7 @@
     * Format for selected country
     * Country is same as selected country
     * Valid EU registration via [VIES API](http://ec.europa.eu/taxation_customs/vies/)
-    * Northern Ireland (`XI`) VAT number prefix
+    * Greek (`EL`) and Northern Ireland (`XI`) VAT number prefixes
     * Valid UK (GB) registration via [HMRC API](https://developer.service.hmrc.gov.uk/api-documentation/docs/api/service/vat-registered-companies-api)
  * Revalidate customers VAT numbers after a given time
  * Placing an order without VAT in the EU, if
@@ -183,6 +183,9 @@ bin/console vat:install:eu DE -c standard,reduced
 ![Screenshot order shipping address with vat number](docs/images/admin_order_address.png)
 
 ### Special EU VAT prefixes
+
+Greek VAT numbers use the `EL` prefix even though the address country code is `GR`. The plugin
+accepts this mapping for country and VIES registration validation.
 
 Northern Ireland VAT numbers use the `XI` prefix (for example `XI123456789`). For an address in the
 United Kingdom (`GB`), these numbers are validated through VIES and are treated as EU VAT numbers

@@ -25,7 +25,7 @@ final class EuVatNumberValidatorTest extends TestCase
             ->willReturnCallback(function (string $vatNumber) {
                 return match ($vatNumber) {
                     'DE666XY' => false,
-                    'DE123456789' => true,
+                    'DE123456789', 'EL123456789' => true,
                     default => false,
                 };
             });
@@ -36,7 +36,7 @@ final class EuVatNumberValidatorTest extends TestCase
                     throw new ViesException('VIES down');
                 }
 
-                return $vatNumber === 'DE123456789';
+                return in_array($vatNumber, ['DE123456789', 'EL123456789'], true);
             });
 
         $this->euVatNumberValidator = new EuVatNumberValidator($this->validator);
@@ -51,6 +51,9 @@ final class EuVatNumberValidatorTest extends TestCase
     {
         self::assertTrue($this->euVatNumberValidator->validateCountry('DE123456789', 'DE'));
         self::assertTrue($this->euVatNumberValidator->validateCountry('DE123456789', 'de'));
+        self::assertTrue($this->euVatNumberValidator->validateCountry('EL123456789', 'GR'));
+        self::assertTrue($this->euVatNumberValidator->validateCountry('EL123456789', 'gr'));
+        self::assertFalse($this->euVatNumberValidator->validateCountry('GR123456789', 'GR'));
         self::assertFalse($this->euVatNumberValidator->validateCountry('DE123456789', 'FR'));
     }
 
@@ -58,11 +61,13 @@ final class EuVatNumberValidatorTest extends TestCase
     {
         self::assertFalse($this->euVatNumberValidator->validateFormat('DE666XY'));
         self::assertTrue($this->euVatNumberValidator->validateFormat('DE123456789'));
+        self::assertTrue($this->euVatNumberValidator->validateFormat('EL123456789'));
     }
 
     public function testValidate(): void
     {
         self::assertTrue($this->euVatNumberValidator->validate('DE123456789'));
+        self::assertTrue($this->euVatNumberValidator->validate('EL123456789'));
     }
 
     public function testExceptionIfServiceUnavailable(): void

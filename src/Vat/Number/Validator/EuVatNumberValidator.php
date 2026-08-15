@@ -15,6 +15,10 @@ use Ibericode\Vat\Vies\ViesException;
  */
 final class EuVatNumberValidator implements VatNumberValidatorInterface
 {
+    private const VAT_PREFIX_BY_COUNTRY = [
+        'GR' => 'EL',
+    ];
+
     public function __construct(
         private readonly Validator $validator,
         private readonly Countries $countries = new Countries(),
@@ -40,7 +44,10 @@ final class EuVatNumberValidator implements VatNumberValidatorInterface
 
     public function validateCountry(string $vatNumber, string $countryCode): bool
     {
-        return 0 === strcasecmp(substr($vatNumber, 0, 2), $countryCode);
+        $countryCode = strtoupper($countryCode);
+        $expectedVatPrefix = self::VAT_PREFIX_BY_COUNTRY[$countryCode] ?? $countryCode;
+
+        return 0 === strcasecmp(substr(trim($vatNumber), 0, 2), $expectedVatPrefix);
     }
 
     public function validateFormat(string $vatNumber): bool
