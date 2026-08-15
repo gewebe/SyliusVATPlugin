@@ -4,18 +4,23 @@ declare(strict_types=1);
 
 namespace Gewebe\SyliusVATPlugin\Vat\Number\Validator;
 
+use Gewebe\SyliusVATPlugin\Vat\Number\ClientException;
 use Gewebe\SyliusVATPlugin\Vat\Number\Hmrc\HmrcClientInterface;
 use Gewebe\SyliusVATPlugin\Vat\Number\VatNumberValidatorInterface;
+use Ibericode\Vat\Validator;
+use Ibericode\Vat\Vies\ViesException;
 
 /**
- * United Kingdom VAT number validator, verified online through the HMRC API
+ * United Kingdom VAT number validator: GB numbers use HMRC, Northern Ireland XI numbers use VIES
  */
 final class UkVatNumberValidator implements VatNumberValidatorInterface
 {
     /**
-     * The HMRC API only covers the United Kingdom, the country code is also the VAT number prefix
+     * ISO country code used by addresses in Great Britain and Northern Ireland
      */
     public const COUNTRY_CODE = 'GB';
+
+    public const NORTHERN_IRELAND_PREFIX = 'XI';
 
     /**
      * Standard (9 digits), branch traders (12 digits),
@@ -23,8 +28,10 @@ final class UkVatNumberValidator implements VatNumberValidatorInterface
      */
     private const VAT_NUMBER_PATTERN = '/^(\d{9}|\d{12}|GD[0-4]\d{2}|HA[5-9]\d{2})$/';
 
-    public function __construct(private readonly HmrcClientInterface $client)
-    {
+    public function __construct(
+        private readonly HmrcClientInterface $client,
+        private readonly Validator $viesValidator = new Validator(),
+    ) {
     }
 
     public function getCountries(): array
@@ -36,6 +43,10 @@ final class UkVatNumberValidator implements VatNumberValidatorInterface
     {
         $vatNumber = $this->normalize($vatNumber);
 
+        if (str_starts_with($vatNumber, self::NORTHERN_IRELAND_PREFIX)) {
+            return strtoupper($countryCode) === self::COUNTRY_CODE;
+        }
+
         if (str_starts_with($vatNumber, self::COUNTRY_CODE)) {
             return strtoupper($countryCode) === self::COUNTRY_CODE;
         }
@@ -46,12 +57,28 @@ final class UkVatNumberValidator implements VatNumberValidatorInterface
 
     public function validateFormat(string $vatNumber): bool
     {
-        return $this->matchesPattern($this->stripCountryPrefix($this->normalize($vatNumber)));
+        $vatNumber = $this->normalize($vatNumber);
+
+        if (str_starts_with($vatNumber, self::NORTHERN_IRELAND_PREFIX)) {
+            return $this->viesValidator->validateVatNumberFormat($vatNumber);
+        }
+
+        return $this->matchesPattern($this->stripCountryPrefix($vatNumber));
     }
 
     public function validate(string $vatNumber): bool
     {
-        $vatNumber = $this->stripCountryPrefix($this->normalize($vatNumber));
+        $vatNumber = $this->normalize($vatNumber);
+
+        if (str_starts_with($vatNumber, self::NORTHERN_IRELAND_PREFIX)) {
+            try {
+                return $this->viesValidator->validateVatNumber($vatNumber);
+            } catch (ViesException $exception) {
+                throw new ClientException($exception->getMessage(), $exception->getCode(), $exception);
+            }
+        }
+
+        $vatNumber = $this->stripCountryPrefix($vatNumber);
 
         if (false === $this->matchesPattern($vatNumber)) {
             return false;

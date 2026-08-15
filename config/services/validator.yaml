@@ -38,6 +38,7 @@ services:
         class: Gewebe\SyliusVATPlugin\Vat\Number\Validator\UkVatNumberValidator
         arguments:
             - '@gewebe_sylius_vat_plugin.hmrc_client'
+            - '@gewebe_sylius_vat_plugin.ibericode_vat.validator'
         tags:
             - { name: gewebe_sylius_vat_plugin.zone_vat_number_validator }
 

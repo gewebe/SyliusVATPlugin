@@ -8,12 +8,16 @@ use Gewebe\SyliusVATPlugin\Vat\Number\ClientException;
 use Gewebe\SyliusVATPlugin\Vat\Number\Hmrc\HmrcClientInterface;
 use Gewebe\SyliusVATPlugin\Vat\Number\Validator\UkVatNumberValidator;
 use Gewebe\SyliusVATPlugin\Vat\Number\VatNumberValidatorInterface;
+use Ibericode\Vat\Validator;
+use Ibericode\Vat\Vies\ViesException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class UkVatNumberValidatorTest extends TestCase
 {
     private HmrcClientInterface&MockObject $client;
+
+    private Validator&MockObject $viesValidator;
 
     private UkVatNumberValidator $ukVatNumberValidator;
 
@@ -30,7 +34,19 @@ final class UkVatNumberValidatorTest extends TestCase
                 return $vatRegistrationNumber === '123456789';
             });
 
-        $this->ukVatNumberValidator = new UkVatNumberValidator($this->client);
+        $this->viesValidator = $this->createMock(Validator::class);
+        $this->viesValidator->method('validateVatNumberFormat')
+            ->willReturnCallback(fn (string $vatNumber): bool => in_array($vatNumber, ['XI123456789', 'XI123456789000'], true));
+        $this->viesValidator->method('validateVatNumber')
+            ->willReturnCallback(function (string $vatNumber): bool {
+                if ($vatNumber === 'XI999999999') {
+                    throw new ViesException('VIES down');
+                }
+
+                return $vatNumber === 'XI123456789';
+            });
+
+        $this->ukVatNumberValidator = new UkVatNumberValidator($this->client, $this->viesValidator);
     }
 
     public function testIsVatNumberValidator(): void
@@ -49,7 +65,10 @@ final class UkVatNumberValidatorTest extends TestCase
         self::assertTrue($this->ukVatNumberValidator->validateCountry('GB123456789', 'gb'));
         self::assertTrue($this->ukVatNumberValidator->validateCountry('123456789', 'GB'));
         self::assertTrue($this->ukVatNumberValidator->validateCountry('GD001', 'GB'));
+        self::assertTrue($this->ukVatNumberValidator->validateCountry('XI123456789', 'GB'));
+        self::assertTrue($this->ukVatNumberValidator->validateCountry('xi 123 456 789', 'gb'));
         self::assertFalse($this->ukVatNumberValidator->validateCountry('GB123456789', 'IM'));
+        self::assertFalse($this->ukVatNumberValidator->validateCountry('XI123456789', 'IE'));
         self::assertFalse($this->ukVatNumberValidator->validateCountry('DE123123123', 'GB'));
     }
 
@@ -61,6 +80,9 @@ final class UkVatNumberValidatorTest extends TestCase
         self::assertTrue($this->ukVatNumberValidator->validateFormat('GB123456789001'));
         self::assertTrue($this->ukVatNumberValidator->validateFormat('GBGD001'));
         self::assertTrue($this->ukVatNumberValidator->validateFormat('GBHA599'));
+        self::assertTrue($this->ukVatNumberValidator->validateFormat('XI123456789'));
+        self::assertTrue($this->ukVatNumberValidator->validateFormat('xi 123 456 789 000'));
+        self::assertFalse($this->ukVatNumberValidator->validateFormat('XI666XY'));
         self::assertFalse($this->ukVatNumberValidator->validateFormat('GB12345678'));
         self::assertFalse($this->ukVatNumberValidator->validateFormat('GBGD501'));
         self::assertFalse($this->ukVatNumberValidator->validateFormat('GBHA499'));
@@ -73,6 +95,8 @@ final class UkVatNumberValidatorTest extends TestCase
         self::assertTrue($this->ukVatNumberValidator->validate('GB 123 4567 89'));
         self::assertTrue($this->ukVatNumberValidator->validate('123456789'));
         self::assertTrue($this->ukVatNumberValidator->validate('GB123456789001'));
+        self::assertTrue($this->ukVatNumberValidator->validate('XI123456789'));
+        self::assertFalse($this->ukVatNumberValidator->validate('XI666666666'));
         self::assertFalse($this->ukVatNumberValidator->validate('GB666666666'));
     }
 
@@ -86,12 +110,18 @@ final class UkVatNumberValidatorTest extends TestCase
         $client = $this->createMock(HmrcClientInterface::class);
         $client->expects(self::never())->method('checkVatNumber');
 
-        self::assertTrue((new UkVatNumberValidator($client))->validate('GBGD001'));
+        self::assertTrue((new UkVatNumberValidator($client, $this->viesValidator))->validate('GBGD001'));
     }
 
     public function testExceptionIfServiceUnavailable(): void
     {
         $this->expectException(ClientException::class);
         $this->ukVatNumberValidator->validate('GB999999999');
+    }
+
+    public function testExceptionIfViesServiceUnavailable(): void
+    {
+        $this->expectException(ClientException::class);
+        $this->ukVatNumberValidator->validate('XI999999999');
     }
 }

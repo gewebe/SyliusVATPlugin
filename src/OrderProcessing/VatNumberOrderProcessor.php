@@ -6,6 +6,7 @@ namespace Gewebe\SyliusVATPlugin\OrderProcessing;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Gewebe\SyliusVATPlugin\Entity\VatNumberAddressInterface;
+use Gewebe\SyliusVATPlugin\Vat\Number\Validator\UkVatNumberValidator;
 use Sylius\Component\Addressing\Model\ZoneInterface;
 use Sylius\Component\Addressing\Repository\ZoneRepositoryInterface;
 use Sylius\Component\Core\Model\AdjustmentInterface;
@@ -98,8 +99,20 @@ final class VatNumberOrderProcessor implements OrderProcessorInterface
 
         return $taxationAddress instanceof VatNumberAddressInterface &&
             $taxationAddress->hasValidVatNumber() &&
-            $this->isEuZone($taxationAddress->getCountryCode()) &&
+            ($this->isEuZone($taxationAddress->getCountryCode()) || $this->hasNorthernIrelandVatNumber($taxationAddress)) &&
             $taxationAddress->getCountryCode() !== $shopBillingData->getCountryCode();
+    }
+
+    private function hasNorthernIrelandVatNumber(VatNumberAddressInterface $address): bool
+    {
+        $vatNumber = $address->getVatNumber();
+        if ($address->getCountryCode() !== UkVatNumberValidator::COUNTRY_CODE || $vatNumber === null) {
+            return false;
+        }
+
+        $vatNumber = strtoupper((string) preg_replace('/[\s.\-]/', '', $vatNumber));
+
+        return str_starts_with($vatNumber, UkVatNumberValidator::NORTHERN_IRELAND_PREFIX);
     }
 
     private function getEuZone(): ?ZoneInterface

@@ -24,6 +24,14 @@ Feature: Adding a new address with a UK VAT number to the book
         Then I should be notified that the address has been successfully added
 
     @ui
+    Scenario: Adding a Northern Ireland address with a registered XI VAT number
+        When I specify the address as "Emma Watson", "Donegall Square", "BT1 5GS", "Belfast", "United Kingdom", "Northern Ireland"
+        And I specify my VAT number as "XI123456789"
+        And I add it
+        Then I should be notified that the address has been successfully added
+        And I see in the database that vat number for "Emma Watson" is valid
+
+    @ui
     Scenario: Adding address with an unregistered UK VAT number to address book
         When I specify my VAT number as "GB666666666"
         And I add it

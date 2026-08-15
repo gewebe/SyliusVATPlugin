@@ -17,6 +17,7 @@
     * Format for selected country
     * Country is same as selected country
     * Valid EU registration via [VIES API](http://ec.europa.eu/taxation_customs/vies/)
+    * Northern Ireland (`XI`) VAT number prefix
     * Valid UK (GB) registration via [HMRC API](https://developer.service.hmrc.gov.uk/api-documentation/docs/api/service/vat-registered-companies-api)
  * Revalidate customers VAT numbers after a given time
  * Placing an order without VAT in the EU, if
@@ -180,6 +181,12 @@ bin/console vat:install:eu DE -c standard,reduced
 
 ##### 2. Show VAT number and validation status at admin orders
 ![Screenshot order shipping address with vat number](docs/images/admin_order_address.png)
+
+### Special EU VAT prefixes
+
+Northern Ireland VAT numbers use the `XI` prefix (for example `XI123456789`). For an address in the
+United Kingdom (`GB`), these numbers are validated through VIES and are treated as EU VAT numbers
+when determining whether VAT can be removed from a cross-border order.
 
 ### Validate UK VAT numbers with the HMRC API
 

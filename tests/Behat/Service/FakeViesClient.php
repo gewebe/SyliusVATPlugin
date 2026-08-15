@@ -23,6 +23,7 @@ final class FakeViesClient extends Client
             'DE123123123',
             'FR00123456789',
             'HR00123456789',
+            'XI123456789',
         ],
         private readonly array $unavailableVatNumbers = ['DE999999999'],
     ) {

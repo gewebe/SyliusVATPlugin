@@ -140,6 +140,31 @@ final class VatNumberOrderProcessorTest extends TestCase
         $this->processOrder($order, $taxationAddressResolver);
     }
 
+    public function testNorthernIrelandVatNumberIsValidForZeroTax(): void
+    {
+        $taxationAddressResolver = $this->createTaxationAddressResolver('GB', true, 'xi 123 456 789');
+
+        $shopBillingData = $this->createShopBillingData('DE');
+        $channel = $this->createChannel($shopBillingData);
+        $order = $this->createOrder($channel, null);
+        $order->expects(self::once())->method('removeAdjustmentsRecursively');
+        $order->method('getItems')->willReturn(new ArrayCollection());
+        $order->method('getAdjustments')->willReturn(new ArrayCollection());
+
+        $this->processOrder($order, $taxationAddressResolver);
+    }
+
+    public function testUnitedKingdomVatNumberIsNotValidForZeroTax(): void
+    {
+        $taxationAddressResolver = $this->createTaxationAddressResolver('GB', true, 'GB123456789');
+
+        $shopBillingData = $this->createShopBillingData('DE');
+        $channel = $this->createChannel($shopBillingData);
+        $order = $this->createOrder($channel);
+
+        $this->processOrder($order, $taxationAddressResolver);
+    }
+
     private function initVatNumberOrderProcessor(
         ?TaxationAddressResolverInterface $taxationAddressResolver = null,
         ?ZoneRepositoryInterface $zoneRepository = null,
@@ -208,11 +233,13 @@ final class VatNumberOrderProcessorTest extends TestCase
 
     private function createTaxationAddressResolver(
         string $countryCode,
-        bool $validVatNumber
+        bool $validVatNumber,
+        ?string $vatNumber = null,
     ): TaxationAddressResolverInterface {
         $taxationAddress = $this->createMock(VatNumberAddressInterface::class);
         $taxationAddress->method('getCountryCode')->willReturn($countryCode);
         $taxationAddress->method('hasValidVatNumber')->willReturn($validVatNumber);
+        $taxationAddress->method('getVatNumber')->willReturn($vatNumber);
 
         $taxationAddressResolver = $this->createMock(TaxationAddressResolverInterface::class);
         $taxationAddressResolver->method('getTaxationAddressFromOrder')->willReturn($taxationAddress);
